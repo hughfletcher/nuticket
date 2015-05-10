@@ -1,0 +1,23 @@
+---
+- hosts: 127.0.0.1
+  gather_facts: false
+  sudo: true
+  vars:
+    enviroment: local
+
+  tasks:
+
+  - include: tasks.yml
+
+  - name: Set local hostname
+    hostname: name=local
+
+  - name: download rocketeer and place in bin
+    command: wget -O /usr/local/bin/rocketeer http://rocketeer.autopergamene.eu/versions/rocketeer.phar
+
+  - name: set permissions on rocketeer
+    file: path=/usr/local/bin/rocketeer mode=755
+
+  handlers:
+
+  - include: handlers.yml

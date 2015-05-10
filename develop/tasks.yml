@@ -1,0 +1,91 @@
+---
+
+  - name: Update Ubuntu update cache 
+    apt: update_cache=yes
+
+  - name: Create the App directory
+    file: state=directory path=/opt/nuticket/current/public
+
+  - name: Add nodejs repo
+    apt_repository: repo='ppa:chris-lea/node.js' validate_certs=no
+
+  - name: Add nginx repo
+    apt_repository: repo='ppa:nginx/stable' validate_certs=no
+
+  - name: Install common packages
+    apt: name={{ item }} state=present update_cache=yes
+    with_items:
+      - python-software-properties
+      - libc-client-dev
+      - curl
+      - mysql-server
+      - python-mysqldb
+      - python-pycurl
+      - redis-server
+      - git-core
+      - nodejs
+      - python 
+      - g++ 
+      - make
+      - supervisor
+
+  - name: Install npm modules
+    npm: name={{ item }} state=present global=yes
+    with_items:
+      - bower
+      - browser-sync
+
+  - name: Fix infamous node vs nodejs issue
+    file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
+
+  - name: Install nginx php-fpm and deps
+    apt: name={{ item }} state=present
+    with_items:
+      - nginx
+      - php5
+      - php5-cli
+      - php5-cgi
+      - php5-mysql
+      - php5-curl
+      - php5-mcrypt
+      - php5-ldap
+      - php5-xdebug
+      - php5-gd
+      - php5-imap
+      - php5-fpm
+    notify: restart nginx
+
+  - name: Remove default nginx site
+    file: path=/etc/nginx/sites-enabled/default state=absent
+
+  - name: add mcrypt.ini for trusty
+    file: path=/etc/php5/mods-available/mcrypt.ini state=file
+
+  - name: add content to mcrypt.ini for trusty
+    lineinfile: dest=/etc/php5/mods-available/mcrypt.ini line="extension=mcrypt.so"
+
+  - name: enable mcrypt and reboot nginx php5
+    command: php5enmod mcrypt & php5enmod imap
+    notify: restart php5-fpm
+
+  - name: Copy ost nginx configuration
+    template: src=/opt/tickets/current/develop/files/nginx.conf dest=/etc/nginx/sites-available/tickets
+    notify: restart nginx
+
+  - name: create nginx sites-availale link
+    file: src=/etc/nginx/sites-available/tickets dest=/etc/nginx/sites-enabled/tickets state=link
+
+  - name: copy queue listener config to supervisor
+    template: src=/opt/tickets/current/develop/files/queue.conf dest=/etc/supervisor/conf.d/queue.conf
+
+  - name: download composer and place in bin
+    get_url: url=https://getcomposer.org/composer.phar dest=/usr/local/bin/composer mode=755 validate_certs=no
+
+  - name: Change mysql root password
+    mysql_user: name=root password={{ mysql_root_password | default("root") }} login_user=root login_password=''
+
+  - name: Create working db
+    mysql_db: name=nuticket login_user=root login_password={{ mysql_root_password | default("root") }} state=present
+
+  - name: create mysql admin user and add to database
+    mysql_user: name=nuticket password={{ mysql_nut_password | default("nuticket") }} login_user=root login_password={{ mysql_root_password | default("root") }} priv=nuticket.*:ALL state=present

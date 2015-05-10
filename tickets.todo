@@ -1,0 +1,63 @@
+0.9.0:
+  [x] Make errors colors same on ticket create. @done (15-03-03 21:53)
+  [x] Add time_spent type to actions. @done (15-02-23 19:09)
+  [x] Create ldap sync. http://forums.asp.net/t/1626324.aspx?How+to+get+Unique+ID+of+LDAP+UserName @done (15-03-10 12:10)
+  [x] Reformat show page with new title/body db schema change. @done (15-02-23 19:53)
+  [x] Refactor reply action on show. @done (15-02-28 08:20)
+  [x] Refactor comment action on show. @done (15-02-28 08:42)
+  [x] Refactor transfer action on show. @done (15-02-28 08:52)
+  [x] Refactor assign action on show. @done (15-02-28 08:59)
+  [x] Refactor reply action with ticket create. @done (15-02-28 11:16)
+  [x] Refactor comment action with ticket create. @done (15-02-28 11:16)
+  [x] Test add actions on show page. @done (15-02-23 20:55)
+  [x] Add config command to edit/add configs on the fly. @done (15-04-11 23:34)
+  [x] Create staff performance report. @done (15-03-03 15:46)
+  [x] Add icon abiltiy to default theme sidebar menu. @done (15-03-03 16:26)
+  [x] Add Dept Summary report. @done (15-05-09 12:49)
+  [x] Remember Me. @done (15-04-12 11:04)
+  [x] HLC/TT package. @done (15-03-10 12:13)
+  [x] Remove breadcrumb placers for now. @done (15-04-03 12:17)
+  [x] ticket_dept_id errors on search in ticket list. @done (15-04-04 21:15)
+  [x] Validation error when single day selected in daterange in reports. @done (15-04-04 21:51)
+  [x] Add page meta to all pages. @done (15-04-11 23:50)
+  [x] Remove configs from app/config/adldap.php @done (15-03-05 19:33)
+  [x] Adjust ticket create to add 1 sec to reply/comment actions added @done (15-03-11 15:11)
+  [x] Edit  @done (15-04-03 10:44)
+  [x] Refactor session route/controller to a resource controller. @done (15-04-12 11:03)
+
+1.0.0:
+  [ ] Convert app to Laravel 5, ensure dependencies are compatible.
+
+1.1.0:
+  [ ] Integrate Bosnadev/Repositories.
+  [ ] Cleanup default theme helpers.
+  [ ] Refactor can_reply validation rule to use repository and add to rules(ticket,ticket_action)
+  [ ] Convert depts dropdowns to use options and remove from javascript on master blade.
+  [ ] Convert users dropdown on create to use api.
+
+1.2.0:
+  [ ] Move Orchestra\Memory to internal service.
+  [ ] Move Orchestra\View to internal service.
+  [ ] Settings UI/Interface.
+  [ ] Email to ticket for users/staff with tag support.
+  [ ] Add select2 to dropdowns in action boxes on ticket create.
+  [ ] Fontfamily is different from select2 and and other form elements.
+
+1.3.0:
+  [ ] Extension service - Orchestra\Extensions.
+  [ ] Add status (setting) to comment action on ticket create.
+
+1.x.x:
+  [ ] Move to AdminLTE 2.0.
+  [ ] LDAP package.
+  [ ] Add user organizations. 
+  [ ] Add random ticket numbers.
+  [ ] Add print option to reports.
+  [ ] Report edit with scheduled emails.
+  [ ] Breadcrumbs.
+  [ ] Localization.
+  [ ] Merge/duplicate ticket functionality.
+  [ ] Knowledgebase.
+  [ ] Github integration package.
+  [ ] File/Image atachments.
+  [ ] Caching.
