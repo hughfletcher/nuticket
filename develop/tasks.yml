@@ -68,15 +68,15 @@
     command: php5enmod mcrypt & php5enmod imap
     notify: restart php5-fpm
 
-  - name: Copy ost nginx configuration
-    template: src=/opt/tickets/current/develop/files/nginx.conf dest=/etc/nginx/sites-available/tickets
+  - name: Copy nuticket nginx configuration
+    template: src=/opt/nuticket/current/develop/files/nginx.conf dest=/etc/nginx/sites-available/tickets
     notify: restart nginx
 
   - name: create nginx sites-availale link
     file: src=/etc/nginx/sites-available/tickets dest=/etc/nginx/sites-enabled/tickets state=link
 
   - name: copy queue listener config to supervisor
-    template: src=/opt/tickets/current/develop/files/queue.conf dest=/etc/supervisor/conf.d/queue.conf
+    template: src=/opt/nuticket/current/develop/files/queue.conf dest=/etc/supervisor/conf.d/queue.conf
 
   - name: download composer and place in bin
     get_url: url=https://getcomposer.org/composer.phar dest=/usr/local/bin/composer mode=755 validate_certs=no

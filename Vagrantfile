@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
     config.vm.network :forwarded_port, guest: 3000, host: 3000
     config.vm.network "forwarded_port", guest: 80, host: 80
 
-    config.vm.synced_folder "./", "/opt/tickets/current", id: "vagrant-ost2", :mount_options => ["dmode=777","fmode=777"]
+    config.vm.synced_folder "./", "/opt/nuticket/current", id: "vagrant-ost2", :mount_options => ["dmode=777","fmode=777"]
 
     require 'rbconfig'
     is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.provider :virtualbox do |virtualbox|
-       virtualbox.customize ["modifyvm", :id, "--name", "tickets"]
+       virtualbox.customize ["modifyvm", :id, "--name", "nuticket"]
     end
 
 end

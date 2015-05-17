@@ -11,7 +11,7 @@ if [ ! -f /usr/bin/ansible ]; then
   apt-get install -y ansible
 fi
 
-cp /opt/tickets/current/develop/hosts /tmp/ansible_hosts && chmod -x /tmp/ansible_hosts
-echo "Running Ansible developer defined in Vagrantfile."
-ansible-playbook /opt/tickets/current/develop/vagrant.yml --inventory-file=/tmp/ansible_hosts --extra-vars "is_windows=true" --connection=local
+cp /opt/nuticket/current/develop/hosts /tmp/ansible_hosts && chmod -x /tmp/ansible_hosts
+echo "Running Ansible develop defined in Vagrantfile."
+ansible-playbook /opt/nuticket/current/develop/vagrant.yml --inventory-file=/tmp/ansible_hosts --extra-vars "is_windows=true" --connection=local
 rm /tmp/ansible_hosts
