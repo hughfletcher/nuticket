@@ -143,6 +143,8 @@ return [
 		'App\Providers\BusServiceProvider',
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
+		'App\Providers\LdapServiceProvider',
+		'App\Providers\RepositoryServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
 	],
@@ -193,6 +195,7 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 
+		'Theme' 	=> 'Teepluss\Theme\Facades\Theme',
 	],
 
 ];

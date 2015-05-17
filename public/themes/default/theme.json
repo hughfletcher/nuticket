@@ -1,0 +1,8 @@
+{
+    "name": "Default",
+    "description": "Default Theme for nuTicket",
+    "author": "Hugh Fletcher",
+    "autoload": [
+        "helpers.php"
+    ]
+}

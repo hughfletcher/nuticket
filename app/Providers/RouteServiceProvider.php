@@ -37,7 +37,40 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		$router->group(['namespace' => $this->namespace], function($router)
 		{
-			require app_path('Http/routes.php');
+
+			$router->group(['before' => 'ui|csfr', 'middleware' => 'theme'], function($router) {
+
+			
+				// $router->get('session/start', array('as' => 'session.start', 'uses' => 'SessionController@getStart'));
+				// $router->post('session/start', array('as' => 'session.post', 'uses' => 'SessionController@postStart'));
+				$router->resource('session', 'SessionController', ['only' => ['store', 'create', 'index']]);
+				
+
+				$router->group(array('middleware' => 'auth'), function($router) {
+
+					// $router->get('session/end', array('as' => 'session.end', 'uses' => 'SessionController@getEnd'));
+					$router->get('/', array('as' => 'dash.index', 'uses' => 'DashController@getIndex'));
+
+					$router->resource('tickets', 'TicketsController', ['except' => ['destroy']]); 
+					
+					$router->post('actions/{type?}', array('as' => 'actions.store', 'uses' => 'TicketActionsController@store'))->where('type', '(reply|comment|transfer|assign)');
+
+					// $router->get('report/{report}', array('as' => 'report.index', 'uses' => 'ReportController@index'));
+
+					$router->resource('reports', 'ReportsController', ['only' => ['index', 'show']]); 
+					$router->resource('dev', 'DevController', ['only' => ['index']]); 
+				});
+
+			});
+
+			$router->group(['namespace' => 'Api', 'prefix' => 'api', 'before' => 'auth|csfr'], function($router) {
+
+
+				$router->resource('users', 'UsersController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
+				$router->resource('tickets', 'TicketsController', ['except' => ['index', 'create', 'store', 'show', 'edit', 'destroy']]);
+
+			});
+
 		});
 	}
 
