@@ -3,6 +3,7 @@
 use App\Repositories\TicketInterface;
 use App\Repositories\TicketActionInterface;
 use App\Http\Requests\QueryTicketRequest;
+use App\Http\Requests\FormTicketCreateRequest;
 use View, Request, Str, Auth, Redirect, Theme;
 
 class TicketsController extends BaseController {
@@ -50,20 +51,9 @@ class TicketsController extends BaseController {
 		return View::make('tickets.create');
 	}
 
-	public function store() {
+	public function store(FormTicketCreateRequest $request) {
 
-		$validator = $this->ticketValidator->make(Request::all())->addContext('create');
-
-		if ($validator->fails()) {
-
-			$type = Request::get('comment') != '' && Request::get('reply') == '' ? 'comment' : 'reply';
-
-			return Redirect::route('tickets.create')
-		  		->withErrors($validator)
-		  		->withInput(); 
-		}
-
-		$attrs = $validator->getAttributes();
+		$attrs = $request->all();
 
 		$ticket = $this->tickets->create($attrs);
 		$attrs['ticket_id'] = $ticket['id'];

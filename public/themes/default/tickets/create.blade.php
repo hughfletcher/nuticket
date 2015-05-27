@@ -24,7 +24,8 @@
 			<h3 class="box-title">New Ticket</h3>
 		</div>
 		<div class="box-body">
-			{{ Form::open(['route' => ['tickets.store'], 'class' => 'form-horizontal']) }}
+			<form method="POST" action="{{ route('tickets.store') }}" accept-charset="UTF-8" class="form-horizontal">
+				<input name="_token" type="hidden" value="{{ csrf_token() }}">
 				<div class="form-group{{ $errors->has('user_id') ? ' has-error' : null }}">
 					<label for="user_id" class="col-sm-1 control-label">User</label>
 					<div class="col-sm-5">

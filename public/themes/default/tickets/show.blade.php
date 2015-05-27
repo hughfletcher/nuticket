@@ -23,7 +23,7 @@
 			<ul class="timeline">
 				<!-- timeline time label -->
 				<li class="time-label">
-					<span class="bg-red">{{ $ticket['created_at']->format('j M Y'); $lastday = $ticket['created_at'] }}</span>
+					<span class="bg-red">{{ $ticket['created_at']->format('j M Y') }}{{-- */ $lastday = $ticket['created_at'] /*--}}</span>
 					<div class="btn-group pull-right">
 						<a href="#reply" class="btn btn-default go-show-tab">Reply</a>
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -47,7 +47,7 @@
 						<span class="time"><i class="fa fa-clock-o"></i> {{ $ticket['created_at']->format('g:i a') }}</span>
 						<h3 class="timeline-header"><a href="#">{{ $ticket['staff']['user']['display_name'] }}</a> created a ticket for <a href="#">{{ $ticket['user']['display_name'] }}</a></h3>
 						<div class="timeline-body">
-							<h5>{{ $ticket['subject'] }}</h5>
+							<h5>{{ $ticket['subject'] }}</h5>	
 							{{ $ticket['description'] }}
 						</div>
 						<div class='timeline-footer'>
@@ -124,18 +124,20 @@
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane{{ Session::get('type') == null || Session::get('type') == 'reply' ? ' active' : '' }}" id="reply">
-						{{ Form::open(['route' => ['actions.store', 'reply'], 'class' => 'form-horizontal']) }}
+						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
+						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
-						<div class="form-group{{ $errors->has('reply_body') ? ' has-error' : null }}">
+						<input name="type" type="hidden" value="reply">
+						<div class="form-group{{ Input::old('type') == 'reply' && $errors->has('body') ? ' has-error' : null }}">
 							<div class="col-md-12">
-								@if ($errors->has('reply_body') || $errors->has('reply_time'))
+								@if (Input::old('type') == 'reply' && ($errors->has('body') || $errors->has('time_spent') || $errors->has('status')))
 								<ul class="list-unstyled">
 								@foreach ($errors->all() as $error)
 									<li class="text-red"><strong>{{ $error }}</strong></li>
 								@endforeach
 								</ul>
 								@endif
-								<textarea class="textarea form-control" name="reply_body" placeholder="Enter a response here" style="height: 100px;">{{ Input::old('reply_body') }}</textarea>
+								<textarea class="textarea form-control" name="body" placeholder="Enter a response here" style="height: 100px;">{{ Input::old('type') == 'reply' ? Input::old('body'): null }}</textarea>
 
 							</div>
 						</div>
@@ -144,15 +146,19 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="textinput">Status</label>  
 									<div class="col-md-8">
-										{{ Form::select('reply_status', ['open' => 'Open', 'closed' => 'Close', 'resolved' => 'Resolve'], (Input::old('reply_status') !== null ? Input::old('reply_status') :  $ticket['reply_status']), ['class' => 'form-control input-sm']) }}
+										<select name="status" class="form-control select2-default input-sm{{ Input::old('type') == 'reply' && $errors->has('status') ? ' has-error' : null }}">
+											<option value="open"{{ Input::old('status') == 'open' ? ' selected=selected' : null }}>Open</option>
+											<option value="closed"{{ Input::old('status') == 'closed' ? ' selected=selected' : null }}>Closed</option>
+											<option value="resolved"{{ Input::old('status') == 'resolved' ? ' selected=selected' : null }}>Resolved</option>
+										</select>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-4">
-								<div class="form-group{{ $errors->has('reply_time') ? ' has-error' : null }}">
-									<label class="col-md-6 control-label" for="textinput">Worked Hours</label>  
+								<div class="form-group{{ $errors->has('time_spent') && Input::old('type') == 'reply' ? ' has-error' : null }}">
+									<label class="col-md-6 control-label" for="textinput">Time Spent</label>  
 									<div class="col-md-6">
-										<input id="textinput" name="reply_time" type="text" value="{{ Input::old('reply_time') }}" class="form-control input-sm">
+										<input id="textinput" name="time_spent" type="text" value="{{ Input::old('type') == 'reply' ? Input::old('time_spent') : null }}" class="form-control input-sm">
 									</div>
 								</div>
 							</div>
@@ -167,28 +173,30 @@
 						</form>
 					</div>
 					<div class="tab-pane{{ Session::get('type') == 'comment' ? ' active' : '' }}" id="comment">
-						{{ Form::open(['route' => ['actions.store', 'comment'], 'class' => 'form-horizontal']) }}
+						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
+						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
-						<div class="form-group{{ $errors->has('comment_body') ? ' has-error' : null }}">
+						<input name="type" type="hidden" value="comment">
+						<div class="form-group{{ Input::old('type') == 'comment' && $errors->has('body') ? ' has-error' : null }}">
 							<div class="col-md-12">
-								@if ($errors->has('comment_body') || $errors->has('comment_time'))
+								@if (Input::old('type') == 'comment' && ($errors->has('body') || $errors->has('time_spent')))
 								<ul class="list-unstyled">
 								@foreach ($errors->all() as $error)
 									<li class="text-red"><strong>{{ $error }}</strong></li>
 								@endforeach
 								</ul>
 								@endif
-								<textarea class="textarea form-control" name="comment_body" placeholder="Enter a internal comment here" style="height: 100px;">{{ Input::old('comment_body') }}</textarea>
+								<textarea class="textarea form-control" name="body" placeholder="Enter a internal comment here" style="height: 100px;">{{ Input::old('type') == 'comment' ? Input::old('body') : null }}</textarea>
 
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-4">
 								
-								<div class="form-group{{ $errors->has('comment_time') ? ' has-error' : null }}">
+								<div class="form-group{{ Input::old('type') == 'comment' && $errors->has('time_spent') ? ' has-error' : null }}">
 									<label class="col-md-6 control-label" for="textinput">Worked Hours</label>  
 									<div class="col-md-6">
-										<input id="textinput" name="comment_time" type="text" value="{{ Input::old('comment_time') }}" class="form-control input-sm">
+										<input id="textinput" name="time_spent" type="text" value="{{ Input::old('type') == 'comment' ? Input::old('time_spent') : null }}" class="form-control input-sm">
 									</div>
 								</div>
 							</div>
@@ -205,24 +213,30 @@
 						</form>
 					</div>
 					<div class="tab-pane{{ Session::get('type') == 'transfer' ? ' active' : '' }}" id="transfer">
-					{{ Form::open(['route' => ['actions.store', 'transfer'], 'class' => 'form-horizontal']) }}
+					<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
+						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
-						<div class="form-group">
+						<input name="type" type="hidden" value="transfer">
+						<div class="form-group{{ Input::old('type') == 'transfer' && $errors->has('transfer_id') ? ' has-error' : null }}">
 							<div class="col-md-6">
-								@if ($errors->has('transfer_body'))
+								@if (Input::old('type') == 'transfer' && ($errors->has('body') || $errors->has('transfer_id')))
 								<ul class="list-unstyled">
 								@foreach ($errors->all() as $error)
 									<li class="text-red"><strong>{{ $error }}</strong></li>
 								@endforeach
 								</ul>
 								@endif
-								{{ Form::select('transfer_id', $depts, $ticket->ticket_dept_id, ['class' => 'default-select form-control']); }}
-
+								<select name="transfer_id" class="form-control select2-default input-sm" placeholder="Select a Department">
+									<option></option>
+									@foreach ($depts as $key => $dept)
+										<option value="{{ $key }}"{{ Input::old('type') == 'transfer' && Input::old('transfer_id') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
-						<div class="form-group{{ $errors->has('transfer_body') ? ' has-error' : null }}">
+						<div class="form-group{{ Input::old('type') == 'transfer' && $errors->has('body') ? ' has-error' : null }}">
 							<div class="col-md-12">
-								<textarea class="textarea form-control" name="transfer_body" placeholder="Enter reasons for the transfer" style="height: 100px;">{{ Input::old('transfer_body') }}</textarea>
+								<textarea class="textarea form-control" name="body" placeholder="Enter reasons for the transfer" style="height: 100px;">{{ Input::old('type') == 'transfer' ? Input::old('body') : null }}</textarea>
 
 							</div>
 						</div>
@@ -234,24 +248,30 @@
 						</form>
 					</div>
 					<div class="tab-pane{{ Session::get('type') == 'assign' ? ' active' : '' }}" id="assign">
-						{{ Form::open(['route' => ['actions.store', 'assign'], 'class' => 'form-horizontal']) }}
+						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
+						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
-						<div class="form-group">
+						<input name="type" type="hidden" value="assign">
+						<div class="form-group{{ Input::old('type') == 'assign' && $errors->has('transfer_id') ? ' has-error' : null }}">
 							<div class="col-md-6">
-								@if ($errors->has('assign_body'))
+								@if ( Input::old('type') == 'assign' && ($errors->has('body') || $errors->has('assigned_id')))
 								<ul class="list-unstyled">
 								@foreach ($errors->all() as $error)
 									<li class="text-red"><strong>{{ $error }}</strong></li>
 								@endforeach
 								</ul>
 								@endif
-								{{ Form::select('assigned_id', array_except(array_replace([0 => 'Nobody'], $staff), $ticket->staff_id), Auth::user()->staff->id, ['class' => 'default-select form-control']); }}
-
+								<select name="assigned_id" class="form-control select2-default input-sm" placeholder="Select a Staff Member">
+									<option></option>
+									@foreach (array_except(array_replace([0 => 'Nobody'], $staff), $ticket->staff_id) as $key => $user)
+										<option value="{{ $key }}"{{ Input::old('assigned_id') == $key ? ' selected=selected' : null }}>{{ $user }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
-						<div class="form-group{{ $errors->has('assign_body') ? ' has-error' : null }}">
+						<div class="form-group{{ Input::old('type') == 'assign' && $errors->has('body') ? ' has-error' : null }}">
 							<div class="col-md-12">
-								<textarea class="textarea form-control" name="assign_body" placeholder="Enter reasons for the assignment or instructions for assignee" style="height: 100px;">{{ Input::old('assign_body') }}</textarea>
+								<textarea class="textarea form-control" name="body" placeholder="Enter reasons for the assignment or instructions for assignee" style="height: 100px;">{{ Input::old('type') == 'assign' ? Input::old('body') : null }}</textarea>
 
 							</div>
 						</div>
@@ -322,4 +342,5 @@
 		<!-- right column -->
 
 	</div>
-	@stop
+
+@stop

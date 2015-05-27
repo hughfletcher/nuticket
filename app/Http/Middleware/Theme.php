@@ -39,9 +39,9 @@ class Theme {
 		$this->view->composers(array(
 		    'App\\Http\\Composers\\GlobalComposer' => '*',
 		    'App\\Http\\Composers\\TicketsComposer' => ['tickets.index', 'tickets.show', 'tickets.create'],
-		    // 'App\\Composers\\UserComposer' => ['tickets.create'],
+		    'App\\Http\\Composers\\UserComposer' => ['tickets.create'],
 		    'App\\Http\\Composers\\DeptComposer' => ['tickets.index', 'tickets.show', 'tickets.create', 'reports.index', 'tickets.edit'],
-		    // 'App\\Composers\\StaffComposer' => ['tickets.create', 'tickets.show']
+		    'App\\Http\\Composers\\StaffComposer' => ['tickets.create', 'tickets.show']
 		));
 	}
 
