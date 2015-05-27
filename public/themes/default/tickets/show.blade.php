@@ -101,7 +101,7 @@
 						</h3>
 						@if($action['body'] != null)
 						<div class="timeline-body">
-							{{ $action['body'] }}
+							{!! $action['body'] !!}
 						</div>
 						@endif
 					</div>

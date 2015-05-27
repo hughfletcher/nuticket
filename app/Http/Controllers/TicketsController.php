@@ -4,7 +4,8 @@ use App\Repositories\TicketInterface;
 use App\Repositories\TicketActionInterface;
 use App\Http\Requests\QueryTicketRequest;
 use App\Http\Requests\FormTicketCreateRequest;
-use View, Request, Str, Auth, Redirect, Theme;
+use App\Http\Requests\FormTicketUpdateRequest;
+use View, Request, Auth, Redirect, Theme;
 
 class TicketsController extends BaseController {
 
@@ -29,7 +30,7 @@ class TicketsController extends BaseController {
 		$this->tickets
 			->sort(Request::get('sort', 'id'), Request::get('order', 'desc'))
 			->whereCreated($dates[0], $dates[1])
-			->whereSearch(Request::has('q') ? explode('-', Str::slug(Request::get('q'))) : [])
+			->whereSearch(Request::has('q') ? explode('-', str_slug(Request::get('q'))) : [])
 			->whereStatus(array_filter(explode('-', Request::get('status'))))
 			->wherePriority(array_filter(explode('-', Request::get('priority'))))
 			->whereDept(array_filter(explode('-', Request::get('dept_id'))))
@@ -82,18 +83,9 @@ class TicketsController extends BaseController {
 		return View::make('tickets.edit', compact('ticket'));
 	}
 
-	public function update($id) {
+	public function update(FormTicketUpdateRequest $request, $id) {
 
-		$validator = $this->ticketValidator->make(Request::all())->addContext('edit');
-
-		if ($validator->fails()) {
-
-			return Redirect::route('tickets.edit', [$id])
-		  		->withErrors($validator)
-		  		->withInput(); 
-		}
-
-		$attrs = $validator->getAttributes();
+		$attrs = $request->all();
 
 		//get old ticket/sction data so we can see if anything is changing
 		$old_ticket = $this->tickets->find($id);
@@ -117,6 +109,8 @@ class TicketsController extends BaseController {
 		if ($attrs['body'] != $old_create['body']) {
 			$changed[] = 'body';
 		}
+
+		$old_ticket = array_merge($old_ticket->toArray(), array_only($old_create, ['title', 'body']));
 
 		//no changes, user is wasting our time
 		if (empty($changed)) {

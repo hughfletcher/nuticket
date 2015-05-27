@@ -28,7 +28,9 @@
 		      	{{ Session::get('message') }}
 		    </div>
 		    @endif
-			{{ Form::open(['route' => ['tickets.update', $ticket['id']], 'class' => 'form-horizontal', 'method' => 'put']) }}
+			<form method="POST" action="{{ route('tickets.update', [$ticket['id']]) }}" accept-charset="UTF-8" class="form-horizontal">
+				<input name="_method" type="hidden" value="PUT">
+				<input name="_token" type="hidden" value="{{ csrf_token() }}">
 				<div class="form-group{{ $errors->has('user_id') ? ' has-error' : null }}">
 					<label for="user_id" class="col-sm-1 control-label">User</label>
 					<div class="col-sm-5">

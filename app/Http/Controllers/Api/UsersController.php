@@ -1,17 +1,14 @@
-<?php namespace App\Controllers\Api;
+<?php namespace App\Http\Controllers\Api;
 
+use Illuminate\Routing\Controller;
 use App\Repositories\UserInterface;
-use App\Validators\QueryValidator;
-use App\Validators\UserValidator;
 use Request, Response, App, Str;
 
-class UsersController extends \Controller{
+class UsersController extends Controller {
 
-	public function __construct(UserInterface $user, QueryValidator $queryValidator, UserValidator $userValidator) {
+	public function __construct(UserInterface $user) {
 
 		$this->user = $user;
-		$this->queryValidator = $queryValidator;
-		$this->userValidator = $userValidator;
 	}
 	/**
 	 * Display a listing of the resource.
@@ -33,7 +30,7 @@ class UsersController extends \Controller{
 		$this->user
 				// ->sort(Request::get('sort', 'id'), Request::get('order', 'desc'))
 				// ->whereCreated($dates[0], $dates[1])
-				->whereSearch(Request::has('q') ? explode('-', Str::slug(Request::get('q'))) : [])
+				->whereSearch(Request::has('q') ? explode('-', str_slug(Request::get('q'))) : [])
 				->fields(array_filter(explode(',', Request::get('fields'))));
 
 		// $errors = $validator->errors();
