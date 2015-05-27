@@ -50,7 +50,7 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<a href="#" class="form-control-static" data-toggle="modal" data-target="#compose-modal">advanced</a>
+											<a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#filter"><i class="fa fa-filter"></i></a>
 										</div>
 									</form>
 								</div>
@@ -98,5 +98,85 @@
 								
 								@endif
 
+								</table>
+								<div class="row">
+									<div class="col-xs-4">
+										<div class="table_info" id="example2_info">Showing {{ $tickets->firstItem() }} to {{ $tickets->lastItem() }} of {{ $tickets->total() }} tickets</div>
+									</div>
+									<div class="col-xs-8">
+										<div class="table_paginate paging_bootstrap">
+											{!! $tickets->appends(Request::query())->render() !!}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- /.col (RIGHT) -->
+					</div><!-- /.row -->
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+		</div><!-- /.col (MAIN) -->
+	</div>
+
+	<div class="modal fade" id="filter" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><i class="fa fa-search"></i> Advanced Search</h4>
+				</div>
+				<form action="{{ route('tickets.index') }}" method="get" enctype="text/plain">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<input class="form-control" name="q" placeholder="Keywords - Optional">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="exampleInputEmail1" class="control-label">Status</label>
+									<input class="status-select form-control" placeholder="Leave empty for any" name="status">
+								</div>
+								<div class="form-group">
+									<label for="exampleInputEmail1" class="control-label">Priority</label>
+									<input class="priority-select form-control" placeholder="Leave empty for any" name="priority">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="exampleInputEmail1" class="control-label">Assigned To</label>
+									<input class="assigned-select form-control" name="staff_id" placeholder="Leave empty for any">
+								</div>
+								<div class="form-group">
+									<label for="exampleInputEmail1" class="control-label">Department</label>
+									<input class="dept-select form-control" name="dept_id" placeholder="Leave empty for any">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<label>Date Range [Create Date]:</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-clock-o"></i>
+									</div>
+									<input type="text" class="form-control pull-right" id="createtime" name="created_at" placeholder="Leave empty for all"/>
+								</div><!-- /.input group -->
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer clearfix">
+
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+
+						<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+					</div>
+				</div>
+			</form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</section><!-- /.modal -->
 
 @stop
