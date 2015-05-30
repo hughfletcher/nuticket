@@ -2,3 +2,5 @@
 /node_modules
 .env
 .vagrant/
+.workbench.php
+/workbench

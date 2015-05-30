@@ -17,7 +17,8 @@
     	"codeception/codeception": "*",
     	"mockery/mockery": "dev-master",
     	"codeception/codeception": "*",
-    	"mockery/mockery": "dev-master"
+    	"mockery/mockery": "dev-master",
+    	"illuminate/workbench": "dev-master"
 	},
 	"repositories": [
 	    {
