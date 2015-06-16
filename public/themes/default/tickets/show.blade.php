@@ -4,7 +4,7 @@
 
 @section('content')
 <section class="content-header">
-	<h1>
+	<h1> 
 		{{ $ticket['actions'][0]['title'] }}
 		<!-- <small>#{{ $ticket['id'] }}</small> -->
 	</h1>
@@ -23,7 +23,7 @@
 			<ul class="timeline">
 				<!-- timeline time label -->
 				<li class="time-label">
-					<span class="bg-red">{{ $ticket['created_at']->format('j M Y') }}{{-- */ $lastday = $ticket['created_at'] /*--}}</span>
+					<span class="bg-red">{{ date_format($ticket['created_at'], 'j M Y') }}{{-- */ $lastday = $ticket['created_at'] /*--}}</span>
 					<div class="btn-group pull-right">
 						<a href="#reply" class="btn btn-default go-show-tab">Reply</a>
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -70,10 +70,10 @@
 					<i class="fa fa-desktop bg-blue"></i>
 					<div class="timeline-item">
 						<ul class="list-inline time">
-							@if ($action['time_spent'] > 0)
-							<li><span  data-toggle="tooltip" title="{{ $action['time_spent'] }} hour(s) worked"><i class="fa fa-wrench"></i> {{ $action['time_spent'] }}</span></li>
+							@if (!is_null($action['time']))
+							<li><span  data-toggle="tooltip" title="{{ $action['time']['hours'] }} hour(s) on {{ date_format($action['time']['time_at'], 'm/d/Y') }}"><i class="fa fa-wrench"></i> {{ $action['time']['hours'] }}</span></li>
 							@endif
-							<li><i class="fa fa-clock-o"></i> {{ $action['created_at']->format('g:i a') }}</li>
+							<li><i class="fa fa-clock-o"></i> {{ date_format($action['created_at'], 'g:i a') }}</li>
 						</ul>
 						<h3 class="timeline-header{{ $action['message'] == null ? ' no-border' : '' }}">
 							@if ($action['user_id'] == '0')
@@ -325,9 +325,9 @@
 									<dt>Assigned</dt>
 									<dd>{{ $ticket['staff']['user']['display_name'] }}</dd>
 									<dt>Total Hours</dt>
-									<dd>{{ $ticket['time_spent'] }}</dd>
+									<dd>{{ $ticket['hours'] }}</dd>
 									<dt>Last Action</dt>
-									<dd>{{ datetime($ticket['last_action_at']) }}</dd>
+									<dd>{{ is_null($ticket['last_action_at']) ? 'None' : datetime($ticket['last_action_at']) }}</dd>
 								</dl>
 							</div>
 						</div>

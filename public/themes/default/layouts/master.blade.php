@@ -291,10 +291,15 @@
                      'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
                   },
                 });
+                $('.singledate').daterangepicker({ 
+                    singleDatePicker: true, 
+                    format: 'MM/DD/YYYY', 
+                    drops: 'up'
+                });
                 // $(".textarea").wysihtml5({
                 //         "size": "sm" // options are xs, sm, lg
                 // });
-                $('#reply-date').daterangepicker({ singleDatePicker: true, timePickerIncrement: 15, format: 'MM/DD/YYYY h:mm a', timePicker: true, opens: 'right' });
+                // $('#reply-date').daterangepicker({ singleDatePicker: true, timePickerIncrement: 15, format: 'MM/DD/YYYY h:mm a', timePicker: true, opens: 'right' });
             });
         </script>
     </body>

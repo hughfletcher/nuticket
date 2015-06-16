@@ -23,24 +23,9 @@ class TicketsController extends BaseController {
 	 */
 	public function index(QueryTicketRequest $request)
 	{
-
-		//date range
-		$dates = Request::has('created_at') ? explode('-', Request::get('created_at')) : [null, null];
-
-		$this->tickets
-			->sort(Request::get('sort', 'id'), Request::get('order', 'desc'))
-			->whereCreated($dates[0], $dates[1])
-			->whereSearch(Request::has('q') ? explode('-', str_slug(Request::get('q'))) : [])
-			->whereStatus(array_filter(explode('-', Request::get('status'))))
-			->wherePriority(array_filter(explode('-', Request::get('priority'))))
-			->whereDept(array_filter(explode('-', Request::get('dept_id'))))
-			->whereStaff(array_filter(explode('-', Request::get('staff_id'))));
-
-		$tickets = $this->tickets->paginate(Request::get('per_page'));
-		// dd($tickets);
+		$tickets = $this->tickets->paginateByRequest($request->get('per_page', config('system.page_size')));
 		
 		return View::make('tickets.index', compact('tickets'));
-		
 	}
 
 	public function show($id) {
@@ -52,25 +37,37 @@ class TicketsController extends BaseController {
 		return View::make('tickets.create');
 	}
 
-	public function store(FormTicketCreateRequest $request) {
+	public function store(FormTicketCreateRequest $request) 
+	{
+		$ticket = $this->tickets->create(array_add($request->except('hours'), 'auth_id', Auth::user()->id));
 
-		$attrs = $request->all();
+		$hours = $request->get('hours');
 
-		$ticket = $this->tickets->create($attrs);
-		$attrs['ticket_id'] = $ticket['id'];
-		$attrs['status'] = $ticket['status'];
-
-		if ($attrs['reply_body'] != '') { 
-			$attrs['body'] = $attrs['reply_body'];
-			$attrs['type'] = in_array($attrs['status'], ['closed', 'resolved']) ? $attrs['status'] : 'reply';
-			$this->action->create($attrs);
-			unset($attrs['time_spent']);
+		if ($request->has('reply_body')) 
+		{ 
+			$this->action->create([
+				'ticket_id' => $ticket->id,
+				'user_id' => Auth::user()->id,
+				'type' => in_array($request->get('status'), ['closed', 'resolved']) ? $request->get('status') : 'reply',
+				'body' => $request->get('reply_body'),
+				'hours' => $hours,
+				'time_at' => $request->get('time_at'),
+				'status' => $request->has('status') ? $request->get('status') : 'open'
+			]);
+			$hours = 0;
 		}
 
-		if ($attrs['comment_body'] != '') { 
-			$attrs['body'] = $attrs['comment_body'];
-			$attrs['type'] = 'comment';
-			$this->action->create($attrs);
+		if ($request->has('comment_body')) 
+		{ 
+			$this->action->create([
+				'ticket_id' => $ticket->id,
+				'user_id' => Auth::user()->id,
+				'type' => 'comment',
+				'body' => $request->get('comment_body'),
+				'hours' => $hours,
+				'time_at' => $request->get('time_at'),
+				'status' => $request->has('status') ? $request->get('status') : 'open'
+			]);
 		}
 
 		return Redirect::route('tickets.show', [$ticket['id']])

@@ -1,8 +1,6 @@
 <?php namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
-class FormTicketCreateRequest extends Request {
+class FormTicketCreateRequest extends FormRequest {
 
 	protected $redirectRoute = 'tickets.create';
 
@@ -11,7 +9,8 @@ class FormTicketCreateRequest extends Request {
         'priority' => ['required', 'between:1,5'],
         'title' => ['required', 'min:10'],
         'body' => ['required', 'min:10'],
-		'time_spent' => ['numeric'],
+		'hours' => ['numeric'],
+		'time_at' => ['required_with:hours', 'date_format:m/d/Y'],
         'reply_body' => ['min:3'],
         'comment_body' => ['min:3'],
         'status' => ['in:open,closed,resolved'],
@@ -37,11 +36,11 @@ class FormTicketCreateRequest extends Request {
 	public function rules()
 	{
 		if ($this->input('reply_body') != '') {
-			$this->rules['reply_body'] = $this->rules['reply_body'] + ['required_with:time_spent,status'];
+			$this->rules['reply_body'] = $this->rules['reply_body'] + ['required_with:hours,status,date'];
 		}
 
 		if ($this->input('comment_body') != '') {
-			$this->rules['comment_body'] = $this->rules['comment_body'] + ['required_with:time_spent,status'];
+			$this->rules['comment_body'] = $this->rules['comment_body'] + ['required_with:hours,status,date'];
 		}
 
 		return $this->rules;

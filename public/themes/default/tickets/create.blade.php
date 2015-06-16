@@ -1,4 +1,4 @@
-@extends('layouts.master')
+ @extends('layouts.master')
 
 @section('title', 'Create Ticket')
 
@@ -103,11 +103,21 @@
 					</div>
 				</div>
 				<ul class="nav nav-tabs">
-					<li{{ Session::get('type') == null || Session::get('type') == 'reply' ? ' class="active"' : '' }}><a href="#reply" data-toggle="tab">Reply {{ Session::get('type') }}</a></li>
-					<li{{ Session::get('type') == 'comment' ? ' class="active"' : '' }}><a href="#comment" data-toggle="tab">Comment</a></li>
+					<li{!! is_null(Session::get('type')) || Session::get('type') == 'reply' ? ' class="active"' : '' !!}><a href="#reply" data-toggle="tab">Reply</a></li>
+					<li{!! Session::get('type') == 'comment' ? ' class="active"' : '' !!}><a href="#comment" data-toggle="tab">Comment</a></li>
 				</ul>
 				<div class="tab-content">
-					<div class="tab-pane{{ Session::get('type') == null || Session::get('type') == 'reply' ? ' active' : '' }}" id="reply">
+					<div class="tab-pane{!! Session::get('type') == null || Session::get('type') == 'reply' ? ' active' : '' !!}" id="reply">
+						<div class="form-group{!! $errors->has('status') ? ' has-error' : null !!}">
+							<label class="col-md-1 control-label" for="textinput">Status</label>  
+							<div class="col-md-3">
+								<select name="status" class="form-control select2-default input-sm">
+									<option value="open"{{ Input::old('status') == 'open' ? ' selected=selected' : null }}>Open</option>
+									<option value="closed"{{ Input::old('status') == 'closed' ? ' selected=selected' : null }}>Closed</option>
+									<option value="resolved"{{ Input::old('status') == 'resolved' ? ' selected=selected' : null }}>Resolved</option>
+								</select>
+							</div>
+						</div>
 						<div class="form-group{{ $errors->has('reply_body') ? ' has-error' : null }}">
 							<div class="col-md-9">
 								<textarea class="textarea form-control input-sm" name="reply_body" placeholder="Enter a response here" style="height: 100px;">{{ Input::old('reply_body') }}</textarea>
@@ -116,7 +126,6 @@
 								@endif
 							</div>
 						</div>
-
 					</div>
 					<div class="tab-pane{{ Session::get('type') == 'comment' ? ' active' : '' }}" id="comment">
 						<div class="form-group{{ $errors->has('comment_body') ? ' has-error' : null }}">
@@ -142,31 +151,25 @@
 					@endif
 				</div> -->
 				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group{{ $errors->has('status') ? ' has-error' : null }}">
-							<label class="col-md-4 control-label" for="textinput">Status</label>  
-							<div class="col-md-8">
-								<select name="status" class="form-control select2-default input-sm" placeholder="Select a Status">
-									<option></option>
-									<option value="open"{{ Input::old('status') == 'open' ? ' selected=selected' : null }}>Open</option>
-									<option value="closed"{{ Input::old('status') == 'closed' ? ' selected=selected' : null }}>Closed</option>
-									<option value="resolved"{{ Input::old('status') == 'resolved' ? ' selected=selected' : null }}>Resolved</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group{{ $errors->has('time_spent') ? ' has-error' : null }}">
-							<label class="col-md-6 control-label" for="time_spent">Worked Hours</label>  
+					<div class="col-md-3">
+						<div class="form-group{{ $errors->has('hours') ? ' has-error' : null }}">
+							<label class="col-md-6 control-label" for="hours">Worked Hours</label>  
 							<div class="col-md-6">
-								<input id="textinput" name="time_spent" type="text" value="{{ Input::old('time_spent') }}" class="form-control input-sm">
+								<input id="textinput" name="hours" type="text" value="{{ Input::old('hours') }}" class="form-control input-sm">
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
+						<div class="form-group{{ $errors->has('time_at') ? ' has-error' : null }}">
+							<label class="col-md-6 control-label" for="date">Worked Date</label>  
+							<div class="col-md-6">
+								<input id="textinput" name="time_at" type="text" value="{{ old('time_at') ? old('time_at') : date('m/d/Y') }}" class="form-control input-sm singledate">
+							</div>
+						</div>
 					</div>
+					<div class="col-md-6"></div>
 				</div>
-				@if ($errors->has('status') || $errors->has('time_spent'))
+				@if ($errors->has('status') || $errors->has('hours') || $errors->has('time_at'))
 				<div class="row">
 					<div class="col-md-4">
 						@if ($errors->has('status'))
@@ -174,8 +177,8 @@
 						@endif
 					</div>
 					<div class="col-md-4">
-						@if ($errors->has('time_spent'))
-						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('time_spent') }}</strong></span>
+						@if ($errors->has('hours'))
+						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('hours') }}</strong></span>
 						@endif
 					</div>
 				</div>

@@ -15,7 +15,7 @@ class Ticket extends Eloquent {
         'staff_id', 
         'status', 
         'dept_id',
-        'time_spent'
+        'hours'
     ];
 
     protected $dates = ['last_action_at', 'closed_at'];
@@ -38,7 +38,7 @@ class Ticket extends Eloquent {
     }
 
 	public function user() {
-        return $this->belongsTo('App\User', 'user_id', 'id');
+        return $this->belongsTo('App\User');
     }
 
 	public function staff() {

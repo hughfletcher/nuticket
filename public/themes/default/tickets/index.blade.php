@@ -60,7 +60,8 @@
 									<thead>
 										<tr>
 											<th><a href="{{ sort_url('id') }}">Id<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('id', null, '-') }}"></i></span></a></th>
-											<th><a href="{{ sort_url('last_action_at') }}">Date<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('last_action_at', null, '-') }}"></i></span></a></th>
+											<th><a href="{{ sort_url('created_at') }}">Created<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('last_action_at', null, '-') }}"></i></span></a></th>
+											<th><a href="{{ sort_url('last_action_at') }}">Last Action<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('last_action_at', null, '-') }}"></i></span></a></th>
 											<th><a href="{{ sort_url('subject') }}">Subject<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('subject', null, '-') }}"></i></span></a></th>
 											<th><a href="{{ sort_url('user') }}">From<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('user', null, '-') }}"></i></span></a></th>
 											<th><a href="{{ sort_url('priority') }}">Priority<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('priority', null, '-') }}"></i></span></a></th>
@@ -73,11 +74,12 @@
 										@foreach ($tickets as $ticket)
 										<tr>
 											<td><a href="{{ route('tickets.show', [$ticket['id'], '#action']) }}">{{ $ticket['id'] }}</a></td>
-											<td>{{ datetime($ticket['last_action_at']) }}</td>
-											<td><a href="{{ route('tickets.show', [$ticket['id']]) }}">{{ $ticket['subject'] }}</a></td>
-											<td>{{ $ticket['user'] }}</td>
+											<td>{{ date_format($ticket['created_at'], config('system.date_format')) }}</td>
+											<td>{{ is_null($ticket['last_action_at']) ? 'None' : date_format($ticket['last_action_at'], config('system.date_format')) }}</td>
+											<td><a href="{{ route('tickets.show', [$ticket['id']]) }}">{{ $ticket->title }}</a></td>
+											<td>{{ $ticket['user_display_name'] }}</td>
 											<td>{{ $ticket['priority'] }}</td>
-											<td>{{ $ticket['staff'] }}</td>
+											<td>{{ $ticket->staff_display_name }}</td>
 										</tr>
 										@endforeach
 									</tbody>

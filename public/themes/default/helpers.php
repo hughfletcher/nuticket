@@ -42,15 +42,6 @@ if ( ! function_exists('js'))
 	}
 }
 
-if ( ! function_exists('old'))
-{
-	function old($string) {
-		
-		return app('request')->old($string);
-
-	}
-}
-
 if ( ! function_exists('user'))
 {
 	function user($string) {

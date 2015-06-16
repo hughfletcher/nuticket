@@ -13,8 +13,6 @@ class Menu {
 	 */
 	public function __construct(Application $app) {
 		$this->app = $app;
-
-		$this->app->register('Caffeinated\Menus\MenusServiceProvider');
 	}
 
 	/**

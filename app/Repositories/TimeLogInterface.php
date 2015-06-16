@@ -1,7 +1,7 @@
 <?php namespace App\Repositories;
 
-interface TicketInterface {
+interface TimeLogInterface {
 
-
+	
 	
 }

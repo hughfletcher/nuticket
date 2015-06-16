@@ -1,7 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use Carbon\Carbon;
+use App\Services\Forms\EloquentTrait;
 
 class TicketAction extends Eloquent {
 
@@ -11,13 +11,10 @@ class TicketAction extends Eloquent {
         'ticket_id',
         'user_id', 
         'type',
-        'time_spent',
         'title',
         'body',
         'assigned_id',
-        'transfer_id',
-        'title',
-        'body'
+        'transfer_id'
     ];
 
 	/**
@@ -38,6 +35,10 @@ class TicketAction extends Eloquent {
 
 	public function assigned() {
         return $this->belongsTo('App\Staff', 'assigned_id', 'id');
+    }
+
+    public function time() {
+        return $this->hasOne('App\TimeLog');
     }
 
 }

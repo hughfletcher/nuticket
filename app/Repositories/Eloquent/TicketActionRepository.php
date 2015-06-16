@@ -1,50 +1,37 @@
 <?php namespace App\Repositories\Eloquent;
 
 use App\Repositories\TicketActionInterface;
-use App\Repositories\Eloquent\BaseRepository;
-use App\Repositories\Eloquent\TicketRepository;
-use App\TicketAction;
-use Illuminate\Support\Facades\Auth;
+use Bosnadev\Repositories\Contracts\RepositoryInterface;
+use Bosnadev\Repositories\Eloquent\Repository;
+use App\Ticket;
+use App\Timelog;
+use Carbon\Carbon;
 
-class TicketActionRepository extends BaseRepository implements TicketActionInterface {
+class TicketActionRepository extends Repository implements TicketActionInterface {
 
-	public function __construct(TicketAction $action, TicketRepository $ticket) {
-		
-        $this->action = $action;
-		$this->model = $action;
-		$this->ticket = $ticket;
-
-	}
-
-    public function create(array $attrs) {
-
-        //this has got to go, only need $attrs['body']
-        if (isset($attrs[$attrs['type'] . '_body'])) {
-            $attrs['body'] = $attrs[$attrs['type'] . '_body'];
-        }
-        $attrs['body'] = nl2br($attrs['body']);
-
-        $attrs['user_id'] = Auth::user()->id; //move to controller
-
-        return $this->action->create($attrs);
+    public function model() {
+        return 'App\TicketAction';
     }
 
     /**
      * Create Action and update ticket
      *         
-     * @param  array $attrs ['type', 'body', 'status', 'ticket_id', 'time_spent']
+     * @param  array $attrs [ticket_id, user_id, type, body, [title, assigned_id, transfer_id, hours, status]]
      * @return App\TicketAction
      */
-	public function createAndUpdateTicket(array $attrs) {
+	public function create(array $data) {
 
-		$action = $this->create($attrs);
-        
-        $action_array = $action->toArray();
+        // create action
+		$action = $this->model->create($data);
 
-        if (isset($attrs['status'])) { $action_array['status'] = $attrs['status']; }
+        //update timelog
+        if (isset($data['hours']))
+        {
+            $this->updateTimeLog($action->id, $action->user_id, $data['hours'], $data['time_at']);
+        }
 
-        //update ticket 
-        $ticket = call_user_func_array([$this->ticket, 'updateBy' . ucfirst($action->type)], [$action_array]);
+        // update ticket
+        $ticket = $this->updateTicket($data);
 
         if (isset($ticket['old_status']) && $ticket['old_status'] != $ticket['status']) {
 
@@ -58,9 +45,69 @@ class TicketActionRepository extends BaseRepository implements TicketActionInter
 
 	}
 
-    public function findTicketCreate($id) {
-
-        $result = $this->model->where('ticket_id', $id)->where('type', 'create')->get()->toArray();
-        return $result[0];
+    protected function updateTimeLog($action_id, $user_id, $hours, $time_at) 
+    {
+        return $this->createTimeLogModel()->create([
+            'user_id' => $user_id, 
+            'hours' => $hours,
+            'type' => 'action',
+            'ticket_action_id' => $action_id,
+            'time_at' => Carbon::createFromFormat('m/d/Y', $time_at)
+        ]);
     }
+
+        /**
+     * Update ticket by a reply ticket action
+     * 
+     * @param  array App\TicketAction + $status
+     * @return array App\Ticket + $old_status
+     */
+    protected function updateTicket(array $data) 
+    {   
+        $ticket = $this->createTicketModel()->find($data['ticket_id']);
+        // $ticket = $ticket;
+
+        $old_status = $ticket->status;
+
+        $ticket->last_action_at = Carbon::now();
+
+
+        if (in_array($data['type'], ['reply', 'closed', 'resolved', 'comment']))
+        {
+            $ticket->hours += $data['hours'];
+        }
+
+        if (in_array($data['type'], ['reply', 'closed', 'resolved']))
+        {
+            $ticket->status = isset($data['status']) ? $data['status'] : $ticket->status;
+            $ticket->closed_at = isset($data['status']) && in_array($data['status'], ['resolved', 'closed']) ? Carbon::now() : $ticket->closed_at; 
+        }
+
+        if ($data['type'] == 'transfer')
+        {
+            $ticket->dept_id = $data['transfer_id'];
+        }
+
+        if ($data['type'] == 'assign')
+        {
+            $ticket->staff_id = $data['assigned_id'];
+        }
+
+        $ticket->save();
+        // $ticket->put('old_status', $old_status); 
+
+        return array_add($ticket->toArray(), 'old_status', $old_status);
+    }
+
+    public function createTicketModel() 
+    {
+        return new Ticket;
+    }
+
+    public function createTimeLogModel() 
+    {
+        return new TimeLog;
+    }
+
+
 }

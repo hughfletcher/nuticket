@@ -1,8 +1,6 @@
 <?php namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
-class FormActionCreateRequest extends Request 
+class FormActionCreateRequest extends FormRequest 
 {
 
 	protected $rules = [
