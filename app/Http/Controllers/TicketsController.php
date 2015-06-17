@@ -5,7 +5,7 @@ use App\Repositories\TicketActionInterface;
 use App\Http\Requests\QueryTicketRequest;
 use App\Http\Requests\FormTicketCreateRequest;
 use App\Http\Requests\FormTicketUpdateRequest;
-use View, Request, Auth, Redirect, Theme;
+use Auth;
 
 class TicketsController extends BaseController {
 
@@ -25,16 +25,16 @@ class TicketsController extends BaseController {
 	{
 		$tickets = $this->tickets->paginateByRequest($request->get('per_page', config('system.page_size')));
 		
-		return View::make('tickets.index', compact('tickets'));
+		return view('tickets.index', compact('tickets'));
 	}
 
 	public function show($id) {
 		$ticket = $this->tickets->find($id);
-		return View::make('tickets.show', compact('ticket'));
+		return view('tickets.show', compact('ticket'));
 	}
 
 	public function create() {
-		return View::make('tickets.create');
+		return view('tickets.create');
 	}
 
 	public function store(FormTicketCreateRequest $request) 
@@ -70,14 +70,14 @@ class TicketsController extends BaseController {
 			]);
 		}
 
-		return Redirect::route('tickets.show', [$ticket['id']])
+		return redirect()->route('tickets.show', [$ticket['id']])
 			->with('message', 'Ticket #' . $ticket['id'] . ' sucessfully created.');
 
 	}
 
 	public function edit($id) {
 		$ticket = $this->tickets->find($id);
-		return View::make('tickets.edit', compact('ticket'));
+		return view('tickets.edit', compact('ticket'));
 	}
 
 	public function update(FormTicketUpdateRequest $request, $id) {
@@ -112,7 +112,7 @@ class TicketsController extends BaseController {
 		//no changes, user is wasting our time
 		if (empty($changed)) {
 	
-			return Redirect::route('tickets.edit', [$id])
+			return redirect()->route('tickets.edit', [$id])
 				->with('message', 'There were no changes made to this ticket.')
 				->withInput();
 		}
@@ -134,7 +134,7 @@ class TicketsController extends BaseController {
 			'body' => $body . "\n" . $attrs['reason']
 		]);
 
-		return Redirect::route('tickets.show', [$id, '#action-' . $new_action['id']]);
+		return redirect()->route('tickets.show', [$id, '#action-' . $new_action['id']]);
 	}
 
 }

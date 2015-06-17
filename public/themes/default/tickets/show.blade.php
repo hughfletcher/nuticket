@@ -117,20 +117,20 @@
 			<div class="nav-tabs-custom" id="action">
 				<ul class="nav nav-tabs">
 					<!-- <li class="active"><a href="#quick" data-toggle="tab">Quick</a></li> -->
-					<li{{ Session::get('type') == null || Session::get('type') == 'reply' ? ' class="active"' : '' }}><a href="#reply" data-toggle="tab">Reply {{ Session::get('type') }}</a></li>
-					<li{{ Session::get('type') == 'comment' ? ' class="active"' : '' }}><a href="#comment" data-toggle="tab">Comment</a></li>
-					<li{{ Session::get('type') == 'transfer' ? ' class="active"' : '' }}><a href="#transfer" data-toggle="tab">Dept Transfer</a></li>
-					<li{{ Session::get('type') == 'assign' ? ' class="active"' : '' }}><a href="#assign" data-toggle="tab">Assign</a></li>
+					<li{!! Session::get('type') == null || Session::get('type') == 'reply' ? ' class="active"' : '' !!}><a href="#reply" data-toggle="tab">Reply {{ Session::get('type') }}</a></li>
+					<li{!! Session::get('type') == 'comment' ? ' class="active"' : '' !!}><a href="#comment" data-toggle="tab">Comment</a></li>
+					<li{!! Session::get('type') == 'transfer' ? ' class="active"' : '' !!}><a href="#transfer" data-toggle="tab">Dept Transfer</a></li>
+					<li{!! Session::get('type') == 'assign' ? ' class="active"' : '' !!}><a href="#assign" data-toggle="tab">Assign</a></li>
 				</ul>
 				<div class="tab-content">
-					<div class="tab-pane{{ Session::get('type') == null || Session::get('type') == 'reply' ? ' active' : '' }}" id="reply">
+					<div class="tab-pane{!! Session::get('type') == null || Session::get('type') == 'reply' ? ' active' : '' !!}" id="reply">
 						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
 						<input name="type" type="hidden" value="reply">
 						<div class="form-group{{ Input::old('type') == 'reply' && $errors->has('body') ? ' has-error' : null }}">
 							<div class="col-md-12">
-								@if (Input::old('type') == 'reply' && ($errors->has('body') || $errors->has('time_spent') || $errors->has('status')))
+								@if (Input::old('type') == 'reply' && ($errors->has('body') || $errors->has('hours') || $errors->has('status')))
 								<ul class="list-unstyled">
 								@foreach ($errors->all() as $error)
 									<li class="text-red"><strong>{{ $error }}</strong></li>
@@ -146,23 +146,29 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="textinput">Status</label>  
 									<div class="col-md-8">
-										<select name="status" class="form-control select2-default input-sm{{ Input::old('type') == 'reply' && $errors->has('status') ? ' has-error' : null }}">
-											<option value="open"{{ Input::old('status') == 'open' ? ' selected=selected' : null }}>Open</option>
-											<option value="closed"{{ Input::old('status') == 'closed' ? ' selected=selected' : null }}>Closed</option>
-											<option value="resolved"{{ Input::old('status') == 'resolved' ? ' selected=selected' : null }}>Resolved</option>
+										<select name="status" class="form-control select2-default input-sm{!! Input::old('type') == 'reply' && $errors->has('status') ? ' has-error' : null !!}">
+											<option value="open"{!! Input::old('status') == 'open' ? ' selected=selected' : null !!}>Open</option>
+											<option value="closed"{!! Input::old('status') == 'closed' ? ' selected=selected' : null !!}>Closed</option>
+											<option value="resolved"{!! Input::old('status') == 'resolved' ? ' selected=selected' : null !!}>Resolved</option>
 										</select>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-4">
-								<div class="form-group{{ $errors->has('time_spent') && Input::old('type') == 'reply' ? ' has-error' : null }}">
-									<label class="col-md-6 control-label" for="textinput">Time Spent</label>  
+								<div class="form-group{!! $errors->has('hours') && Input::old('type') == 'reply' ? ' has-error' : null !!}">
+									<label class="col-md-6 control-label" for="textinput">Worked Hours</label>  
 									<div class="col-md-6">
-										<input id="textinput" name="time_spent" type="text" value="{{ Input::old('type') == 'reply' ? Input::old('time_spent') : null }}" class="form-control input-sm">
+										<input id="textinput" name="hours" type="text" value="{{ Input::old('type') == 'reply' ? Input::old('hours') : null }}" class="form-control input-sm">
 									</div>
 								</div>
 							</div>
 							<div class="col-md-4">
+								<div class="form-group{{ $errors->has('time_at') ? ' has-error' : null }}">
+									<label class="col-md-6 control-label" for="date">Worked Date</label>  
+									<div class="col-md-6">
+										<input id="textinput" name="time_at" type="text" value="{{ old('time_at') ? old('time_at') : date('m/d/Y') }}" class="form-control input-sm singledate">
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row">
@@ -172,14 +178,14 @@
 						</div>
 						</form>
 					</div>
-					<div class="tab-pane{{ Session::get('type') == 'comment' ? ' active' : '' }}" id="comment">
+					<div class="tab-pane{!! Session::get('type') == 'comment' ? ' active' : '' !!}" id="comment">
 						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
 						<input name="type" type="hidden" value="comment">
-						<div class="form-group{{ Input::old('type') == 'comment' && $errors->has('body') ? ' has-error' : null }}">
+						<div class="form-group{!! Input::old('type') == 'comment' && $errors->has('body') ? ' has-error' : null !!}">
 							<div class="col-md-12">
-								@if (Input::old('type') == 'comment' && ($errors->has('body') || $errors->has('time_spent')))
+								@if (Input::old('type') == 'comment' && ($errors->has('body') || $errors->has('hours')))
 								<ul class="list-unstyled">
 								@foreach ($errors->all() as $error)
 									<li class="text-red"><strong>{{ $error }}</strong></li>
@@ -193,14 +199,20 @@
 						<div class="row">
 							<div class="col-md-4">
 								
-								<div class="form-group{{ Input::old('type') == 'comment' && $errors->has('time_spent') ? ' has-error' : null }}">
+								<div class="form-group{!! Input::old('type') == 'comment' && $errors->has('hours') ? ' has-error' : null !!}">
 									<label class="col-md-6 control-label" for="textinput">Worked Hours</label>  
 									<div class="col-md-6">
-										<input id="textinput" name="time_spent" type="text" value="{{ Input::old('type') == 'comment' ? Input::old('time_spent') : null }}" class="form-control input-sm">
+										<input id="textinput" name="hours" type="text" value="{!! Input::old('type') == 'comment' ? Input::old('hours') : null !!}" class="form-control input-sm">
 									</div>
 								</div>
 							</div>
 							<div class="col-md-4">
+								<div class="form-group{{ $errors->has('time_at') ? ' has-error' : null }}">
+									<label class="col-md-6 control-label" for="date">Worked Date</label>  
+									<div class="col-md-6">
+										<input id="textinput" name="time_at" type="text" value="{{ old('time_at') ? old('time_at') : date('m/d/Y') }}" class="form-control input-sm singledate">
+									</div>
+								</div>
 							</div>
 							<div class="col-md-4">
 							</div>
@@ -212,12 +224,12 @@
 						</div>
 						</form>
 					</div>
-					<div class="tab-pane{{ Session::get('type') == 'transfer' ? ' active' : '' }}" id="transfer">
+					<div class="tab-pane{!! Session::get('type') == 'transfer' ? ' active' : '' !!}" id="transfer">
 					<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
 						<input name="type" type="hidden" value="transfer">
-						<div class="form-group{{ Input::old('type') == 'transfer' && $errors->has('transfer_id') ? ' has-error' : null }}">
+						<div class="form-group{!! Input::old('type') == 'transfer' && $errors->has('transfer_id') ? ' has-error' : null !!}">
 							<div class="col-md-6">
 								@if (Input::old('type') == 'transfer' && ($errors->has('body') || $errors->has('transfer_id')))
 								<ul class="list-unstyled">
@@ -234,7 +246,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group{{ Input::old('type') == 'transfer' && $errors->has('body') ? ' has-error' : null }}">
+						<div class="form-group{!! Input::old('type') == 'transfer' && $errors->has('body') ? ' has-error' : null !!}">
 							<div class="col-md-12">
 								<textarea class="textarea form-control" name="body" placeholder="Enter reasons for the transfer" style="height: 100px;">{{ Input::old('type') == 'transfer' ? Input::old('body') : null }}</textarea>
 
@@ -247,12 +259,12 @@
 						</div>
 						</form>
 					</div>
-					<div class="tab-pane{{ Session::get('type') == 'assign' ? ' active' : '' }}" id="assign">
+					<div class="tab-pane{!! Session::get('type') == 'assign' ? ' active' : '' !!}" id="assign">
 						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
 						<input name="type" type="hidden" value="assign">
-						<div class="form-group{{ Input::old('type') == 'assign' && $errors->has('transfer_id') ? ' has-error' : null }}">
+						<div class="form-group{!! Input::old('type') == 'assign' && $errors->has('transfer_id') ? ' has-error' : null !!}">
 							<div class="col-md-6">
 								@if ( Input::old('type') == 'assign' && ($errors->has('body') || $errors->has('assigned_id')))
 								<ul class="list-unstyled">
@@ -269,7 +281,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group{{ Input::old('type') == 'assign' && $errors->has('body') ? ' has-error' : null }}">
+						<div class="form-group{!! Input::old('type') == 'assign' && $errors->has('body') ? ' has-error' : null !!}">
 							<div class="col-md-12">
 								<textarea class="textarea form-control" name="body" placeholder="Enter reasons for the assignment or instructions for assignee" style="height: 100px;">{{ Input::old('type') == 'assign' ? Input::old('body') : null }}</textarea>
 

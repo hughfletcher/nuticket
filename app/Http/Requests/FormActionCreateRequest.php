@@ -7,9 +7,10 @@ class FormActionCreateRequest extends FormRequest
 		'ticket_id' => ['required', 'numeric', 'exists:tickets,id'],
 		'body' => ['required', 'min:3'],
 		'status' => ['required_if:type,reply', 'in:closed,open,resolved'], 
-        'time_spent' => ['numeric'],
+        'hours' => ['numeric'],
         'transfer_id' => ['required_if:type,transfer', 'numeric', 'exists:depts,id'],
         'assigned_id' => ['required_if:type,assign', 'numeric'],
+		'time_at' => ['required_with:hours', 'date_format:m/d/Y'],
 	];
 
 	/**

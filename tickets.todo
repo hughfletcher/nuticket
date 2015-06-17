@@ -1,4 +1,4 @@
-alpha 1:
+alpha.05252015:
   [x] Make errors colors same on ticket create. @done (15-03-03 21:53)
   [x] Add time_spent type to actions. @done (15-02-23 19:09)
   [x] Create ldap sync. http://forums.asp.net/t/1626324.aspx?How+to+get+Unique+ID+of+LDAP+UserName @done (15-03-10 12:10)
@@ -33,6 +33,7 @@ alpha 2:
   [ ] Convert depts dropdowns to use options and remove from javascript on master blade.
   [ ] Convert users dropdown on create to use api.
   [ ] Eliminate abiltiy to change status in comment on create ticket.
+  [ ] Cancel button on edit ticket.
 
 1.2.0:
   [ ] Move Orchestra\Memory to internal service.
