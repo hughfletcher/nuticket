@@ -1,4 +1,4 @@
-alpha.05252015:
+alpha.052515:
   [x] Make errors colors same on ticket create. @done (15-03-03 21:53)
   [x] Add time_spent type to actions. @done (15-02-23 19:09)
   [x] Create ldap sync. http://forums.asp.net/t/1626324.aspx?How+to+get+Unique+ID+of+LDAP+UserName @done (15-03-10 12:10)
@@ -25,29 +25,29 @@ alpha.05252015:
   [x] Edit  @done (15-04-03 10:44)
   [x] Refactor session route/controller to a resource controller. @done (15-04-12 11:03)
 
-alpha 2:
+alpha.06xx15:
   [x] Convert app to Laravel 5, ensure dependencies are compatible. @done (15-06-15 00:46)
-  [ ] Integrate Bosnadev/Repositories.
+  [x] Integrate Bosnadev/Repositories into TicketActionRepository and TicketRepository. @done (15-06-16 22:51)
+  [x] Eliminate abiltiy to change status in comment on create ticket. @done (15-06-16 22:52)
+  [x] Remove Orchestra\Memory. @done (15-06-16 22:53)
+  [x] Remove Orchestra\View. @done (15-06-16 22:54)
+  [x] Add TimeLog functionality and remove timekeeping from actions. @done (15-06-16 22:56)
+  [ ] Create user specific timelog ui for review/edit.
+
+alpha.todo:
+  [ ] Create Config service.
+  [ ] Create Theme service.
   [ ] Cleanup default theme helpers.
   [ ] Refactor can_reply validation rule to use repository and add to rules(ticket,ticket_action)
   [ ] Convert depts dropdowns to use options and remove from javascript on master blade.
   [ ] Convert users dropdown on create to use api.
-  [ ] Eliminate abiltiy to change status in comment on create ticket.
   [ ] Cancel button on edit ticket.
-
-1.2.0:
-  [ ] Move Orchestra\Memory to internal service.
-  [ ] Move Orchestra\View to internal service.
   [ ] Settings UI/Interface.
   [ ] Email to ticket for users/staff with tag support.
   [ ] Add select2 to dropdowns in action boxes on ticket create.
   [ ] Fontfamily is different from select2 and and other form elements.
-
-1.3.0:
   [ ] Extension service - Orchestra\Extensions.
   [ ] Add status (setting) to comment action on ticket create.
-
-1.x.x:
   [ ] Move to AdminLTE 2.0.
   [ ] LDAP package.
   [ ] Add user organizations. 

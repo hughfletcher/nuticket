@@ -9,6 +9,6 @@
 
 <!-- Main content -->
 <section class="content">
-	{{ $content }}
+	{!! $content !!}
 </section><!-- /.modal -->
 @stop

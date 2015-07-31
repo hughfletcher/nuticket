@@ -8,7 +8,7 @@ class DevController extends BaseController {
 
         $todo = File::get(base_path() . '/tickets.todo');
 
-        return View::make('blank', ['title' => 'NuTicket Development', 'content' => nl2br($todo), 'depts' => []]);
+        return view('blank', ['title' => 'NuTicket Development', 'content' => nl2br($todo), 'depts' => []]);
     }
 
 }

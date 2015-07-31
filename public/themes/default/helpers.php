@@ -15,24 +15,6 @@ if ( ! function_exists('menu_icon'))
 	}
 }
 
-if ( ! function_exists('config'))
-{
-	function config($string, $default = null) {
-		
-		return $default;
-
-	}
-}
-
-if ( ! function_exists('css'))
-{
-	function css($path) {
-		
-		return asset('themes/default/assets/css/' . $path);
-
-	}
-}
-
 if ( ! function_exists('js'))
 {
 	function js($path) {

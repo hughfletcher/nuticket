@@ -61,3 +61,41 @@ box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
 section.reports .fa-stack-2x {
 	font-size: 1.9em;
 } 
+
+/*timelog*/
+td.tools {
+	width: 93px;
+}
+td.tools div {
+	display: none;
+}
+tr:hover td.tools div {
+	display: block;
+}
+
+div.inline-fields > div > label, div.inline-fields > div > div {
+	padding: 0;
+}
+div.inline-fields > div {
+	padding-right: 0;
+}
+
+/*tables*/
+table.no-wrap-col {
+	table-layout: fixed;
+}
+td.no-wrap {
+	white-space: nowrap; 
+	overflow: hidden;
+	text-overflow: ellipsis;
+	min-width: 400px;
+}
+th.width-60 {
+	width: 60px;
+}
+th.width-100 {
+	width: 100px;
+}
+th.width-120 {
+	width: 120px;
+}

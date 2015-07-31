@@ -50,13 +50,16 @@ class RouteServiceProvider extends ServiceProvider {
 
 					// $router->get('session/end', array('as' => 'session.end', 'uses' => 'SessionController@getEnd'));
 					$router->get('/', array('as' => 'dash.index', 'uses' => 'DashController@getIndex'));
+					$router->get('me/time', array('as' => 'me.time.index', 'uses' => 'TimeController@index'));
+					$router->post('me/time/store', array('as' => 'me.time.store', 'uses' => 'TimeController@store'));
+					$router->get('me/time/{id}/edit', array('as' => 'me.time.edit', 'uses' => 'TimeController@edit'));
+					$router->put('me/time/{id}', array('as' => 'me.time.update', 'uses' => 'TimeController@update'));
+					$router->get('me/time/{id}/delete', array('as' => 'me.time.delete', 'uses' => 'TimeController@delete'));
+					$router->delete('me/time/{id}', array('as' => 'me.time.destroy', 'uses' => 'TimeController@destroy'));
+
 
 					$router->resource('tickets', 'TicketsController', ['except' => ['destroy']]); 
-					
-					$router->post('actions/{type?}', array('as' => 'actions.store', 'uses' => 'TicketActionsController@store'))->where('type', '(reply|comment|transfer|assign)');
-
-					// $router->get('report/{report}', array('as' => 'report.index', 'uses' => 'ReportController@index'));
-
+					$router->resource('actions', 'TicketActionsController', ['only' => ['store']]);
 					$router->resource('reports', 'ReportsController', ['only' => ['index', 'show']]); 
 					$router->resource('dev', 'DevController', ['only' => ['index']]); 
 				});

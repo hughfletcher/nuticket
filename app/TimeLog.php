@@ -20,5 +20,8 @@ class TimeLog extends Model {
         'time_at'
     ];
 
+    public function action() {
+        return $this->belongsTo('App\TicketAction', 'ticket_action_id', 'id');
+    }
 }
  

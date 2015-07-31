@@ -33,8 +33,12 @@ class TicketAction extends Eloquent {
         return $this->belongsTo('App\Dept', 'transfer_id', 'id');
     }
 
-	public function assigned() {
+    public function assigned() {
         return $this->belongsTo('App\Staff', 'assigned_id', 'id');
+    }
+
+    public function ticket() {
+        return $this->belongsTo('App\Ticket');
     }
 
     public function time() {

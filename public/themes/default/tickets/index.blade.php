@@ -175,10 +175,10 @@
 
 						<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
 					</div>
-				</div>
-			</form>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
+				</form>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div>
 </section><!-- /.modal -->
 
 @stop

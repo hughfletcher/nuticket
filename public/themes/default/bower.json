@@ -3,9 +3,10 @@
   "dependencies": {
     "AdminLTE": "almasaeed2010/AdminLTE#1.2",
     "jquery-placeholder": "v2.0.8",
-    "select2": "4.0.0-beta.3",
+    "select2": "3.5.2",
+    "select2-bootstrap-css": "v1.4.6",
     "bootstrap-daterangepicker": "1.3.21",
-    "x-editable": "1.5.1"
+    "canjs": "v2.2.6"
   },
   "resolutions": {
     "select2": "4.0.0-beta.3",

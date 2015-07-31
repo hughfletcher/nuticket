@@ -4,3 +4,6 @@
 .vagrant/
 .workbench.php
 /workbench
+/public/themes/*
+!/public/themes/default
+*.log*
