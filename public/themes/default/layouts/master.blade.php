@@ -74,7 +74,7 @@
                 <!-- Content Header (Page header) -->
                     @yield('content')
 
-                </section>
+
             </aside>
         </div>
 

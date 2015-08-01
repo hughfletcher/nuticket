@@ -19,6 +19,8 @@
 
 	<div class="row">
 		<div class="col-md-9">
+		<div class="row">
+		<div class="col-md-12">
 			<!-- The time line -->
 			<ul class="timeline">
 				<!-- timeline time label -->
@@ -114,6 +116,10 @@
 					<i class="fa fa-clock-o"></i>
 				</li>
 			</ul>
+
+			</div></div>
+			<div class="row act">
+		<div class="col-md-12">
 			<div class="nav-tabs-custom" id="action">
 				<ul class="nav nav-tabs">
 					<!-- <li class="active"><a href="#quick" data-toggle="tab">Quick</a></li> -->
@@ -295,6 +301,7 @@
 						</form>
 					</div>
 				</div><!-- /.tab-content -->
+				</div></div>
 			</div>
 		</div>
 		<div class="col-md-3">
@@ -354,5 +361,5 @@
 		<!-- right column -->
 
 	</div>
-
+</section>
 @stop
