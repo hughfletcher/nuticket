@@ -148,7 +148,8 @@ return [
 		'App\Providers\RepositoryServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
-		'Caffeinated\Menus\MenusServiceProvider'
+		'Caffeinated\Menus\MenusServiceProvider',
+		'Caffeinated\Modules\ModulesServiceProvider',
 
 	],
 

@@ -34,17 +34,17 @@ class AppServiceProvider extends ServiceProvider {
 		}
 
 		$this->app->register('Clockwork\Support\Laravel\ClockworkServiceProvider');
-		$this->app->register('Illuminate\Workbench\WorkbenchServiceProvider');
+		// $this->app->register('Illuminate\Workbench\WorkbenchServiceProvider');
 
-		if (is_dir($workbench = base_path() . '/workbench'))
-		{
-		    Starter::start($workbench);
-		}
+		// if (is_dir($workbench = base_path() . '/workbench'))
+		// {
+		//     Starter::start($workbench);
+		// }
 
-		if (is_file(base_path() . '/.workbench.php'))
-		{
-			include(base_path() . '/.workbench.php');
-		}
+		// if (is_file(base_path() . '/.workbench.php'))
+		// {
+		// 	include(base_path() . '/.workbench.php');
+		// }
 
 	}
 

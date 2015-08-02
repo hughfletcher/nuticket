@@ -26,6 +26,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provider :virtualbox do |virtualbox|
        virtualbox.customize ["modifyvm", :id, "--name", "nuticket"]
+       virtualbox.memory = 1024
     end
 
 end

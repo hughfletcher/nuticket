@@ -6,4 +6,6 @@
 /workbench
 /public/themes/*
 !/public/themes/default
+/modules/*
+!/modules/.gitkeep
 *.log*

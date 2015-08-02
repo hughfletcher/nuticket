@@ -25,14 +25,14 @@ alpha.052515:
   [x] Edit  @done (15-04-03 10:44)
   [x] Refactor session route/controller to a resource controller. @done (15-04-12 11:03)
 
-alpha.06xx15:
+alpha.08xx15:
   [x] Convert app to Laravel 5, ensure dependencies are compatible. @done (15-06-15 00:46)
   [x] Integrate Bosnadev/Repositories into TicketActionRepository and TicketRepository. @done (15-06-16 22:51)
   [x] Eliminate abiltiy to change status in comment on create ticket. @done (15-06-16 22:52)
   [x] Remove Orchestra\Memory. @done (15-06-16 22:53)
   [x] Remove Orchestra\View. @done (15-06-16 22:54)
   [x] Add TimeLog functionality and remove timekeeping from actions. @done (15-06-16 22:56)
-  [ ] Create user specific timelog ui for review/edit.
+  [x] Create user specific timelog ui for review/edit. @done (15-08-01 08:32)
 
 alpha.todo:
   [ ] Create Config service.
