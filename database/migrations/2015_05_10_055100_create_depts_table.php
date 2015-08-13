@@ -15,7 +15,6 @@ class CreateDeptsTable extends Migration {
 		Schema::create('depts', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('config_id');
 			$table->string('name');
 			$table->text('description')->nullable();
 			$table->boolean('status');

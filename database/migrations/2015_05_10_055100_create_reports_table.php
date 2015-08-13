@@ -14,7 +14,7 @@ class CreateReportsTable extends Migration {
 	{
 		Schema::create('reports', function(Blueprint $table)
 		{
-			$table->integer('id')->unsigned()->index('`PRIMARY KEY`');
+			$table->increments('id');
 			$table->string('name', 64);
 			$table->string('desc')->nullable();
 			$table->text('sql');

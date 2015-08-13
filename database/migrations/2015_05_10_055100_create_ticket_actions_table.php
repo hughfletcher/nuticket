@@ -18,11 +18,10 @@ class CreateTicketActionsTable extends Migration {
 			$table->integer('ticket_id');
 			$table->integer('user_id');
 			$table->enum('type', array('create','reply','comment','assign','closed','edit','transfer','open','resolved'));
-			$table->decimal('time_spent', 4)->default(0.00);
 			$table->integer('assigned_id')->nullable();
 			$table->integer('transfer_id')->nullable();
 			$table->string('title')->nullable();
-			$table->text('body', 16777215);
+			$table->text('body');
 			$table->timestamps();
 			$table->softDeletes();
 			$table->index(['ticket_id','user_id','assigned_id','transfer_id'], '`RELATION`');

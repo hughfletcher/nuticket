@@ -12,12 +12,15 @@ class CreateConfigTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('config', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->string('name', 64)->unique('`orchestra_options_name_unique`');
-			$table->text('value');
-		});
+		Schema::create(
+			'config', function ($table) {
+				$table->increments('id');
+				$table->string('environment', 255);
+				$table->string('key', 255)->index();
+				$table->text('value');
+				$table->unique(array('environment', 'key'));
+			}
+		);
 	}
 
 

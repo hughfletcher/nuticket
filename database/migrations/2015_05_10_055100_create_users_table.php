@@ -26,8 +26,8 @@ class CreateUsersTable extends Migration {
 			$table->string('email');
 			$table->timestamps();
 			$table->softDeletes();
-			$table->string('remember_token', 100);
-			$table->string('adldap_guid', 100);
+			$table->rememberToken()->nullable();
+			$table->string('adldap_guid', 100)->nullable();
 			$table->dateTime('adldap_updated_at')->default('0000-00-00 00:00:00');
 		});
 	}

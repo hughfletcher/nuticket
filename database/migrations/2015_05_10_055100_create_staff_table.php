@@ -15,8 +15,7 @@ class CreateStaffTable extends Migration {
 		Schema::create('staff', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('config_id');
-			$table->bigInteger('user_id');
+			$table->integer('user_id');
 			$table->integer('department_id');
 			$table->timestamps();
 			$table->softDeletes();
