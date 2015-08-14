@@ -28,23 +28,10 @@ class AppServiceProvider extends ServiceProvider {
 
 	public function develop() 
 	{
-		if ($this->app->environment('production')) 
+		if ($this->app->environment('local')) 
 		{
-			return;
+			$this->app->register('Clockwork\Support\Laravel\ClockworkServiceProvider');
 		}
-
-		$this->app->register('Clockwork\Support\Laravel\ClockworkServiceProvider');
-		// $this->app->register('Illuminate\Workbench\WorkbenchServiceProvider');
-
-		// if (is_dir($workbench = base_path() . '/workbench'))
-		// {
-		//     Starter::start($workbench);
-		// }
-
-		// if (is_file(base_path() . '/.workbench.php'))
-		// {
-		// 	include(base_path() . '/.workbench.php');
-		// }
 
 	}
 
