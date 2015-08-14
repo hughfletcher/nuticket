@@ -9,3 +9,4 @@
 /modules/*
 !/modules/.gitkeep
 *.log*
+public/cc/

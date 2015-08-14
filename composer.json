@@ -9,7 +9,7 @@
 		"adldap/adLDAP": "dev-master#ee471d2243124dcf29efd8c079456cc56e2fa6e7",
 		"caffeinated/menus": "~1.0",
 		"caffeinated/modules": "~1.0",
-		"bosnadev/repositories": "0.*",
+		"bosnadev/repositories": "dev-master#637c703",
 		"wikimedia/composer-merge-plugin": "1.2.1"
 	},
 	"require-dev": {
@@ -19,7 +19,8 @@
     	"codeception/codeception": "*",
     	"mockery/mockery": "dev-master",
     	"codeception/codeception": "*",
-    	"mockery/mockery": "dev-master"
+    	"mockery/mockery": "dev-master",
+    	"fzaninotto/faker": "1.5.0"
 	},
 	"autoload": {
 		"classmap": [
