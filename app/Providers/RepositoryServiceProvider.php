@@ -6,6 +6,7 @@ class RepositoryServiceProvider extends ServiceProvider {
 
     public function register()
     {
+        $this->app->bind('App\Repositories\ConfigInterface', 'App\Repositories\Eloquent\ConfigRepository');
         $this->app->bind('App\Repositories\DeptInterface', 'App\Repositories\Eloquent\DeptRepository');
         $this->app->bind('App\Repositories\FieldInterface', 'App\Repositories\Eloquent\FieldRepository');
         $this->app->bind('App\Repositories\ReportInterface', 'App\Repositories\Eloquent\ReportRepository');

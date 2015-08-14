@@ -1,8 +1,16 @@
 <?php namespace App\Http\Controllers;
 
-use App, View, Redirect;
+// use Config;
+use App\Repositories\ConfigInterface;
+use App\Config;
+use App;
 
 class DashController extends BaseController {
+
+	public function __construct(ConfigInterface $config) 
+	{
+		$this->config = $config;
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -12,14 +20,9 @@ class DashController extends BaseController {
 	 */
 	public function getIndex()
 	{
-		return Redirect::route('tickets.index');
-		$memory = App::make('orchestra.memory')->make();
-		$memory->set('site.allow_pw_reset', false);
-		$memory->forget('site.client_registration');
-		$memory->put('site.user_registration', false);
-		$memory->set('site.date_time_format', 'm/d/Y g:i a');
-		// dd(\Auth::user());
-		// return View::make('tickets.dash');
+		// return redirect()->route('tickets.index');
+		// dd(App::environment());
+		phpinfo();
 	}
 
 	/**

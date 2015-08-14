@@ -14,5 +14,10 @@ return [
 	'format' => [
 		'date' => 'm/d/Y',
 		'dateday' => 'm/d/Y D'
-	]
+	],
+
+	'theme' => 'default',
+
+	'hottie' => true
+
 ];

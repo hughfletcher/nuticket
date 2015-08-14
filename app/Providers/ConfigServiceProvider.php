@@ -1,23 +1,50 @@
 <?php namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\ConfigInterface;
 
-class ConfigServiceProvider extends ServiceProvider {
+class ConfigServiceProvider extends ServiceProvider
+{
 
-	/**
-	 * Overwrite any vendor / package configuration.
-	 *
-	 * This service provider is intended to provide a convenient location for you
-	 * to overwrite any "vendor" or package configuration that you may want to
-	 * modify before the application handles the incoming request / command.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		config([
-			//
-		]);
-	}
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
+
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+
+        $config = $this->app->make('App\Repositories\ConfigInterface');
+
+        $values = $config->findAllBy('environment', $this->app->environment());
+
+        foreach ($values as $row) {
+
+            if ($this->app['config']->get($row->key) === $row->value)
+            {
+                $config->delete($row->id);
+            }
+            else 
+            {
+                $this->app['config']->set($row->key, $row->value);
+            }
+            
+       }
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register() {}
+
 
 }
