@@ -11,6 +11,6 @@ class StaffRepository implements StaffInterface {
 	}
 
 	public function lists($value, $key = 'id') {
-		return $this->staff->all()->lists($value, $key);
+		return $this->staff->all()->lists($value, $key)->toArray();
 	}
 }
