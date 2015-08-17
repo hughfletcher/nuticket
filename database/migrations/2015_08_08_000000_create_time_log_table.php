@@ -12,7 +12,7 @@ class CreateTimeLogTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('time_logs', function(Blueprint $table)
+		Schema::create('time_log', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('user_id');
