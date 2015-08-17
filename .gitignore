@@ -2,11 +2,9 @@
 /node_modules
 .env
 .vagrant/
-.workbench.php
-/workbench
 /public/themes/*
 !/public/themes/default
 /modules/*
 !/modules/.gitkeep
 *.log*
-public/cc/
+/public/cc/
