@@ -20,22 +20,25 @@ class ConfigServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app['db']->connection()->getSchemaBuilder()->hasTable('config'))
+        {
 
-        $config = $this->app->make('App\Repositories\ConfigInterface');
+            $config = $this->app->make('App\Repositories\ConfigInterface');
 
-        $values = $config->findAllBy('environment', $this->app->environment());
+            $values = $config->findAllBy('environment', $this->app->environment());
 
-        foreach ($values as $row) {
+            foreach ($values as $row) {
 
-            if ($this->app['config']->get($row->key) === $row->value)
-            {
-                $config->delete($row->id);
-            }
-            else 
-            {
-                $this->app['config']->set($row->key, $row->value);
-            }
-            
+                if ($this->app['config']->get($row->key) === $row->value)
+                {
+                    $config->delete($row->id);
+                }
+                else 
+                {
+                    $this->app['config']->set($row->key, $row->value);
+                }
+                
+           }
        }
     }
 
