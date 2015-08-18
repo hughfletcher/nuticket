@@ -55,7 +55,7 @@
 									</form>
 								</div>
 							</div><!-- /.row -->
-							<div class="box-body table-responsive">
+							<div class="box-body">
 								<table id="example2" class="table table-bordered table-hover">
 									<thead>
 										<tr>
@@ -86,7 +86,8 @@
 									<tfoot>
 										<tr>
 											<th>Id</th>
-											<th>Date</th>
+											<th>Created</th>
+											<th>Last Action</th>
 											<th>Subject</th>
 											<th>From</th>
 											<th>Priority</th>
