@@ -1,14 +1,15 @@
 <?php namespace App\Http\Controllers;
 
-use View, File;
+use File;
+use \Michelf\Markdown;
 
 class DevController extends BaseController {
 
     public function index() {
 
-        $todo = File::get(base_path() . '/tickets.todo');
+        $change = File::get(base_path() . '/CHANGELOG.md');
 
-        return view('blank', ['title' => 'NuTicket Development', 'content' => nl2br($todo), 'depts' => []]);
+        return view('blank', ['content' => Markdown::defaultTransform($change), 'depts' => []]);
     }
 
 }

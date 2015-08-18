@@ -10,7 +10,8 @@
 		"caffeinated/menus": "2.1.3",
 		"caffeinated/modules": "2.1.7",
 		"bosnadev/repositories": "dev-master#637c703",
-		"wikimedia/composer-merge-plugin": "1.2.1"
+		"wikimedia/composer-merge-plugin": "1.2.1",
+		"michelf/php-markdown": "1.5.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

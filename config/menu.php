@@ -19,7 +19,7 @@ return [
 		'public' => false,
 		'url' => 'reports'
 	], 
-	'Development' => [
+	'Change Log' => [
 		'public' => false,
 		'url' => 'dev'
 	]
