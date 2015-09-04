@@ -151,6 +151,8 @@ return [
 		'Caffeinated\Menus\MenusServiceProvider',
 		'Caffeinated\Modules\ModulesServiceProvider',
 
+		'Clockwork\Support\Laravel\ClockworkServiceProvider'
+
 	],
 
 	/*

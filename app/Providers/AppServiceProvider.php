@@ -22,17 +22,7 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->develop();
-		
-	}
-
-	public function develop() 
-	{
-		if ($this->app->environment('local')) 
-		{
-			$this->app->register('Clockwork\Support\Laravel\ClockworkServiceProvider');
-		}
-
+	
 	}
 
 }
