@@ -34,6 +34,7 @@
     with_items:
       - bower
       - browser-sync
+      - gulp
 
   - name: Fix infamous node vs nodejs issue
     file: src=/usr/bin/nodejs dest=/usr/bin/node state=link

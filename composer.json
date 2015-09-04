@@ -11,12 +11,12 @@
 		"caffeinated/modules": "2.1.7",
 		"bosnadev/repositories": "dev-master#637c703",
 		"wikimedia/composer-merge-plugin": "1.2.1",
-		"michelf/php-markdown": "1.5.0"
+		"michelf/php-markdown": "1.5.0",
+		"itsgoingd/clockwork": "~1.7",
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",
 		"phpspec/phpspec": "~2.1",
-    	"itsgoingd/clockwork": "~1.7",
     	"codeception/codeception": "*",
     	"mockery/mockery": "dev-master",
     	"codeception/codeception": "*",
