@@ -4,34 +4,32 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "508322ecadeee7847cfd63ab5e1e34da",
+    "hash": "eb14120e889c9e46004cf6a696e105b4",
     "packages": [
         {
-            "name": "adldap/adldap",
-            "version": "dev-master",
+            "name": "adldap2/adldap2",
+            "version": "v4.0.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/adldap/adLDAP.git",
-                "reference": "ee471d2243124dcf29efd8c079456cc56e2fa6e7"
+                "url": "https://github.com/adLDAP2/adLDAP2.git",
+                "reference": "41f3bcae33add7145e2c7b2782eb9a872bb29da7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adldap/adLDAP/zipball/63fd63e4f680e521bdf6cba23e0e524a2c34c0d5",
-                "reference": "ee471d2243124dcf29efd8c079456cc56e2fa6e7",
+                "url": "https://api.github.com/repos/adLDAP2/adLDAP2/zipball/41f3bcae33add7145e2c7b2782eb9a872bb29da7",
+                "reference": "41f3bcae33add7145e2c7b2782eb9a872bb29da7",
                 "shasum": ""
             },
             "require": {
-                "ext-ldap": "*",
-                "php": ">=5.4.0"
+                "php": ">=5.3.0"
             },
-            "require-dev": {
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "4.6.*"
+            "suggest": {
+                "ext-ldap": "*"
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Adldap\\": "src/"
+                "psr-0": {
+                    "": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -48,20 +46,16 @@
                     "name": "Richard Hyland",
                     "email": "adldap@richardhyland.com",
                     "role": "Developer"
-                },
-                {
-                    "name": "Steve Bauman",
-                    "email": "steven_bauman@outlook.com",
-                    "role": "Developer"
                 }
             ],
-            "description": "A PHP LDAP Library for Active Directory Manipulation",
+            "description": "adLDAP, PHP LDAP library for manipulating Active Directory",
+            "homepage": "http://adldap.sourceforge.net",
             "keywords": [
                 "active directory",
                 "ldap",
                 "windows"
             ],
-            "time": "2015-06-16 12:41:10"
+            "time": "2015-01-26 17:00:45"
         },
         {
             "name": "bosnadev/repositories",
@@ -73,7 +67,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bosnadev/Repositories/zipball/637c7038abd65132cd9a123508cb8117413b0b8e",
+                "url": "https://api.github.com/repos/Bosnadev/Repositories/zipball/95facc671d14581b26f1011b39c96fa9000cb1cb",
                 "reference": "637c703",
                 "shasum": ""
             },
@@ -98,6 +92,10 @@
                 {
                     "name": "Mirza Pasic",
                     "email": "mirza.pasic@edu.fit.ba"
+                },
+                {
+                    "name": "Maarten Paauw",
+                    "email": "maartenpaauw@gmail.com"
                 }
             ],
             "description": "Laravel Repositories",
@@ -108,7 +106,7 @@
                 "repositories",
                 "repository"
             ],
-            "time": "2015-06-29 10:41:10"
+            "time": "2015-09-04 12:37:19"
         },
         {
             "name": "caffeinated/menus",
@@ -159,16 +157,16 @@
         },
         {
             "name": "caffeinated/modules",
-            "version": "v2.1.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/caffeinated/modules.git",
-                "reference": "927af02641a4394551cd169bf129f533e0bb4179"
+                "reference": "04e436e26f652757747b06be5fc848b949dc59e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/caffeinated/modules/zipball/927af02641a4394551cd169bf129f533e0bb4179",
-                "reference": "927af02641a4394551cd169bf129f533e0bb4179",
+                "url": "https://api.github.com/repos/caffeinated/modules/zipball/04e436e26f652757747b06be5fc848b949dc59e9",
+                "reference": "04e436e26f652757747b06be5fc848b949dc59e9",
                 "shasum": ""
             },
             "require": {
@@ -193,7 +191,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Caffeinated\\Modules\\": "src/Caffeinated/Modules/"
+                    "Caffeinated\\Modules\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -212,7 +210,7 @@
                 "laravel",
                 "modules"
             ],
-            "time": "2015-07-16 23:14:07"
+            "time": "2015-08-17 04:13:40"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -425,6 +423,94 @@
             "time": "2014-12-20 21:24:13"
         },
         {
+            "name": "dsdevbe/ldap-connector",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SaschaDens/ldap-connector.git",
+                "reference": "15f8fb3f32196fcdbdd67b660083de69baef4837"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SaschaDens/ldap-connector/zipball/15f8fb3f32196fcdbdd67b660083de69baef4837",
+                "reference": "15f8fb3f32196fcdbdd67b660083de69baef4837",
+                "shasum": ""
+            },
+            "require": {
+                "adldap2/adldap2": "^4.0",
+                "laravel/framework": "~5.0",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Dsdevbe\\LdapConnector\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SaschaDens",
+                    "email": "dens.sascha@gmail.com"
+                }
+            ],
+            "description": "Easily authenticate with LDAP in Laravel",
+            "homepage": "https://github.com/SaschaDens/ldap-connector",
+            "keywords": [
+                "laravel",
+                "ldap"
+            ],
+            "time": "2015-08-02 17:44:44"
+        },
+        {
+            "name": "itsgoingd/clockwork",
+            "version": "v1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/itsgoingd/clockwork.git",
+                "reference": "2e3b13d49942d3338d69e77f7d214ee49e0c8e9e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/2e3b13d49942d3338d69e77f7d214ee49e0c8e9e",
+                "reference": "2e3b13d49942d3338d69e77f7d214ee49e0c8e9e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9",
+                "psr/log": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Clockwork": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "itsgoingd",
+                    "email": "itsgoingd@luzer.sk",
+                    "homepage": "http://twitter.com/itsgoingd"
+                }
+            ],
+            "description": "Server-side component of Clockwork, a Chrome extension for PHP development",
+            "homepage": "http://github.com/itsgoingd/clockwork",
+            "keywords": [
+                "debugging",
+                "laravel",
+                "logging",
+                "profiling"
+            ],
+            "time": "2015-09-01 00:55:38"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -553,7 +639,7 @@
                     "name": "Jeremy Lindblom",
                     "email": "jeremeamia@gmail.com",
                     "homepage": "https://github.com/jeremeamia",
-                    "role": "developer"
+                    "role": "Developer"
                 }
             ],
             "description": "Serialize Closure objects, including their context and binding",
@@ -571,16 +657,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.10",
+            "version": "v5.1.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d47ccc8de10ccb6f328cc90f901ca5e47e077c93"
+                "reference": "e34dcc0c57e0f560248aec5128161256ff8bf4e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d47ccc8de10ccb6f328cc90f901ca5e47e077c93",
-                "reference": "d47ccc8de10ccb6f328cc90f901ca5e47e077c93",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e34dcc0c57e0f560248aec5128161256ff8bf4e1",
+                "reference": "e34dcc0c57e0f560248aec5128161256ff8bf4e1",
                 "shasum": ""
             },
             "require": {
@@ -695,20 +781,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-08-12 18:16:08"
+            "time": "2015-09-04 12:46:14"
         },
         {
             "name": "laravelcollective/html",
-            "version": "v5.1.4",
+            "version": "v5.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "59f124084c9135a6a8d87323e5c5562ab823deb4"
+                "reference": "8b7c357e78b8fb6a2e48377cf2441441aac6dd1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/59f124084c9135a6a8d87323e5c5562ab823deb4",
-                "reference": "59f124084c9135a6a8d87323e5c5562ab823deb4",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/8b7c357e78b8fb6a2e48377cf2441441aac6dd1e",
+                "reference": "8b7c357e78b8fb6a2e48377cf2441441aac6dd1e",
                 "shasum": ""
             },
             "require": {
@@ -745,7 +831,7 @@
                     "email": "adam@laravelcollective.com"
                 }
             ],
-            "time": "2015-07-28 03:18:41"
+            "time": "2015-09-03 17:16:48"
         },
         {
             "name": "league/flysystem",
@@ -881,16 +967,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.16.0",
+            "version": "1.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "c0c0b4bee3aabce7182876b0d912ef2595563db7"
+                "reference": "0524c87587ab85bc4c2d6f5b41253ccb930a5422"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c0c0b4bee3aabce7182876b0d912ef2595563db7",
-                "reference": "c0c0b4bee3aabce7182876b0d912ef2595563db7",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/0524c87587ab85bc4c2d6f5b41253ccb930a5422",
+                "reference": "0524c87587ab85bc4c2d6f5b41253ccb930a5422",
                 "shasum": ""
             },
             "require": {
@@ -907,7 +993,7 @@
                 "php-console/php-console": "^3.1.3",
                 "phpunit/phpunit": "~4.5",
                 "phpunit/phpunit-mock-objects": "2.3.0",
-                "raven/raven": "~0.8",
+                "raven/raven": "~0.11",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "swiftmailer/swiftmailer": "~5.3",
                 "videlalvaro/php-amqplib": "~2.4"
@@ -953,7 +1039,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2015-08-09 17:44:44"
+            "time": "2015-08-31 09:17:37"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -2498,51 +2584,6 @@
             "time": "2015-05-11 14:41:42"
         },
         {
-            "name": "itsgoingd/clockwork",
-            "version": "v1.8.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "2eb76580521f413aff6d9fff38c776df55d17dde"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/2eb76580521f413aff6d9fff38c776df55d17dde",
-                "reference": "2eb76580521f413aff6d9fff38c776df55d17dde",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9",
-                "psr/log": "1.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Clockwork": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "itsgoingd",
-                    "email": "itsgoingd@luzer.sk",
-                    "homepage": "http://twitter.com/itsgoingd"
-                }
-            ],
-            "description": "Server-side component of Clockwork, a Chrome extension for PHP development",
-            "homepage": "http://github.com/itsgoingd/clockwork",
-            "keywords": [
-                "debugging",
-                "laravel",
-                "logging",
-                "profiling"
-            ],
-            "time": "2015-07-06 17:58:12"
-        },
-        {
             "name": "mockery/mockery",
             "version": "dev-master",
             "source": {
@@ -3070,16 +3111,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.4",
+            "version": "4.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "55bf1d6092b0e13a1f26bd5eaffeef3d8ad85ea7"
+                "reference": "2246830f4a1a551c67933e4171bf2126dc29d357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/55bf1d6092b0e13a1f26bd5eaffeef3d8ad85ea7",
-                "reference": "55bf1d6092b0e13a1f26bd5eaffeef3d8ad85ea7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2246830f4a1a551c67933e4171bf2126dc29d357",
+                "reference": "2246830f4a1a551c67933e4171bf2126dc29d357",
                 "shasum": ""
             },
             "require": {
@@ -3138,24 +3179,24 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-08-15 04:21:23"
+            "time": "2015-08-24 04:09:38"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.3.6",
+            "version": "2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42"
+                "reference": "5e2645ad49d196e020b85598d7c97e482725786a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/5e2645ad49d196e020b85598d7c97e482725786a",
+                "reference": "5e2645ad49d196e020b85598d7c97e482725786a",
                 "shasum": ""
             },
             "require": {
-                "doctrine/instantiator": "~1.0,>=1.0.2",
+                "doctrine/instantiator": "^1.0.2",
                 "php": ">=5.3.3",
                 "phpunit/php-text-template": "~1.2",
                 "sebastian/exporter": "~1.2"
@@ -3194,7 +3235,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-07-10 06:54:24"
+            "time": "2015-08-19 09:14:08"
         },
         {
             "name": "psr/http-message",
@@ -3724,9 +3765,10 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "adldap/adldap": 20,
+        "caffeinated/modules": 20,
         "bosnadev/repositories": 20,
-        "mockery/mockery": 20
+        "mockery/mockery": 20,
+        "dsdevbe/ldap-connector": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -144,7 +144,6 @@ return [
 		'App\Providers\BusServiceProvider',
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
-		'App\Providers\LdapServiceProvider',
 		'App\Providers\RepositoryServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
