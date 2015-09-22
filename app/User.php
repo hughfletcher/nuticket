@@ -38,6 +38,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+    protected $appends = array('source');
+
+	public function getSourceAttribute($value)
+    {
+        return 'local';
+    }
+
 	public function staff() {
         return $this->hasOne('App\Staff');
         	// ->rememberForever()
