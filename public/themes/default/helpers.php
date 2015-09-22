@@ -15,14 +15,14 @@ if ( ! function_exists('menu_icon'))
 	}
 }
 
-if ( ! function_exists('js'))
-{
-	function js($path) {
+// if ( ! function_exists('js'))
+// {
+// 	function js($path) {
 		
-		return asset('themes/default/assets/js/' . $path);
+// 		return asset('themes/default/assets/js/' . $path);
 
-	}
-}
+// 	}
+// }
 
 if ( ! function_exists('user'))
 {
@@ -33,14 +33,35 @@ if ( ! function_exists('user'))
 	}
 }
 
-if ( ! function_exists('datetime'))
+if ( ! function_exists('cached_asset'))
 {
-	function datetime($time) {
-		
-		return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $time)->format(config('site.date_time_format', 'm/d/Y g:i a'));
-		
-	}
+    function cached_asset($path)
+    {
+        // Get the full path to the asset.
+        $realPath = public_path('themes/default/' . $path);
+
+        if ( ! file_exists($realPath)) {
+            throw new LogicException("File not found at [{$realPath}]");
+        }
+
+        // Get the last updated timestamp of the file.
+        $timestamp = filemtime($realPath);
+
+            // Append the timestamp to the path as a query string.
+        $path  .= '?' . $timestamp;
+
+        return asset('themes/default/' . $path);
+    }
 }
+
+// if ( ! function_exists('datetime'))
+// {
+// 	function datetime($time) {
+		
+// 		return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $time)->format(config('site.date_time_format', 'm/d/Y g:i a'));
+		
+// 	}
+// }
 
 if ( ! function_exists('sort_url'))
 {
