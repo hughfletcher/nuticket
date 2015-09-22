@@ -1,6 +1,6 @@
 <?php namespace App\Http\Composers;
 
-use App\Repositories\StaffInterface;
+use App\Contracts\Repositories\StaffInterface;
 
 class StaffComposer {
 
@@ -10,7 +10,7 @@ class StaffComposer {
 
     public function compose($view)
     {
-        $view->with('staff', $this->staff->lists('display_name'));
+        $view->with('staff', $this->staff->all(['display_name', 'id'])->lists('display_name', 'id'));
 
     }
 

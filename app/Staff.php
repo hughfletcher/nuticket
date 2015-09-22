@@ -6,9 +6,7 @@ class Staff extends Eloquent {
 
 	protected $table = 'staff';
 
-	protected $fillable = [];
-
-	protected $appends = array('display_name');
+	protected $fillable = ['user_id'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -25,9 +23,5 @@ class Staff extends Eloquent {
         return $this->belongsTo('App\User');
     }
 
-    public function getDisplayNameAttribute()
-    {
-        return $this->user->display_name;    
-    }
 
 }
