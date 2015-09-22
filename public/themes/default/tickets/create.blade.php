@@ -15,7 +15,7 @@
 </section>
 
 <!-- Main content -->
-<section class="content">
+<section class="content ticket-create">
 
 
 
@@ -24,19 +24,26 @@
 			<h3 class="box-title">New Ticket</h3>
 		</div>
 		<div class="box-body">
-			<form method="POST" action="{{ route('tickets.store') }}" accept-charset="UTF-8" class="form-horizontal">
+			<form method="POST" action="{{ route('tickets.store') }}" accept-charset="UTF-8" class="form-horizontal" id="create-form">
 				<input name="_token" type="hidden" value="{{ csrf_token() }}">
-				<div class="form-group{{ $errors->has('user_id') ? ' has-error' : null }}">
+				<input name="user_id" type="hidden" value="{{ isset($user) ? $user['id'] : null }}">
+				<div class="form-group{{ $errors->has('display_name') ? ' has-error' : null }}">
 					<label for="user_id" class="col-sm-1 control-label">User</label>
 					<div class="col-sm-5">
-						<select name="user_id" class="form-control select2-default input-sm" placeholder="Select a User">
-							<option></option>
-							@foreach ($users as $key => $user)
-								<option value="{{ $key }}"{{ Input::old('user_id') == $key ? ' selected=selected' : null }}>{{ $user }}</option>
-							@endforeach
-						</select>
-						@if ($errors->has('user_id'))
-						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('user_id') }}</strong></span>
+						<input name="display_name" type="text" class="form-control input-sm{{ !is_null($user) ? ' hide' : null }}" value="{{ old('display_name') }}">
+						<p class="form-control-static user{{ is_null($user) ? ' hide' : null }}"><span>{{ $user['display_name'] }}{{ !is_null($user['email']) ? ' &lt;' . $user['email'] . '&gt;' : null }}</span> 
+						<button type="button" class="btn btn-default btn-xs pull-right">Change</button></p>
+						@if ($errors->has('display_name'))
+						<span class="help-block"><strong>{{ $errors->first('display_name') }}</strong></span>
+						@endif
+					</div>
+				</div>
+				<div class="form-group{{ $errors->has('email') ? ' has-error' : null }}">
+					<label for="user_id" class="col-sm-1 control-label">Email</label>
+					<div class="col-sm-5">
+						<input name="email" type="text" class="form-control input-sm{{ !is_null($user) ? ' hide' : null }}" value="{{ old('email') }}">
+						@if ($errors->has('email'))
+						<span class="help-block"><strong>{{ $errors->first('email') }}</strong></span>
 						@endif
 					</div>
 				</div>
@@ -46,11 +53,11 @@
 						<select name="dept_id" class="form-control select2-default input-sm" placeholder="Select a Department">
 							<option></option>
 							@foreach ($depts as $key => $dept)
-								<option value="{{ $key }}"{{ Input::old('dept_id') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
+								<option value="{{ $key }}"{{ old('dept_id') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
 							@endforeach
 						</select>
 						@if ($errors->has('dept_id'))
-						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('dept_id') }}</strong></span>
+						<span class="help-block"><strong>{{ $errors->first('dept_id') }}</strong></span>
 						@endif
 					</div>
 				</div>
@@ -59,8 +66,8 @@
 					<div class="col-sm-5">
 						<select name="staff_id" class="form-control select2-default input-sm" placeholder="Select a Staff Member">
 							<option></option>
-							@foreach ($staff as $key => $user)
-								<option value="{{ $key }}"{{ Input::old('staff_id') == $key ? ' selected=selected' : null }}>{{ $user }}</option>
+							@foreach ($staff as $id => $user)
+								<option value="{{ $id }}"{{ Input::old('staff_id') == $key ? ' selected=selected' : null }}>{{ $user }}</option>
 							@endforeach
 						</select>
 						@if ($errors->has('staff_id'))
@@ -191,4 +198,6 @@
 		<!-- right column -->
 
 	</div>
-	@stop
+	@include('common.modals.create_user')
+</section>
+@stop

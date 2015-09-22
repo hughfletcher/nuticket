@@ -2,17 +2,20 @@
 
 use App\Repositories\TicketInterface;
 use App\Repositories\TicketActionInterface;
+use App\Contracts\Repositories\UserInterface;
 use App\Http\Requests\QueryTicketRequest;
-use App\Http\Requests\FormTicketCreateRequest;
+use App\Http\Requests\TicketStoreRequest;
+use App\Http\Requests\TicketCreateRequest;
 use App\Http\Requests\FormTicketUpdateRequest;
 use Auth;
 
 class TicketsController extends BaseController {
 
-	public function __construct(TicketInterface $ticket, TicketActionInterface $action) {
+	public function __construct(TicketInterface $ticket, TicketActionInterface $action, UserInterface $user) {
 
 		$this->tickets = $ticket;
 		$this->action = $action;
+		$this->user = $user;
 	}
 
 	/**
@@ -33,12 +36,23 @@ class TicketsController extends BaseController {
 		return view('tickets.show', compact('ticket'));
 	}
 
-	public function create() {
-		return view('tickets.create');
+	public function create(TicketCreateRequest $request) 
+	{
+		$user = null;
+		if ($request->has('user_id')) {
+			$user = $this->user->find($request->get('user_id'));
+		}
+		return view('tickets.create', ['user' => $user]);
 	}
 
-	public function store(FormTicketCreateRequest $request) 
+	public function store(TicketStoreRequest $request) 
 	{
+
+		if (!$request->has('user_id')) {
+			$user = $this->user->create(['display_name' => $request->input('display_name'), 'email' => $request->input('email')]);
+			$request->merge(['user_id' => $user->id]);
+		}
+
 		$ticket = $this->tickets->create(array_add($request->except('hours'), 'auth_id', Auth::user()->id));
 
 		$hours = $request->get('hours');

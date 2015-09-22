@@ -39,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider {
 		{
 
 			$router->group(['before' => 'ui|csfr', 'middleware' => 'theme'], function($router) {
+				$router->get('/', array('as' => 'dash.index', 'uses' => 'DashController@getIndex'));
 
 			
 				// $router->get('session/start', array('as' => 'session.start', 'uses' => 'SessionController@getStart'));
@@ -49,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider {
 				$router->group(array('middleware' => 'auth'), function($router) {
 
 					// $router->get('session/end', array('as' => 'session.end', 'uses' => 'SessionController@getEnd'));
-					$router->get('/', array('as' => 'dash.index', 'uses' => 'DashController@getIndex'));
+					
 					$router->get('me/time', array('as' => 'me.time.index', 'uses' => 'TimeController@index'));
 					$router->post('me/time/store', array('as' => 'me.time.store', 'uses' => 'TimeController@store'));
 					$router->get('me/time/{id}/edit', array('as' => 'me.time.edit', 'uses' => 'TimeController@edit'));
@@ -66,10 +67,11 @@ class RouteServiceProvider extends ServiceProvider {
 
 			});
 
-			$router->group(['namespace' => 'Api', 'prefix' => 'api', 'before' => 'auth|csfr'], function($router) {
+			$router->group(['namespace' => 'Api', 'prefix' => 'api', 'middleware' => 'auth'], function($router) {
 
 
-				$router->resource('users', 'UsersController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
+				$router->resource('users', 'UsersController', ['except' => ['create', 'edit', 'update', 'destroy']]);
+				$router->resource('staff', 'StaffController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
 				$router->resource('tickets', 'TicketsController', ['except' => ['index', 'create', 'store', 'show', 'edit', 'destroy']]);
 
 			});

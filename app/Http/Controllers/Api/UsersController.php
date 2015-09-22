@@ -1,8 +1,9 @@
 <?php namespace App\Http\Controllers\Api;
 
 use Illuminate\Routing\Controller;
-use App\Repositories\UserInterface;
-use Request, Response, App, Str;
+use App\Contracts\Repositories\UserInterface;
+use App\Http\Requests\UserQueryRequest;
+use App\Http\Requests\UserStoreRequest;
 
 class UsersController extends Controller {
 
@@ -15,36 +16,11 @@ class UsersController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(UserQueryRequest $request)
 	{
 
-		// $validator = $this->queryValidator->make(Request::query())
-		// 	->addContext('user')
-		//     ->bindReplacement('sort', ['fields' => 'id,username,first_name,middle_name,last_name,display_name,email,created_at,updated_at']);
-
-		// if ($validator->fails()) {
-
-		// 	App::abort(404);
-		// }
-
-		$this->user
-				// ->sort(Request::get('sort', 'id'), Request::get('order', 'desc'))
-				// ->whereCreated($dates[0], $dates[1])
-				->whereSearch(Request::has('q') ? explode('-', str_slug(Request::get('q'))) : [])
-				->fields(array_filter(explode(',', Request::get('fields'))));
-
-		// $errors = $validator->errors();
-
-		// if (Request::has('list')) {
-			
-		// 	$display = explode(',', Request::get('list'));
-
-			return Response::json($this->user->get());
-		// }
-
-		// $tickets = $this->tickets->paginate(Request::get('per_page'));
+		return response()->json($this->user->all(explode(',', $request->get('fields')), $request->all()));
 		
-		// return View::make('tickets.list', compact('tickets', 'errors'));
 
 	}
 
@@ -65,9 +41,14 @@ class UsersController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(UserStoreRequest $request)
 	{
-		//
+		if (!$request->exists('display_name') && ($request->has('first_name') || $request->has('last_name'))) 
+		{
+			$request->merge(['display_name' => $request->input('first_name') . ' ' . $request->input('last_name')]);
+		}
+		
+		return $this->user->create($request->all());
 	}
 
 
@@ -79,13 +60,10 @@ class UsersController extends Controller {
 	 */
 	public function show($id)
 	{
-
-		$result = $this->user
-			->where('id', [$id])
-			->fields(array_filter(explode(',', Request::get('fields'))))
-			->get();
+		// dd($this->user->find($id));
+		$result = $this->user->find($id);
 			
-		return Response::json($result[0]);
+		return response()->json($result);
 	}
 
 
