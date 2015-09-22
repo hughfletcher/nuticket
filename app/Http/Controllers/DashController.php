@@ -4,6 +4,7 @@
 use App\Repositories\ConfigInterface;
 use App\Config;
 use App;
+use Modules\Adldap\Services\LdapConnector;
 
 class DashController extends BaseController {
 
@@ -20,9 +21,7 @@ class DashController extends BaseController {
 	 */
 	public function getIndex()
 	{
-		// return redirect()->route('tickets.index');
-		// dd(App::environment());
-		phpinfo();
+		return redirect()->route('tickets.index');
 	}
 
 	/**
