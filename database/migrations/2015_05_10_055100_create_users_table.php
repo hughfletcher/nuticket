@@ -23,12 +23,10 @@ class CreateUsersTable extends Migration {
 			$table->string('middle_name', 128)->nullable();
 			$table->string('last_name', 128)->nullable();
 			$table->string('display_name')->nullable();
-			$table->string('email');
+			$table->string('email')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 			$table->rememberToken()->nullable();
-			$table->string('adldap_guid', 100)->nullable();
-			$table->dateTime('adldap_updated_at')->default('0000-00-00 00:00:00');
 		});
 	}
 

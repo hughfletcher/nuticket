@@ -20,7 +20,7 @@ class CreateTicketsTable extends Migration {
 			$table->integer('staff_id')->default(0);
 			$table->enum('status', array('new','open','closed','resolved'))->default('new');
 			$table->smallInteger('priority')->default(3);
-			$table->dateTime('last_action_at')->default('0000-00-00 00:00:00');
+			$table->dateTime('last_action_at')->nullable();
 			$table->decimal('hours', 4, 2);
 			$table->dateTime('closed_at')->nullable();
 			$table->timestamps();
