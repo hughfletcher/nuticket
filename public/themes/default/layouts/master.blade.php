@@ -84,12 +84,6 @@
         <script src="{{ cached_asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
         <script src="{{ cached_asset('js/libs.js') }}" type="text/javascript"></script>
         <script src="{{ cached_asset('js/app.js') }}" type="text/javascript"></script>
-        
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        {{-- // <script src="js/AdminLTE/dashboard.js" type="text/javascript"></script> --}}
-
-        <!-- AdminLTE for demo purposes -->
-        {{-- // <script src="js/AdminLTE/demo.js" type="text/javascript"></script> --}}
         <script type="text/javascript">$(document).ready(app.init('{{ camel_case(str_replace('.', '_', Request::route()->getName())) }}'));</script>
     </body>
 </html>
