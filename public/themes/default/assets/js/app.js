@@ -28,20 +28,7 @@ var app = {
 		
 	},
 	'depricated': function() {
-        var priFull = [
-            {id:1,text:'1 - Business is stopped'},
-            {id:2,text:'2 - User is stopped'},
-            {id:3,text:'3 - Business is hendered'},
-            {id:4,text:'4 - User is hendered'},
-            {id:5,text:'5 - Increase productivity/savings'}
-        ];
-        var priAbbr = [
-            {id:1,text:'1'},
-            {id:2,text:'2'},
-            {id:3,text:'3'},
-            {id:4,text:'4'},
-            {id:5,text:'5'}
-        ];
+
         //tab linking
         var url = document.location.toString();
         if (url.match('#')) {
@@ -54,34 +41,11 @@ var app = {
         
         
         //user add/select modal
-        
 
-        $('.select2-priorities').select2({
-            minimumResultsForSearch: 8,
-            data: priFull
-        });
       $("select.select2-default").select2({minimumResultsForSearch: 8});
-      $(".status-select").select2({
-            multiple: true,
-            separator: '-',
-            data:[
-                {id:'closed',text:'Closed'},
-                {id:'open',text:'Open'},
-                {id:'new',text:'New'}
-            ]
-      });
-      $(".priority-select").select2({
-            multiple: true,
-            separator: '-',
-            data: priAbbr
-      });
-      // $(".dept-select").select2({
-      //       multiple: true,
-      //       separator: '-',
-      //       data: [@foreach($depts as $id => $name){id:{{ $id }},text:'{{ $name }}'},@endforeach ]
-      // });
-        $('#createtime').daterangepicker();
-        $('.daterange').daterangepicker({
+
+        $('.daterange').daterangepicker();
+        $('.daterange-rangeonly').daterangepicker({
             opens: 'left',
             ranges: {
              'Today': [moment(), moment()],

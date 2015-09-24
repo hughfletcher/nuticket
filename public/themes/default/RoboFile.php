@@ -38,9 +38,8 @@ class RoboFile extends \Robo\Tasks
     {
     	$this->taskConcat([
     		'assets/js/app.js',
-    		'assets/js/modals/userSelect.js',
-			'assets/js/controllers/ticketsCreate.js',
-			'assets/js/controllers/ticketsEdit.js',
+    		'assets/js/modals/*',
+			'assets/js/controllers/*'
 	    	])
 	    	->to('js/app.js')
 	        ->run();

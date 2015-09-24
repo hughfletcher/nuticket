@@ -96,7 +96,7 @@
 									</tfoot>
 									@else
 									<tr>
-										<td colspan="6" class="text-center">There are no tickets to view</td>
+										<td colspan="7" class="text-center">There are no tickets to view</td>
 									</tr>
 								
 								@endif
@@ -131,28 +131,52 @@
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-md-12">
-								<input class="form-control" name="q" placeholder="Keywords - Optional">
+								<div class="form-group">
+									<input class="form-control input-sm" name="q" placeholder="Keywords - Optional">
+								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="exampleInputEmail1" class="control-label">Status</label>
-									<input class="status-select form-control" placeholder="Leave empty for any" name="status">
+									<select name="status" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+										<option></option>
+										<option value="open">Open</option>
+										<option value="closed">Closed</option>
+										<option value="new">New</option>
+									</select>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1" class="control-label">Priority</label>
-									<input class="priority-select form-control" placeholder="Leave empty for any" name="priority">
+									<select name="priority" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+										<option></option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+									</select>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="exampleInputEmail1" class="control-label">Assigned To</label>
-									<input class="assigned-select form-control" name="staff_id" placeholder="Leave empty for any">
+									<label for="staff_id" class="control-label">Assigned To</label>
+									<select name="staff_id" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+										<option></option>
+										@foreach ($staff as $id => $user)
+											<option value="{{ $id }}">{{ $user }}</option>
+										@endforeach
+									</select>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1" class="control-label">Department</label>
-									<input class="dept-select form-control" name="dept_id" placeholder="Leave empty for any">
+									<select name="dept_id" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+										<option></option>
+										@foreach ($depts as $key => $dept)
+											<option value="{{ $key }}"{{ old('dept_id') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
+										@endforeach
+									</select>
 								</div>
 							</div>
 						</div>
@@ -164,7 +188,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-clock-o"></i>
 									</div>
-									<input type="text" class="form-control pull-right" id="createtime" name="created_at" placeholder="Leave empty for all"/>
+									<input type="text" class="form-control pull-right input-sm daterange" name="created_at" placeholder="Leave empty for all"/>
 								</div><!-- /.input group -->
 							</div>
 						</div>
@@ -172,9 +196,9 @@
 					</div>
 					<div class="modal-footer clearfix">
 
-						<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+						<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
 
-						<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+						<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> Search</button>
 					</div>
 				</form>
 			</div><!-- /.modal-content -->

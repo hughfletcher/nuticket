@@ -42,7 +42,14 @@
 				<div class="form-group{{ $errors->has('priority') ? ' has-error' : null }}">
 					<label for="priority" class="col-sm-1 control-label">Priority</label>
 					<div class="col-sm-5">
-						<input name="priority" type="text" class="form-control select2-priorities input-sm" value="{{ Input::old('priority') ? Input::old('priority') : $ticket['priority'] }}">
+						<select name="priority" class="form-control select2-default input-sm">
+							<option></option>
+							<option value="1"{{ old('priority') == '1' ? ' selected=selected' : null }}>1 - Business is stopped</option>
+							<option value="2"{{ old('priority') == '2' ? ' selected=selected' : null }}>2 - User is stopped</option>
+							<option value="3"{{ old('priority') == '3' ? ' selected=selected' : null }}>3 - Business is hendered</option>
+							<option value="4"{{ old('priority') == '4' ? ' selected=selected' : null }}>4 - User is hendered</option>
+							<option value="5"{{ old('priority') == '5' ? ' selected=selected' : null }}>5 - Increase productivity/savings</option>
+						</select>
 						@if ($errors->has('priority'))
 						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('priority') }}</strong></span>
 						@endif
