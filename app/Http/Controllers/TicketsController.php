@@ -100,7 +100,9 @@ class TicketsController extends BaseController {
 
 		//get old ticket/sction data so we can see if anything is changing
 		$old_ticket = $this->tickets->find($id);
-		$old_create = $this->action->findTicketCreate($id);
+		$old_create = $this->action->findWhere(['ticket_id' => $id, 'type' => 'create'])[0]->toArray();
+
+		// dd($old_create);
 
 		//lets see what's exactly changing
 		$changed = [];
@@ -132,8 +134,8 @@ class TicketsController extends BaseController {
 		}
 
 		//update ticket/create action
-		$this->tickets->update($id, array_only($attrs, ['user_id', 'priority']));
-		$this->action->update($old_create['id'], array_only($attrs, ['body', 'title']));
+		$this->tickets->update(array_only($attrs, ['user_id', 'priority']), $id);
+		$this->action->update(array_only($attrs, ['body', 'title']), $old_create['id']);
 
 		//lets create a edit action
 		$body = '';

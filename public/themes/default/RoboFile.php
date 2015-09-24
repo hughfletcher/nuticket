@@ -40,6 +40,7 @@ class RoboFile extends \Robo\Tasks
     		'assets/js/app.js',
     		'assets/js/modals/userSelect.js',
 			'assets/js/controllers/ticketsCreate.js',
+			'assets/js/controllers/ticketsEdit.js',
 	    	])
 	    	->to('js/app.js')
 	        ->run();

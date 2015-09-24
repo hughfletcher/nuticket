@@ -28,16 +28,15 @@
 		      	{{ Session::get('message') }}
 		    </div>
 		    @endif
-			<form method="POST" action="{{ route('tickets.update', [$ticket['id']]) }}" accept-charset="UTF-8" class="form-horizontal">
+			<form method="POST" action="{{ route('tickets.update', [$ticket['id']]) }}" accept-charset="UTF-8" class="form-horizontal" id="edit-form">
 				<input name="_method" type="hidden" value="PUT">
 				<input name="_token" type="hidden" value="{{ csrf_token() }}">
-				<div class="form-group{{ $errors->has('user_id') ? ' has-error' : null }}">
+				<input name="user_id" type="hidden" value="{{ isset($user) ? $user['id'] : null }}">
+				<div class="form-group{{ $errors->has('display_name') ? ' has-error' : null }}">
 					<label for="user_id" class="col-sm-1 control-label">User</label>
 					<div class="col-sm-5">
-						<input name="user_id" type="text" class="form-control select2-users input-sm" value="{{ Input::old('user_id') ? Input::old('user_id') : $ticket['user_id'] }}" data-display="{{ $ticket['user']['display_name'] }}">
-						@if ($errors->has('user_id'))
-						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('user_id') }}</strong></span>
-						@endif
+						<p class="form-control-static user"><span>{{ $ticket->user->display_name }}{{ !is_null($ticket->user->email) ? ' &lt;' . $ticket->user->email . '&gt;' : null }}</span> 
+						<button type="button" class="btn btn-default btn-xs pull-right">Change</button></p>
 					</div>
 				</div>
 				<div class="form-group{{ $errors->has('priority') ? ' has-error' : null }}">
@@ -78,11 +77,14 @@
 					</div>
 				</div>
 				<hr/>
-				<button class="btn btn-primary">Edit</button>
+				<button class="btn btn-primary btn-sm">Edit</button>
+				<a href="{{ URL::previous() }}" class="btn btn-default btn-sm">Cancel</a>
 			</form>
 		</div><!-- /.box-body -->
 
 		<!-- right column -->
 
 	</div>
-	@stop
+	@include('common.modals.create_user')
+</section>
+@stop
