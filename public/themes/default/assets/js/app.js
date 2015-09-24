@@ -21,9 +21,11 @@ var app = {
         });
 
 		this.depricated();
-		console.log(route);
-		var namespaces = route.split('.');
-		this.controller = window['app']['controllers'][route].init(this);
+
+    if (typeof window['app']['controllers'][route] != "undefined") {
+        this.controller = window['app']['controllers'][route].init(this);
+    }
+		
 	},
 	'depricated': function() {
         var priFull = [
