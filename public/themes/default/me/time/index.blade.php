@@ -88,31 +88,9 @@
                 <h3 class="box-title">Log</h3>
                 <div class="box-tools pull-right">
                 	<ul class="pagination pagination-sm no-margin pull-right">
-	                    <li{!! $logs->currentPage() == 1 ? ' class="disabled"' : null !!}><a href="{{ route('me.time.index', ['page' => 1]) }}">&laquo;</a></li>
-	                	@if ($logs->currentPage() == 1)
-	                		<li class="active"><span>1</span></li>
-	                	@elseif ($logs->currentPage() == $logs->lastPage())
-	                		<li><a href="{{ route('me.time.index', ['page' => ($logs->lastPage() -2)]) }}">{{ $logs->lastPage() -2 }}</a></li>
-	                	@else
-	                		<li><a href="{{ route('me.time.index', ['page' => ($logs->currentPage() - 1)]) }}">{{ $logs->currentPage() - 1 }}</a></li>
-	                	@endif
-	                    
-	                	@if ($logs->currentPage() == 1)
-	                		<li><a href="{{ route('me.time.index', ['page' => 2]) }}">2</a></li>
-	                	@elseif ($logs->currentPage() == $logs->lastPage())
-	                		<li><a href="{{ route('me.time.index', ['page' => ($logs->lastPage() - 1)]) }}">{{ $logs->lastPage() - 1 }}</a></li>
-	                	@else
-	                		<li class="active"><span>{{ $logs->currentPage() }}</span></li>
-	                	@endif
-	                    
-	                    @if ($logs->currentPage() == $logs->lastPage())
-	                		<li class="active"><span>{{ $logs->lastPage() }}</span></li>
-	                	@elseif ($logs->currentPage() == 1)
-	                		<li><a href="{{ route('me.time.index', ['page' => 3]) }}">3</a></li>
-	                	@else
-	                		<li><a href="{{ route('me.time.index', ['page' => ($logs->currentPage() + 1)]) }}">{{ $logs->currentPage() + 1 }}</a></li>
-	                	@endif
-	                    <li{!! $logs->currentPage() == $logs->lastPage() ? ' class="disabled"' : null !!}><a href="{{ route('me.time.index', ['page' => $logs->lastPage()]) }}">&raquo;</a></li>
+	                    <li{!! $logs->currentPage() == 1 ? ' class="disabled"' : null !!}><a href="{{ route('me.time.index', ['page' => $logs->currentPage() - 1]) }}"><i class="fa fa-chevron-left"></i></a></li>
+	                	
+	                    <li{!! !$logs->hasMorePages() ? ' class="disabled"' : null !!}><a href="{{ route('me.time.index', ['page' => $logs->currentPage() + 1]) }}"><i class="fa fa-chevron-right"></i></a></li>
 	                </ul>
                 </div>
             </div><!-- /.box-header -->
