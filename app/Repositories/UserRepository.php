@@ -3,7 +3,8 @@
 use App\Contracts\Repositories\UserInterface;
 use Bosnadev\Repositories\Eloquent\Repository;
 use Bosnadev\Repositories\Contracts\RepositoryInterface;
-use App\Events\FetchedUsersEvent;
+use App\Events\UsersGetAllEvent;
+use App\Events\UserCreatedEvent;
 
 class UserRepository extends Repository implements UserInterface, RepositoryInterface {
 
@@ -17,7 +18,7 @@ class UserRepository extends Repository implements UserInterface, RepositoryInte
     	$results = parent::all($columns);
     	$params['defer_listeners'] = $defer_listeners;
 
-    	$event_data = event(new FetchedUsersEvent($results, $params));
+    	$event_data = event(new UsersGetAllEvent($results, $params));
 
     	foreach ($event_data as $data) {
 
@@ -27,6 +28,15 @@ class UserRepository extends Repository implements UserInterface, RepositoryInte
     		
     	}
     	return $results;
+    }
+
+    public function create(array $data) 
+    {
+    	$user = parent::create($data);
+
+    	event(new UserCreatedEvent($user));
+
+    	return $user;
     }
 
 	// public function lists($value, $key = 'id') {
