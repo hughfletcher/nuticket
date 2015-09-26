@@ -18,9 +18,5 @@ return [
 	'Reports' => [
 		'public' => false,
 		'url' => 'reports'
-	], 
-	'Change Log' => [
-		'public' => false,
-		'url' => 'dev'
 	]
 ];
