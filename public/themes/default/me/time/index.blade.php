@@ -3,6 +3,7 @@
 @section('title', 'Tickets')
 
 @section('content')
+@include('common.modals.delete')
 <section class="content-header">
 	<h1>
 		Time
@@ -114,7 +115,7 @@
                         <td class="tools">
                         	<div>
                         	<a href="{{ route('me.time.edit', $entry['id']) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-wrench"></i></a>
-                        	<a href="{{ route('me.time.delete', $entry['id']) }}" data-toggle="tooltip" title="Delete"><i class="fa fa-times"></i></a>
+                        	<a href="" data-toggle="tooltip" title="Delete" class="delete" data-id="{{ $entry['id'] }}"><i class="fa fa-times"></i></a>
                         	@if (!is_null($entry->ticket_action_id))
                         	<a href="{{ route('tickets.show', [$entry['action']['ticket']['id'], '#action-' . $entry['action']['id']]) }}" target="_blank" data-toggle="tooltip" title="Go to Ticket"><i class="fa fa-external-link"></i></a>
                         	@endif

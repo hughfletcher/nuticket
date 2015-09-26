@@ -76,6 +76,7 @@
             <div class="box-footer">
                 {{-- <button type="submit" class="btn btn-default">Cancel</button> --}}
                 <button type="submit" class="btn btn-default btn-sm">Edit</button>
+                <a href="{{ route('me.time.destroy', $entry->id) }}" class="btn btn-danger btn-sm pull-right">Delete</a>
               </div>
         </div>
     </div>

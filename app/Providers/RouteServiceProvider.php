@@ -41,28 +41,27 @@ class RouteServiceProvider extends ServiceProvider {
 			$router->group(['before' => 'ui|csfr', 'middleware' => 'theme'], function($router) {
 				$router->get('/', array('as' => 'dash.index', 'uses' => 'DashController@getIndex'));
 
-			
-				// $router->get('session/start', array('as' => 'session.start', 'uses' => 'SessionController@getStart'));
-				// $router->post('session/start', array('as' => 'session.post', 'uses' => 'SessionController@postStart'));
 				$router->resource('session', 'SessionController', ['only' => ['store', 'create', 'index']]);
 				
 
 				$router->group(array('middleware' => 'auth'), function($router) {
 
-					// $router->get('session/end', array('as' => 'session.end', 'uses' => 'SessionController@getEnd'));
-					
-					$router->get('me/time', array('as' => 'me.time.index', 'uses' => 'TimeController@index'));
-					$router->post('me/time/store', array('as' => 'me.time.store', 'uses' => 'TimeController@store'));
-					$router->get('me/time/{id}/edit', array('as' => 'me.time.edit', 'uses' => 'TimeController@edit'));
-					$router->put('me/time/{id}', array('as' => 'me.time.update', 'uses' => 'TimeController@update'));
-					$router->get('me/time/{id}/delete', array('as' => 'me.time.delete', 'uses' => 'TimeController@delete'));
-					$router->delete('me/time/{id}', array('as' => 'me.time.destroy', 'uses' => 'TimeController@destroy'));
-
-
 					$router->resource('tickets', 'TicketsController', ['except' => ['destroy']]); 
 					$router->resource('actions', 'TicketActionsController', ['only' => ['store']]);
-					$router->resource('reports', 'ReportsController', ['only' => ['index', 'show']]); 
-					$router->resource('dev', 'DevController', ['only' => ['index']]); 
+					$router->resource('reports', 'ReportsController', ['only' => ['index', 'show']]);
+
+					$router->group(['prefix' => 'me'], function($router) {
+						$router->resource('time', 'TimeController');
+
+					});
+					
+					// 	'index' => 'me.time.index',
+					// 	'store' => 'me.time.store',
+					// 	'edit' => 'me.time.edit',
+					// 	'update' => 'me.time.update',
+					// 	'delete' => 'me.time.delete',
+					// 	'destroy' => 'me.time.destroy',
+					// ]]);
 				});
 
 			});

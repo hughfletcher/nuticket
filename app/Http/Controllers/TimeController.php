@@ -72,12 +72,6 @@ class TimeController extends Controller {
 		return redirect()->route('me.time.index');
 	}
 
-	public function delete($id)
-	{
-		$entry = $this->time->find($id);
-		return view('me.time.delete', compact('entry'));
-	}
-
 	/**
 	 * Remove the specified resource from storage.
 	 *

@@ -1,5 +1,6 @@
 var app = {
 	'config': {
+        'url': $('meta[name="url"]').attr('content'),
 		'api_url': $('meta[name="api"]').attr('content'),
 		'url_login': $('meta[name="url"]').attr('content') + '/session/create'
 	},
