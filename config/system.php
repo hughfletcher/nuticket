@@ -16,8 +16,6 @@ return [
 		'dateday' => 'm/d/Y D'
 	],
 
-	'theme' => 'default',
-
-	'hottie' => true
+	'theme' => 'default'
 
 ];

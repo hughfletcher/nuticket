@@ -1,6 +1,6 @@
 <?php
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase {
+abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 	protected $baseUrl = 'http://localhost';
 
@@ -23,6 +23,26 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		parent::tearDown();
 
 		Mockery::close();
+	}
+
+	public function mockEloquentResults($model, $data) 
+	{
+		$results = array();
+
+		foreach ($data as $row => $row_data) {
+			
+			$model = new $model;
+
+			foreach ($row_data as $key => $value) {
+				
+				$model->$key = $value;
+			}
+
+			$results[] = $model;
+
+		}
+
+		return $results;
 	}
 
 }

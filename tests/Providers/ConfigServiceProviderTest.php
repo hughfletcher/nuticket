@@ -14,15 +14,16 @@ class ConfigServiceProviderTest extends TestCase {
 		$db->shouldReceive('connection->getSchemaBuilder->hasTable')->andReturn(true);
 		$this->app->instance('db', $db);
 
-		$result[1] = new Config(['key' => 'system.eyes', 'value' => 'blue', 'enviroment' => 'production']);
-		$result[1]->id = 1;
-		$result[2] = new Config(['key' => 'system.hair', 'value' => 'brunette', 'enviroment' => 'production']);
-		$result[2]->id = 2;
-		$result[3] = new Config(['key' => 'system.hottie', 'value' => false, 'enviroment' => 'production']);
-		$result[3]->id = 3;
+		$result = $this->mockEloquentResults('App\Config', [
+			['key' => 'system.eyes', 'value' => 'blue', 'enviroment' => 'production', 'id' => 1],
+			['key' => 'system.hair', 'value' => 'brunette', 'enviroment' => 'production', 'id' => 2],
+			['key' => 'system.hottie', 'value' => 0, 'enviroment' => 'production', 'id' => 3]
+		]);
 
-		$this->config = m::mock();
-		$this->config->shouldReceive('findAllBy')->once()->andReturn($result);
+
+
+		$this->config = m::mock('App\Repositories\Eloquent\ConfigRepository');
+		$this->config->shouldReceive('findAllBy')->atMost(1)->andReturn($result);
 		$this->app->instance('App\Repositories\ConfigInterface', $this->config);
 	}
 
@@ -33,7 +34,7 @@ class ConfigServiceProviderTest extends TestCase {
 	 */
 	public function testBootDbOverwitesConfig()
 	{
-		
+
 		$this->app['config']->set('system.hottie', true);
 
 		$csp = new ConfigServiceProvider($this->app);
@@ -53,18 +54,18 @@ class ConfigServiceProviderTest extends TestCase {
 		$csp = new ConfigServiceProvider($this->app);
 		$csp->boot();
 
-		// $this->assertTrue($this->app['config']->get('system.hottie'));
+		$this->assertFalse($this->app['config']->get('system.hottie'));
 	}
 
-	// public function testBootNoConfigTable() 
-	// {
-	// 	$db = m::mock();
-	// 	$db->shouldReceive('connection->getSchemaBuilder->hasTable')->andReturn(true);
-	// 	$this->app->instance('db', $db);
+	public function testBootNoConfigTable() 
+	{
+		$db = m::mock();
+		$db->shouldReceive('connection->getSchemaBuilder->hasTable')->andReturn(false);
+		$this->app->instance('db', $db);
 
-	// 	$csp = new ConfigServiceProvider($this->app);
+		$csp = new ConfigServiceProvider($this->app);
 
-	// 	$this->assertNull($csp->boot());
-	// }
+		$this->assertNull($csp->boot());
+	}
 
 }
