@@ -2,13 +2,6 @@
 
 interface UserInterface {
 
-	// public function lists($value, $key = 'id');
-
-	// public function allWithTrashed();
-
-	// public function all();
-
-	// public function destroy($id);
-
-	// public function insert($data);
+	public function all($columns, array $params, $defer_listeners);
+	
 }
