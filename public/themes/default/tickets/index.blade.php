@@ -36,7 +36,7 @@
 										<a href="{{ route('tickets.index', ['status' => 'new-open']) }}" class="btn btn-default btn-flat btn-sm{{ count(Request::query()) == 2 && Request::query('status') == 'new-open'? ' active' : '' }}">Open ({{ $open_count }}) </a>
 										<a href="{{ route('tickets.index', ['status' => 'closed']) }}" class="btn btn-default btn-flat btn-sm{{ count(Request::query()) == 2 && Request::query('status') == 'closed' ? ' active' : '' }}">Closed ({{ $close_count }})</a>
 										@if($is_staff)
-										<a href="{{ route('tickets.index', ['staff_id' => user('staff')->id, 'status' => 'new-open']) }}" class="btn btn-default btn-flat btn-sm{{ count(Request::query()) == 3 && Request::query('status') == 'new-open' && Request::query('staff_id') == Auth::user()->staff->id ? ' active' : '' }}">Assigned ({{ $assigned_count }})</a>
+										<a href="{{ route('tickets.index', ['assigned_id' => Auth::user()->id, 'status' => 'new-open']) }}" class="btn btn-default btn-flat btn-sm{{ count(Request::query()) == 3 && Request::query('status') == 'new-open' && Request::query('assigned_id') == Auth::user()->id ? ' active' : '' }}">Assigned ({{ $assigned_count }})</a>
 										@endif
 									</div>
 
@@ -161,8 +161,8 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="staff_id" class="control-label">Assigned To</label>
-									<select name="staff_id" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+									<label for="assigned_id" class="control-label">Assigned To</label>
+									<select name="assigned_id" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
 										<option></option>
 										@foreach ($staff as $id => $user)
 											<option value="{{ $id }}">{{ $user }}</option>

@@ -61,17 +61,17 @@
 						@endif
 					</div>
 				</div>
-				<div class="form-group{{ $errors->has('staff_id') ? ' has-error' : null }}">
-					<label for="staff_id" class="col-sm-1 control-label">Assigned</label>
+				<div class="form-group{{ $errors->has('assigned_id') ? ' has-error' : null }}">
+					<label for="assigned_id" class="col-sm-1 control-label">Assigned</label>
 					<div class="col-sm-5">
-						<select name="staff_id" class="form-control select2-default input-sm" placeholder="Select a Staff Member">
+						<select name="assigned_id" class="form-control select2-default input-sm" placeholder="Select a Staff Member">
 							<option></option>
 							@foreach ($staff as $id => $user)
-								<option value="{{ $id }}"{{ Input::old('staff_id') == $key ? ' selected=selected' : null }}>{{ $user }}</option>
+								<option value="{{ $id }}"{{ Input::old('assigned_id') == $key ? ' selected=selected' : null }}>{{ $user }}</option>
 							@endforeach
 						</select>
-						@if ($errors->has('staff_id'))
-						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('staff_id') }}</strong></span>
+						@if ($errors->has('assigned_id'))
+						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('assigned_id') }}</strong></span>
 						@endif
 					</div>
 				</div>

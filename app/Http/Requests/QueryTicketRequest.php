@@ -13,7 +13,7 @@ class QueryTicketRequest extends QueryRequest {
 	{
 		return array_merge(parent::rules(), [
 			'status' => ['regex:/^(-?(open|closed|new)){1,3}$/'],
-        	'staff_id' => ['regex:/^\d+(-\d+)*$/']
+        	'assigned_id' => ['regex:/^\d+(-\d+)*$/']
 		]);
 	}
 

@@ -281,7 +281,7 @@
 								@endif
 								<select name="assigned_id" class="form-control select2-default input-sm" placeholder="Select a Staff Member">
 									<option></option>
-									@foreach (array_except($staff->put(0, 'Nobody')->toArray(), [$ticket->staff_id]) as $key => $user)
+									@foreach (array_except($staff->put(0, 'Nobody')->toArray(), [$ticket->assigned_id]) as $key => $user)
 										<option value="{{ $key }}"{{ Input::old('assigned_id') == $key ? ' selected=selected' : null }}>{{ $user }}</option>
 									@endforeach
 								</select>
@@ -342,7 +342,7 @@
 							<div class="col-xs-12">
 								<dl class="dl-horizontal detail">
 									<dt>Assigned</dt>
-									<dd>{{ $ticket['staff']['user']['display_name'] }}</dd>
+									<dd>{{ $ticket['assigned']['display_name'] }}</dd>
 									<dt>Total Hours</dt>
 									<dd>{{ $ticket['hours'] }}</dd>
 									<dt>Last Action</dt>

@@ -41,8 +41,8 @@ class Ticket extends Eloquent {
         return $this->belongsTo('App\User');
     }
 
-	public function staff() {
-        return $this->belongsTo('App\Staff', 'staff_id', 'id');
+	public function assigned() {
+        return $this->belongsTo('App\User', 'assigned_id', 'id');
     }
 
 	public function dept() {
@@ -73,7 +73,7 @@ class Ticket extends Eloquent {
 
     public static function getAssignedCount($staff_id) {
 
-    	return self::wherein('status', ['open', 'new'])->where('staff_id', $staff_id)->count();
+    	return self::wherein('status', ['open', 'new'])->where('assigned_id', $staff_id)->count();
     }
 
     public static function checkUserTicket($ticket_id, $user_id) {

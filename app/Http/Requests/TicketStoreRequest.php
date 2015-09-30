@@ -20,7 +20,7 @@ class TicketStoreRequest extends FormRequest {
         'comment_body' => ['min:3'],
         'status' => ['in:open,closed,resolved'],
         'dept_id' => ['required', 'exists:depts,id'],
-        'staff_id' => ['exists:staff,id'],
+        'assigned_id' => ['exists:staff,id'],
     ];
 
 	/**
