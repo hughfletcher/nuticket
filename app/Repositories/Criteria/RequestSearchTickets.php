@@ -1,4 +1,4 @@
-<?php namespace App\Repositories\Eloquent\Criteria;
+<?php namespace App\Repositories\Criteria;
 
 use Bosnadev\Repositories\Criteria\Criteria;
 use Bosnadev\Repositories\Contracts\RepositoryInterface as Repository;
@@ -19,9 +19,7 @@ class RequestSearchTickets extends Criteria {
 		    $q = $q->select('ta.ticket_id')
 			    ->from('ticket_actions as ta')
 			    ->join('tickets as t', 'ta.ticket_id', '=', 't.id')
-				->join('users as u', 't.user_id', '=', 'u.id')
-				->join('staff as s', 's.id', '=', 't.staff_id')
-				->join('users as su','su.id', '=', 's.user_id');
+				->join('users as u', 't.user_id', '=', 'u.id');
 
 			foreach ($query as $term) {
 

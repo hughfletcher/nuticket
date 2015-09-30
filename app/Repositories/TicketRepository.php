@@ -1,6 +1,6 @@
-<?php namespace App\Repositories\Eloquent;
+<?php namespace App\Repositories;
 
-use App\Repositories\TicketInterface;
+use App\Contracts\Repositories\TicketInterface;
 use Bosnadev\Repositories\Contracts\RepositoryInterface;
 use Bosnadev\Repositories\Eloquent\Repository;
 use App\TicketAction;
@@ -46,8 +46,7 @@ class TicketRepository extends Repository implements TicketInterface {
     			'su.display_name as staff_display_name'
     		)
 			->join('users', 'users.id', '=', 'tickets.user_id')
-			->join('staff', 'staff.id', '=', 'tickets.staff_id')
-			->join('users as su', 'su.id', '=', 'staff.user_id')
+			->join('users as su', 'su.id', '=', 'tickets.assigned_id')
 			->join('ticket_actions','ticket_actions.ticket_id', '=', 'tickets.id')
 			->where('ticket_actions.type', 'create');
 
@@ -57,7 +56,7 @@ class TicketRepository extends Repository implements TicketInterface {
     		->pushCriteria(new Criteria\Request('status'))
     		->pushCriteria(new Criteria\Request('priority'))
     		->pushCriteria(new Criteria\Request('dept_id'))
-    		->pushCriteria(new Criteria\Request('staff_id'));
+    		->pushCriteria(new Criteria\Request('assigned_id'));
 
     	return parent::paginate($perPage);
     }

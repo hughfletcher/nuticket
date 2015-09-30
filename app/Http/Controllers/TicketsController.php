@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\Repositories\TicketInterface;
+use App\Contracts\Repositories\TicketInterface;
 use App\Repositories\TicketActionInterface;
 use App\Contracts\Repositories\UserInterface;
 use App\Http\Requests\QueryTicketRequest;
