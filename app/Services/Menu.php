@@ -39,8 +39,7 @@ class Menu {
 
 			if (!Auth::check()) { return false; }
 			
-			$staff = $this->app['auth']->user()->staff;
-			if (!$item->data('public') && !empty($staff)) {
+			if (!$item->data('public') && $this->app['auth']->user()->is_staff) {
 				return true;
 			}
   			return false;

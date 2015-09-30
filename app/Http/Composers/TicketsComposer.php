@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\Application;
 use App\Ticket;
-use App\Staff;
 use App\TicketDept;
 
 class TicketsComposer {
@@ -20,7 +19,7 @@ class TicketsComposer {
         // $view->with('open_count', 45);
         $view->with('close_count', Ticket::getClosedCount());
         // $view->with('close_count', 30);
-        $view->with('assigned_count', Ticket::getAssignedCount($this->app['auth']->user()->staff->id));
+        $view->with('assigned_count', Ticket::getAssignedCount($this->app['auth']->user()->is_staff));
         // $view->with('assigned_count', 15);
 
         $view->with('priorities', [

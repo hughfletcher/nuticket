@@ -45,10 +45,4 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return 'local';
     }
 
-	public function staff() {
-        return $this->hasOne('App\Staff');
-        	// ->rememberForever()
-            // ->CacheTags('staff' . Cfg::get('app.id'));
-    }
-
 }
