@@ -68,7 +68,7 @@
 											<th><a href="{{ sort_url('staff') }}">Assigned<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('staff', null, '-') }}"></i></span></a></th>
 										</tr>
 									</thead>
-									
+
 									<tbody>
 										@if ($tickets->count() >= 1)
 										@foreach ($tickets as $ticket)
@@ -79,7 +79,7 @@
 											<td><a href="{{ route('tickets.show', [$ticket['id']]) }}">{{ $ticket->title }}</a></td>
 											<td>{{ $ticket['user_display_name'] }}</td>
 											<td>{{ $ticket['priority'] }}</td>
-											<td>{{ $ticket->staff_display_name }}</td>
+											<td>{{ $ticket->assigned_display_name }}</td>
 										</tr>
 										@endforeach
 									</tbody>
@@ -98,7 +98,7 @@
 									<tr>
 										<td colspan="7" class="text-center">There are no tickets to view</td>
 									</tr>
-								
+
 								@endif
 
 								</table>

@@ -14,21 +14,21 @@ class TicketRepository extends Repository implements TicketInterface {
 
     /**
 	 * Create a ticket and/or a reply/comment action
-	 * 		
+	 *
 	 * @param  array $attrs [user_id, auth_id, dept_id, title, body, [priority, staff_id, status]]
-	 * @return array 
+	 * @return array
 	 */
-	public function create(array $data) 
+	public function create(array $data)
 	{
 		// $array = array_add($data, 'last_action_at', Carbon::now());
-		
+
 		//create ticket
 		$ticket = $this->model->create(array_merge($data, ['status' => 'new']));
 
 		$action = $this->createTicketAction([
-			'user_id' => $data['auth_id'], 
-			'type' => 'create', 
-			'title' => $data['title'], 
+			'user_id' => $data['auth_id'],
+			'type' => 'create',
+			'title' => $data['title'],
 			'body' => $data['body']
 		]);
 
@@ -38,12 +38,12 @@ class TicketRepository extends Repository implements TicketInterface {
 	}
 
     public function paginateByRequest($perPage = 1, $columns = ['*'])
-    {	
+    {
     	$this->model = $this->model->select(
-    			'tickets.*', 
-    			'ticket_actions.title as title', 
-    			'users.display_name as user_display_name', 
-    			'su.display_name as staff_display_name'
+    			'tickets.*',
+    			'ticket_actions.title as title',
+    			'users.display_name as user_display_name',
+    			'su.display_name as assigned_display_name'
     		)
 			->join('users', 'users.id', '=', 'tickets.user_id')
 			->join('users as su', 'su.id', '=', 'tickets.assigned_id')
@@ -61,14 +61,14 @@ class TicketRepository extends Repository implements TicketInterface {
     	return parent::paginate($perPage);
     }
 
-    protected function createTicketAction(array $data) 
+    protected function createTicketAction(array $data)
     {
     	return new TicketAction($data);
     }
 
 
 
-	// public function buildUpdateByReply() 
+	// public function buildUpdateByReply()
 	// {
 	// 	return [
 
@@ -77,11 +77,11 @@ class TicketRepository extends Repository implements TicketInterface {
 
 	/**
 	 * Update ticket by a comment ticket action.
-	 * 
+	 *
 	 * @param  array $action App\TicketAction::toArray()
 	 * @return App\Ticket
 	 */
-	// public function updateByComment(TicketAction $action) 
+	// public function updateByComment(TicketAction $action)
 	// {
 	// 	$ticket = parent::update([
 	// 			'last_action_at' => $action->created_at,
