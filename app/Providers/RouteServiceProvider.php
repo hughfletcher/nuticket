@@ -38,7 +38,7 @@ class RouteServiceProvider extends ServiceProvider {
 		$router->group(['namespace' => $this->namespace], function($router)
 		{
 
-			$router->group(['before' => 'ui|csfr', 'middleware' => 'theme'], function($router) {
+			$router->group(['middleware' => 'theme'], function($router) {
 				$router->get('/', array('as' => 'dash.index', 'uses' => 'DashController@getIndex'));
 
 				$router->resource('session', 'SessionController', ['only' => ['store', 'create', 'index']]);
