@@ -12,14 +12,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	use Authenticatable, CanResetPassword, SoftDeletes;
 
 	protected $fillable = [
-        'username', 
-        'password', 
-        'first_name', 
-        'last_name', 
-        'display_name', 
+        'username',
+        'password',
+        'first_name',
+        'last_name',
+        'display_name',
         'email',
-        'adldap_guid',
-        'adldap_updated_at',    
+        'is_staff',    
     ];
 
     protected $dates = ['deleted_at'];
