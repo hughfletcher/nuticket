@@ -35,7 +35,7 @@
 									<div class="btn-group">
 										<a href="{{ route('tickets.index', ['status' => 'new-open']) }}" class="btn btn-default btn-flat btn-sm{{ count(Request::query()) == 2 && Request::query('status') == 'new-open'? ' active' : '' }}">Open ({{ $open_count }}) </a>
 										<a href="{{ route('tickets.index', ['status' => 'closed']) }}" class="btn btn-default btn-flat btn-sm{{ count(Request::query()) == 2 && Request::query('status') == 'closed' ? ' active' : '' }}">Closed ({{ $close_count }})</a>
-										@if($is_staff)
+										@if(Auth::user()->is_staff)
 										<a href="{{ route('tickets.index', ['assigned_id' => Auth::user()->id, 'status' => 'new-open']) }}" class="btn btn-default btn-flat btn-sm{{ count(Request::query()) == 3 && Request::query('status') == 'new-open' && Request::query('assigned_id') == Auth::user()->id ? ' active' : '' }}">Assigned ({{ $assigned_count }})</a>
 										@endif
 									</div>
