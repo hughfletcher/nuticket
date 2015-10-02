@@ -9,7 +9,7 @@ class TicketAction extends Eloquent {
 
 	protected $fillable = [
         'ticket_id',
-        'user_id', 
+        'user_id',
         'type',
         'title',
         'body',
@@ -34,7 +34,7 @@ class TicketAction extends Eloquent {
     }
 
     public function assigned() {
-        return $this->belongsTo('App\Staff', 'assigned_id', 'id');
+        return $this->belongsTo('App\User', 'assigned_id', 'id');
     }
 
     public function ticket() {
