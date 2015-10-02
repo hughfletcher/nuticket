@@ -6,7 +6,7 @@ use Closure;
 
 class Theme {
 
-	public function __construct(Factory $view, Menu $menu) 
+	public function __construct(Factory $view, Menu $menu)
 	{
 		$this->view = $view;
 		$this->menu= $menu;
@@ -34,11 +34,13 @@ class Theme {
 		return $next($request);
 	}
 
-	private function loadComposers() 
+	private function loadComposers()
 	{
 		$this->view->composers(array(
-		    'App\\Http\\Composers\\GlobalComposer' => '*',
-		    'App\\Http\\Composers\\TicketsComposer' => ['tickets.index', 'tickets.show', 'tickets.create'],
+		    'App\\Http\\Composers\\TicketsAssignedCountComposer' => ['tickets.index'],
+		    'App\\Http\\Composers\\TicketsClosedCountComposer' => ['tickets.index'],
+		    'App\\Http\\Composers\\TicketsOpenCountComposer' => ['tickets.index'],
+		    'App\\Http\\Composers\\TicketPrioritiesComposer' => ['tickets.create'],
 		    'App\\Http\\Composers\\DeptComposer' => ['tickets.index', 'tickets.show', 'tickets.create', 'reports.index', 'tickets.edit', 'user.timelog', 'me.time.index', 'me.time.edit', 'me.time.delete'],
 		    'App\\Http\\Composers\\StaffComposer' => ['tickets.index', 'tickets.create', 'tickets.show']
 		));
