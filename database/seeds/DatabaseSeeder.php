@@ -25,33 +25,38 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		if (!Storage::disk('local')->exists('seeds/develop')) 
+		if (!Storage::disk('local')->exists('seeds/develop'))
 		{
 			$this->command->info('Dev seed data file not present. Creating...');
 			$this->createData();
-			
+
 		} else {
 			$this->data = unserialize(Storage::get('seeds/develop'));
 			$this->command->info('Dev seed data file found.');
 
-			if(count($this->data) < 8)
+			if(count($this->data) < 7)
 			{
 				$this->command->info('Dev seed data file out of date. Creating...');
 				$this->createData();
 			}
-			
+
 		}
 
-		foreach ($this->data as $class => $data) 
+		foreach ($this->data as $class => $data)
 		{
 			$full_class = 'App\\' . $class;
 			$model = new $full_class;
 			$table = $model->getTable();
 
 			DB::table($table)->delete();
-	        // DB::update("ALTER TABLE $table AUTO_INCREMENT = 1;");
-			$model::insert($data);
-			
+
+            $chunks = array_chunk($data, 500);
+
+            foreach ($chunks as $chunk) {
+                $model::insert($chunk);
+            }
+
+
 			$this->command->getOutput()->writeln("<info>Seeded:</info> $table");
 		}
 
@@ -73,21 +78,21 @@ class DatabaseSeeder extends Seeder {
 
 	}
 
-	protected function createFaker() 
+	protected function createFaker()
 	{
 		$faker = Faker::create();
 		$faker->seed(894123492);
 		return $faker;
 	}
 
-	protected function createDeptsData() 
+	protected function createDeptsData()
 	{
 		$faker = $this->createFaker();
 
         $rl = 1;
 
-        for ($i=1; $i <= 20; $i++) 
-        { 
+        for ($i=1; $i <= 20; $i++)
+        {
 
         	$data[$i] = [
                 'id' => $i,
@@ -107,18 +112,18 @@ class DatabaseSeeder extends Seeder {
 	protected function createReportsData()
 	{
 		$this->data['Report'] = [
-            ['name' => 'Dept Summary - Last Week', 'desc' => 'Summary of Last Week Dept Tickets', 'sql' => "SELECT qtd.id AS hide_id, qtd.lft AS hide_lft, qtd.rgt AS hide_rgt, qtd.name AS Name, (SELECT COUNT(*) FROM tickets WHERE created_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND dept_id = qtd.id AND deleted_at IS NULL ) AS Created, (SELECT COUNT(*) FROM depts td LEFT JOIN tickets t ON td.id = t.dept_id WHERE t.created_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND t.deleted_at IS NULL ) AS hide_total_created, (SELECT COUNT(*) FROM tickets WHERE closed_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND dept_id = qtd.id AND deleted_at IS NULL ) AS Closed, (SELECT COUNT(*) FROM depts td LEFT JOIN tickets t ON td.id = t.dept_id WHERE t.closed_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND t.deleted_at IS NULL ) AS hide_total_closed, (SELECT COUNT(*) FROM tickets WHERE (closed_at > CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY OR closed_at IS NULL ) AND dept_id = qtd.id AND deleted_at IS NULL ) AS 'Open/Closed', (SELECT COUNT(*) FROM tickets t LEFT JOIN depts td ON td.id = t.dept_id WHERE t.created_at < CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND (t.closed_at > CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY OR t.closed_at IS NULL ) AND t.deleted_at IS NULL ) AS hide_total_open_new, SUM(CASE WHEN qtl.time_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND qta.deleted_at IS NULL THEN qtl.hours ELSE 0 END ) AS 'Time Spent', (SELECT SUM(tl.hours) FROM time_log tl WHERE tl.time_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND tl.ticket_action_id IS NOT NULL AND tl.deleted_at IS NULL ) AS hide_total_worked_hrs FROM depts AS qtd LEFT OUTER JOIN tickets AS qt ON qtd.id = qt.dept_id LEFT JOIN ticket_actions qta ON qta.ticket_id = qt.id LEFT JOIN time_log qtl ON qtl.ticket_action_id = qta.id GROUP BY qtd.id ORDER BY qtd.lft ASC;", 'created_at' => Carbon::now()->toDateTimeString(), 'updated_at' => Carbon::now()->toDateTimeString()], 
-            ['name' => 'Staff Hours - WTD ', 'desc' => 'Summary of staff hours by day for the current week.', 'sql' => 'SELECT u.display_name AS Name, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-1) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-1) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Sun, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-2) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-2) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Mon, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-3) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-3) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Tue, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-4) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-4) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Wed, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-5) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-5) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Thur, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-6) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-6) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Fri, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-7) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-7) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Sat, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-1) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-7) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Total FROM users u WHERE u.is_staff = 1;', 'created_at' => Carbon::now()->toDateTimeString(), 'updated_at' => Carbon::now()->toDateTimeString()], 
+            ['name' => 'Dept Summary - Last Week', 'desc' => 'Summary of Last Week Dept Tickets', 'sql' => "SELECT qtd.id AS hide_id, qtd.lft AS hide_lft, qtd.rgt AS hide_rgt, qtd.name AS Name, (SELECT COUNT(*) FROM tickets WHERE created_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND dept_id = qtd.id AND deleted_at IS NULL ) AS Created, (SELECT COUNT(*) FROM depts td LEFT JOIN tickets t ON td.id = t.dept_id WHERE t.created_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND t.deleted_at IS NULL ) AS hide_total_created, (SELECT COUNT(*) FROM tickets WHERE closed_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND dept_id = qtd.id AND deleted_at IS NULL ) AS Closed, (SELECT COUNT(*) FROM depts td LEFT JOIN tickets t ON td.id = t.dept_id WHERE t.closed_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND t.deleted_at IS NULL ) AS hide_total_closed, (SELECT COUNT(*) FROM tickets WHERE (closed_at > CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY OR closed_at IS NULL ) AND dept_id = qtd.id AND deleted_at IS NULL ) AS 'Open/Closed', (SELECT COUNT(*) FROM tickets t LEFT JOIN depts td ON td.id = t.dept_id WHERE t.created_at < CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND (t.closed_at > CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY OR t.closed_at IS NULL ) AND t.deleted_at IS NULL ) AS hide_total_open_new, SUM(CASE WHEN qtl.time_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND qta.deleted_at IS NULL THEN qtl.hours ELSE 0 END ) AS 'Time Spent', (SELECT SUM(tl.hours) FROM time_log tl WHERE tl.time_at BETWEEN CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND CURDATE() - INTERVAL DAYOFWEEK(CURDATE())-1 DAY AND tl.ticket_action_id IS NOT NULL AND tl.deleted_at IS NULL ) AS hide_total_worked_hrs FROM depts AS qtd LEFT OUTER JOIN tickets AS qt ON qtd.id = qt.dept_id LEFT JOIN ticket_actions qta ON qta.ticket_id = qt.id LEFT JOIN time_log qtl ON qtl.ticket_action_id = qta.id GROUP BY qtd.id ORDER BY qtd.lft ASC;", 'created_at' => Carbon::now()->toDateTimeString(), 'updated_at' => Carbon::now()->toDateTimeString()],
+            ['name' => 'Staff Hours - WTD ', 'desc' => 'Summary of staff hours by day for the current week.', 'sql' => 'SELECT u.display_name AS Name, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-1) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-1) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Sun, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-2) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-2) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Mon, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-3) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-3) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Tue, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-4) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-4) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Wed, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-5) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-5) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Thur, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-6) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-6) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Fri, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-7) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-7) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Sat, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-1) DAY), "%Y-%m-%d 00:00:00") AND DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL (DAYOFWEEK(CURDATE())-7) DAY), "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Total FROM users u WHERE u.is_staff = 1;', 'created_at' => Carbon::now()->toDateTimeString(), 'updated_at' => Carbon::now()->toDateTimeString()],
             ['name' => 'Staff Hours - Prev Week', 'desc' => 'Summary of staff hours by day for the previous week.', 'sql' => 'SELECT u.display_name as Name, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY, "%Y-%m-%d 00:00:00") AND DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY, "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Sun, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+5 DAY, "%Y-%m-%d 00:00:00") AND DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+5 DAY, "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Mon, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+4 DAY, "%Y-%m-%d 00:00:00") AND DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+4 DAY, "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Tue, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+3 DAY, "%Y-%m-%d 00:00:00") AND DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+3 DAY, "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Wed, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+2 DAY, "%Y-%m-%d 00:00:00") AND DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+2 DAY, "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Thur, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+1 DAY, "%Y-%m-%d 00:00:00") AND DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+1 DAY, "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Fri, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE()) DAY, "%Y-%m-%d 00:00:00") AND DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE()) DAY, "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Sat, (SELECT COALESCE(SUM(tl.hours),0) FROM time_log AS tl WHERE time_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY, "%Y-%m-%d 00:00:00") AND DATE_FORMAT(CURDATE() - INTERVAL DAYOFWEEK(CURDATE()) DAY, "%Y-%m-%d 23:59:59") AND tl.user_id = u.id ) AS Total FROM users u WHERE u.is_staff = 1;', 'created_at' => Carbon::now()->toDateTimeString(), 'updated_at' => Carbon::now()->toDateTimeString()]
         ];
 	}
 
-	protected function createUsersData() 
+	protected function createUsersData()
 	{
 		$faker = $this->createFaker();
 
-		for ($i=1; $i <= 200; $i++) 
-        { 
+		for ($i=1; $i <= 200; $i++)
+        {
 
         	$data[$i] = [
                 'id' => $i,
@@ -141,18 +146,18 @@ class DatabaseSeeder extends Seeder {
         $this->data['User'] = $data;
 	}
 
-	protected function createTicketsData() 
+	protected function createTicketsData()
 	{
 		$faker = $this->createFaker();
 
-		for ($i=1; $i <= 300; $i++) 
-        { 
+		for ($i=1; $i <= 300; $i++)
+        {
 
         	$data[$i] = [
                 'id' => $i,
                 'user_id' => $faker->numberBetween(1,200),
         		'dept_id' => $faker->numberBetween(1,20),
-                'staff_id' => $faker->randomElement($this->staffers),
+                'assigned_id' => $faker->randomElement($this->staffers),
                 'status' => 'open',
                 'priority' => $faker->numberBetween(1,5),
                 'updated_at' => ($date = $faker->dateTimeThisDecade()),
@@ -165,20 +170,20 @@ class DatabaseSeeder extends Seeder {
 
         $this->data['Ticket'] = $data;
 	}
-	
-	protected function createTicketActionsData() 
+
+	protected function createTicketActionsData()
 	{
 		$faker = $this->createFaker();
 
         $i = 0;
 
-		foreach ($this->data['Ticket'] as $id => &$row) 
+		foreach ($this->data['Ticket'] as $id => &$row)
 		{
 			//create
 			$data[++$i] = [
                 'id' => $i,
                 'ticket_id' => $id,
-                'user_id' => ($faker->boolean(75) ? ($faker->boolean() ? $row['staff_id'] : $row['user_id']) : $faker->randomElement($this->staffers)),
+                'user_id' => ($faker->boolean(75) ? ($faker->boolean() ? $row['assigned_id'] : $row['user_id']) : $faker->randomElement($this->staffers)),
                 'type' => 'create',
                 'title' => $faker->sentence($faker->numberBetween(4, 10)),
                 'body' => $faker->paragraph($faker->numberBetween(1, 4)),
@@ -191,11 +196,11 @@ class DatabaseSeeder extends Seeder {
             //do other actions
 			$action_count = $faker->numberBetween(0, 10);
 
-			for ($a=0; $a <= $action_count; $a++) 
-            { 
+			for ($a=0; $a <= $action_count; $a++)
+            {
 				$action = [
                     'id' => ++$i,
-					'ticket_id' => $id, 
+					'ticket_id' => $id,
 					'body' => $faker->paragraph($faker->numberBetween(1, 4)),
 					'updated_at' => ($date = Carbon::instance($faker->dateTimeBetween($date, ($faker->boolean ? $date->copy()->addHours(8) :  $date->copy()->addDays(7))))),
                 	'created_at' => $date,
@@ -211,7 +216,7 @@ class DatabaseSeeder extends Seeder {
                     $action['type'] = $faker->randomElement(['reply', 'reply', 'reply', 'comment', 'comment', 'assign', 'edit', 'transfer']);
                 }
 
-                //update ticket 
+                //update ticket
                 $row['updated_at'] = $date;
                 $row['last_action_at'] = $date;
 
@@ -219,35 +224,35 @@ class DatabaseSeeder extends Seeder {
 
                 switch ($action['type']) {
                 	case 'assign':
-                		$action['user_id'] = $row['staff_id'];
-                		$action['assigned_id'] = $row['staff_id'] = $faker->numberBetween(1,10);
+                		$action['user_id'] = $row['assigned_id'];
+                		$action['assigned_id'] = $row['assigned_id'] = $faker->numberBetween(1,10);
                 		break;
-                	
+
                 	case 'edit':
-                		$action['user_id'] = ($faker->boolean(75) ? $row['staff_id'] : $faker->randomElement($this->staffers));
+                		$action['user_id'] = ($faker->boolean(75) ? $row['assigned_id'] : $faker->randomElement($this->staffers));
                 		break;
-                	
+
                 	case 'transfer':
-                		$action['user_id'] = ($faker->boolean(75) ? $row['staff_id'] : $faker->randomElement($this->staffers));
+                		$action['user_id'] = ($faker->boolean(75) ? $row['assigned_id'] : $faker->randomElement($this->staffers));
                 		$action['transfer_id'] = $faker->numberBetween(1,10);
                 		break;
-                	
+
                 	case 'closed':
-                		$action['user_id'] = ($faker->boolean(75) ? $row['staff_id'] : $faker->randomElement($this->staffers));
+                		$action['user_id'] = ($faker->boolean(75) ? $row['assigned_id'] : $faker->randomElement($this->staffers));
                 		$row['status'] = 'closed';
                 		break;
 
                 	case 'resolved':
-                		$action['user_id'] = ($faker->boolean(75) ? $row['staff_id'] : $faker->randomElement($this->staffers));
+                		$action['user_id'] = ($faker->boolean(75) ? $row['assigned_id'] : $faker->randomElement($this->staffers));
                 		$row['status'] = 'resolved';
                 		break;
-                	
+
                 	case 'reply':
-                		$action['user_id'] = ($faker->boolean(75) ? ($faker->boolean() ? $row['staff_id'] : $row['user_id']) : $faker->numberBetween(1,$this->users));
+                		$action['user_id'] = ($faker->boolean(75) ? ($faker->boolean() ? $row['assigned_id'] : $row['user_id']) : $faker->numberBetween(1,$this->users));
                 		break;
 
                 	case 'comment':
-                		$action['user_id'] = ($faker->boolean(75) ? $row['staff_id'] : $faker->numberBetween(1,$this->users));
+                		$action['user_id'] = ($faker->boolean(75) ? $row['assigned_id'] : $faker->numberBetween(1,$this->users));
                 		break;
                 }
 
@@ -262,14 +267,14 @@ class DatabaseSeeder extends Seeder {
         $this->data['TicketAction'] = $data;
 	}
 
-	protected function createTimeLogData() 
+	protected function createTimeLogData()
 	{
 		$faker = $this->createFaker();
 
         $id = 1;
 
-		foreach($this->data['TicketAction'] as $id => $row) 
-        { 
+		foreach($this->data['TicketAction'] as $id => $row)
+        {
         	if ($faker->boolean(90)) {
 
         		if (($row['type'] == 'reply' || $row['type'] == 'comment') && $this->data['User'][$row['user_id']]['is_staff'])
@@ -288,7 +293,7 @@ class DatabaseSeeder extends Seeder {
 
 		        	$this->data['Ticket'][$row['ticket_id']]['hours'] += $hours;
         		}
-        		
+
         	} else {
         		$data[] = [
                     'id' => $id++,
@@ -310,7 +315,7 @@ class DatabaseSeeder extends Seeder {
         $this->data['TimeLog'] = $data;
 	}
 
-    protected function createConfigData() 
+    protected function createConfigData()
     {
         $this->data['Config'] = [
             ['key' => 'system.eyes', 'value' => 'blue', 'environment' => 'testing'],

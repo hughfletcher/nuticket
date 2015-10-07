@@ -2,7 +2,7 @@
 
 return [
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| PDO Fetch Style
 	|--------------------------------------------------------------------------
@@ -13,9 +13,9 @@ return [
 	|
 	*/
 
-	'fetch' => PDO::FETCH_CLASS,
+    'fetch' => PDO::FETCH_CLASS,
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| Default Database Connection Name
 	|--------------------------------------------------------------------------
@@ -26,9 +26,9 @@ return [
 	|
 	*/
 
-	'default' => 'mysql',
+    'default' => env('DB_CONN', 'mysql'),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| Database Connections
 	|--------------------------------------------------------------------------
@@ -44,13 +44,19 @@ return [
 	|
 	*/
 
-	'connections' => [
+    'connections' => [
 
-		'sqlite' => [
-			'driver'   => 'sqlite',
-			'database' => storage_path().'/database.sqlite',
-			'prefix'   => '',
-		],
+        'sqlite' => [
+            'driver'   => 'sqlite',
+            'database' => base_path().'/test.db',
+            'prefix'   => '',
+        ],
+
+        'testing' => [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ],
 
 		'mysql' => [
 			'driver'    => 'mysql',

@@ -8,7 +8,7 @@ use Modules\Adldap\Services\LdapConnector;
 
 class DashController extends BaseController {
 
-	public function __construct(ConfigInterface $config) 
+	public function __construct(ConfigInterface $config)
 	{
 		$this->config = $config;
 	}

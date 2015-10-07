@@ -3,14 +3,15 @@
 use Illuminate\Foundation\Http\FormRequest;
 use App\Events\TicketCreateRequestValidateEvent;
 
-class TicketStoreRequest extends FormRequest {
+class TicketStoreRequest extends FormRequest
+{
 
 	protected $redirectRoute = 'tickets.create';
 
 	protected $rules = [
-    	'user_id' => ['required_without_all:display_name,email', 'exists:users,id'],
-    	'display_name' => ['required_without:user_id'],
-    	'email' => ['required_without:user_id', 'email'],
+		'user_id' => ['required_without_all:display_name,email', 'exists:users,id'],
+		'display_name' => ['required_without:user_id'],
+		'email' => ['required_without:user_id', 'email'],
         'priority' => ['required', 'between:1,5'],
         'title' => ['required', 'min:10'],
         'body' => ['required', 'min:10'],
@@ -51,5 +52,4 @@ class TicketStoreRequest extends FormRequest {
 
 		return $this->rules;
 	}
-
 }

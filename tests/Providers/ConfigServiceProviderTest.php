@@ -1,6 +1,6 @@
 <?php namespace Tests\Providers;
 
-use TestCase, Mockery as m;
+use Tests\TestCase, Mockery as m;
 use App\Providers\ConfigServiceProvider;
 use App\Config;
 
@@ -45,7 +45,7 @@ class ConfigServiceProviderTest extends TestCase {
 
 	public function testBootDeletesDbConfig()
 	{
-		
+
 		$this->app['config']->set('system.hottie', false);
 
 		$this->config->shouldReceive('delete')->with(3)->once();
@@ -57,7 +57,7 @@ class ConfigServiceProviderTest extends TestCase {
 		$this->assertFalse($this->app['config']->get('system.hottie'));
 	}
 
-	public function testBootNoConfigTable() 
+	public function testBootNoConfigTable()
 	{
 		$db = m::mock();
 		$db->shouldReceive('connection->getSchemaBuilder->hasTable')->andReturn(false);

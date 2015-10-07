@@ -4,7 +4,7 @@
 
 @section('content')
 <section class="content-header">
-	<h1> 
+	<h1>
 		{{ $ticket['actions'][0]['title'] }}
 		<!-- <small>#{{ $ticket['id'] }}</small> -->
 	</h1>
@@ -41,7 +41,7 @@
 						</ul>
                     </div>
 				</li>
-				<!-- /.timeline-label -->
+				{{--<!-- /.timeline-label -->
 				<!-- timeline item -->
 				<!-- <li>
 					<i class="fa fa-desktop bg-blue"></i>
@@ -49,7 +49,7 @@
 						<span class="time"><i class="fa fa-clock-o"></i> {{ $ticket['created_at']->format('g:i a') }}</span>
 						<h3 class="timeline-header"><a href="#">{{ $ticket['staff']['user']['display_name'] }}</a> created a ticket for <a href="#">{{ $ticket['user']['display_name'] }}</a></h3>
 						<div class="timeline-body">
-							<h5>{{ $ticket['subject'] }}</h5>	
+							<h5>{{ $ticket['subject'] }}</h5>
 							{{ $ticket['description'] }}
 						</div>
 						<div class='timeline-footer'>
@@ -58,7 +58,7 @@
 						</div>
 
 					</div>
-				</li> -->
+				</li> -->--}}
 				@foreach ($ticket['actions'] as $action)
 				@if (!isset($lastday) || !$action['created_at']->isSameDay($lastday))
 				<li class="time-label">
@@ -79,9 +79,9 @@
 						</ul>
 						<h3 class="timeline-header{{ $action['message'] == null ? ' no-border' : '' }}">
 							@if ($action['user_id'] == '0')
-							System 
+							System
 							@else
-							<a href="#">{{ $action['user']['display_name'] }}</a> 
+							<a href="#">{{ $action['user']['display_name'] }}</a>
 							@endif
 							@if ($action['type'] == 'reply')
 							replied to ticket
@@ -92,7 +92,7 @@
 							@elseif ($action['type'] == 'edit')
 							edited ticket
 							@elseif ($action['type'] == 'transfer')
-							transfered ticket to {{ $action['transfer']['name']}}
+							transfered ticket to {{ $action['transfer']['display_name']}}
 							@elseif ($action['type'] == 'assign')
 							assigned ticket to <a href="#">{{ $action['assigned']['user']['display_name'] }}</a>
 							@elseif ($action['type'] == 'create')
@@ -150,7 +150,7 @@
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-									<label class="col-md-4 control-label" for="textinput">Status</label>  
+									<label class="col-md-4 control-label" for="textinput">Status</label>
 									<div class="col-md-8">
 										<select name="status" class="form-control select2-default input-sm{!! Input::old('type') == 'reply' && $errors->has('status') ? ' has-error' : null !!}">
 											<option value="open"{!! Input::old('status') == 'open' ? ' selected=selected' : null !!}>Open</option>
@@ -162,7 +162,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="form-group{!! $errors->has('hours') && Input::old('type') == 'reply' ? ' has-error' : null !!}">
-									<label class="col-md-6 control-label" for="textinput">Worked Hours</label>  
+									<label class="col-md-6 control-label" for="textinput">Worked Hours</label>
 									<div class="col-md-6">
 										<input id="textinput" name="hours" type="text" value="{{ Input::old('type') == 'reply' ? Input::old('hours') : null }}" class="form-control input-sm">
 									</div>
@@ -170,7 +170,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="form-group{{ $errors->has('time_at') ? ' has-error' : null }}">
-									<label class="col-md-6 control-label" for="date">Worked Date</label>  
+									<label class="col-md-6 control-label" for="date">Worked Date</label>
 									<div class="col-md-6">
 										<input id="textinput" name="time_at" type="text" value="{{ old('time_at') ? old('time_at') : date('m/d/Y') }}" class="form-control input-sm singledate">
 									</div>
@@ -204,9 +204,9 @@
 						</div>
 						<div class="row">
 							<div class="col-md-4">
-								
+
 								<div class="form-group{!! Input::old('type') == 'comment' && $errors->has('hours') ? ' has-error' : null !!}">
-									<label class="col-md-6 control-label" for="textinput">Worked Hours</label>  
+									<label class="col-md-6 control-label" for="textinput">Worked Hours</label>
 									<div class="col-md-6">
 										<input id="textinput" name="hours" type="text" value="{!! Input::old('type') == 'comment' ? Input::old('hours') : null !!}" class="form-control input-sm">
 									</div>
@@ -214,7 +214,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="form-group{{ $errors->has('time_at') ? ' has-error' : null }}">
-									<label class="col-md-6 control-label" for="date">Worked Date</label>  
+									<label class="col-md-6 control-label" for="date">Worked Date</label>
 									<div class="col-md-6">
 										<input id="textinput" name="time_at" type="text" value="{{ old('time_at') ? old('time_at') : date('m/d/Y') }}" class="form-control input-sm singledate">
 									</div>

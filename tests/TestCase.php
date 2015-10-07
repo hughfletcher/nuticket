@@ -1,14 +1,18 @@
-<?php
+<?php namespace Tests;
 
-abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
+use Illuminate\Foundation\Testing\TestCase as LaravelTestCase;
+use Mockery;
+
+abstract class TestCase extends LaravelTestCase
+{
 
 	protected $baseUrl = 'http://localhost';
 
 	/**
-	 * Creates the application.
-	 *
-	 * @return \Illuminate\Foundation\Application
-	 */
+	* Creates the application.
+	*
+	* @return \Illuminate\Foundation\Application
+	*/
 	public function createApplication()
 	{
 		$app = require __DIR__.'/../bootstrap/app.php';
@@ -18,23 +22,23 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		return $app;
 	}
 
-	public function tearDown() 
+	public function tearDown()
 	{
 		parent::tearDown();
 
 		Mockery::close();
 	}
 
-	public function mockEloquentResults($model, $data) 
+	public function mockEloquentResults($model, $data)
 	{
 		$results = array();
 
 		foreach ($data as $row => $row_data) {
-			
+
 			$model = new $model;
 
 			foreach ($row_data as $key => $value) {
-				
+
 				$model->$key = $value;
 			}
 
@@ -42,7 +46,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		}
 
-		return $results;
+		return new \Illuminate\Pagination\LengthAwarePaginator($results, 1, 20);
 	}
-
 }
