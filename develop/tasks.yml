@@ -1,6 +1,6 @@
 ---
 
-  - name: Update Ubuntu update cache 
+  - name: Update Ubuntu update cache
     apt: update_cache=yes
 
   - name: Create the App directory
@@ -24,8 +24,8 @@
       - redis-server
       - git-core
       - nodejs
-      - python 
-      - g++ 
+      - python
+      - g++
       - make
       - supervisor
 
@@ -53,6 +53,7 @@
       - php5-gd
       - php5-imap
       - php5-fpm
+      - php5-sqlite
     notify: restart nginx
 
   - name: Remove default nginx site

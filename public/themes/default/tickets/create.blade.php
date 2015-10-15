@@ -30,18 +30,18 @@
 				<div class="form-group{{ $errors->has('display_name') ? ' has-error' : null }}">
 					<label for="user_id" class="col-sm-1 control-label">User</label>
 					<div class="col-sm-5">
-						<input name="display_name" type="text" class="form-control input-sm{{ !is_null($user) ? ' hide' : null }}" value="{{ old('display_name') }}">
-						<p class="form-control-static user{{ is_null($user) ? ' hide' : null }}"><span>{{ $user['display_name'] }}{{ !is_null($user['email']) ? ' &lt;' . $user['email'] . '&gt;' : null }}</span> 
+						<input name="display_name" type="text" class="form-control input-sm{{ isset($user) ? ' hide' : null }}" value="{{ old('display_name') }}">
+						<p class="form-control-static user{{ !isset($user) ? ' hide' : null }}"><span>{{ isset($user) ? $user['display_name'] : null }}{{ isset($user) && isset($user['email']) ? ' &lt;' . $user['email'] . '&gt;' : null }}</span>
 						<button type="button" class="btn btn-default btn-xs pull-right">Change</button></p>
 						@if ($errors->has('display_name'))
 						<span class="help-block"><strong>{{ $errors->first('display_name') }}</strong></span>
 						@endif
 					</div>
 				</div>
-				<div class="form-group{{ $errors->has('email') ? ' has-error' : null }}">
+				<div class="form-group{{ $errors->has('email') ? ' has-error' : null }}{{ isset($user) ? ' hide' : null }}">
 					<label for="user_id" class="col-sm-1 control-label">Email</label>
 					<div class="col-sm-5">
-						<input name="email" type="text" class="form-control input-sm{{ !is_null($user) ? ' hide' : null }}" value="{{ old('email') }}">
+						<input name="email" type="text" class="form-control input-sm" value="{{ old('email') }}">
 						@if ($errors->has('email'))
 						<span class="help-block"><strong>{{ $errors->first('email') }}</strong></span>
 						@endif
@@ -67,7 +67,7 @@
 						<select name="assigned_id" class="form-control select2-default input-sm" placeholder="Select a Staff Member">
 							<option></option>
 							@foreach ($staff as $id => $user)
-								<option value="{{ $id }}"{{ Input::old('assigned_id') == $key ? ' selected=selected' : null }}>{{ $user }}</option>
+								<option value="{{ $id }}"{{ Input::old('assigned_id') == $id ? ' selected=selected' : null }}>{{ $user }}</option>
 							@endforeach
 						</select>
 						@if ($errors->has('assigned_id'))
@@ -116,7 +116,7 @@
 				<div class="tab-content">
 					<div class="tab-pane{!! Session::get('type') == null || Session::get('type') == 'reply' ? ' active' : '' !!}" id="reply">
 						<div class="form-group{!! $errors->has('status') ? ' has-error' : null !!}">
-							<label class="col-md-1 control-label" for="textinput">Status</label>  
+							<label class="col-md-1 control-label" for="textinput">Status</label>
 							<div class="col-md-3">
 								<select name="status" class="form-control select2-default input-sm">
 									<option value="open"{{ Input::old('status') == 'open' ? ' selected=selected' : null }}>Open</option>
@@ -147,7 +147,7 @@
 				</div>
 
 				<!-- <div class="form-group{{ $errors->has('time_spent') ? ' has-error' : null }}">
-					<label class="col-md-1 control-label" for="textinput">Worked</label>  
+					<label class="col-md-1 control-label" for="textinput">Worked</label>
 					<div class="col-md-1">
 						<input id="textinput" name="time_spent" type="text" value="{{ Input::old('time_spent') }}" class="form-control input-sm">
 					</div>
@@ -160,7 +160,7 @@
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group{{ $errors->has('hours') ? ' has-error' : null }}">
-							<label class="col-md-6 control-label" for="hours">Worked Hours</label>  
+							<label class="col-md-6 control-label" for="hours">Worked Hours</label>
 							<div class="col-md-6">
 								<input id="textinput" name="hours" type="text" value="{{ Input::old('hours') }}" class="form-control input-sm">
 							</div>
@@ -168,7 +168,7 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group{{ $errors->has('time_at') ? ' has-error' : null }}">
-							<label class="col-md-6 control-label" for="date">Worked Date</label>  
+							<label class="col-md-6 control-label" for="date">Worked Date</label>
 							<div class="col-md-6">
 								<input id="textinput" name="time_at" type="text" value="{{ old('time_at') ? old('time_at') : date('m/d/Y') }}" class="form-control input-sm singledate">
 							</div>

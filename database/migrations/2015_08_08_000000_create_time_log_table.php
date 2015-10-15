@@ -18,7 +18,7 @@ class CreateTimeLogTable extends Migration {
 			$table->integer('user_id');
 			$table->decimal('hours', 4, 2);
 			$table->enum('type', ['action', 'other', 'sick', 'holiday', 'vacation']);
-			$table->text('message');
+			$table->text('message')->nullable();
 			$table->integer('ticket_action_id')->nullable();
 			$table->timestamp('time_at');
 			$table->timestamps();
@@ -33,7 +33,7 @@ class CreateTimeLogTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('time_logs');
+		Schema::drop('time_log');
 	}
 
 }
