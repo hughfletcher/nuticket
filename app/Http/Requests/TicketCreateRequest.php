@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class TicketCreateRequest extends FormRequest
 {
+    protected $redirect = 'tickets/create';
+
     /**
      * Determine if the user is authorized to make this request.
      *
