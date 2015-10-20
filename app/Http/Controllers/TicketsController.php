@@ -70,7 +70,7 @@ class TicketsController extends BaseController
             $request->merge(['user_id' => $user->id]);
         }
 
-        $ticket = $this->tickets->create(array_add($request->except('hours'), 'auth_id', Auth::user()->id));
+        $ticket = $this->tickets->create(array_add($request->except(['hours', 'display_name', 'email']), 'auth_id', Auth::user()->id));
 
         $hours = $request->get('hours');
 

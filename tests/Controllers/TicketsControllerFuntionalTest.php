@@ -4,16 +4,19 @@ use Tests\TestCase;
 use Mockery as m;
 use App\User;
 use App\Ticket;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Artisan;
 
 class TicketControllerFunctionalTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function setUp()
     {
         parent::setUp();
-        Artisan::call('migrate:refresh');
-        Artisan::call('db:seed');
+        $this->runDatabaseMigrations();
+        $this->seed();
+        config(['modules.path' => base_path('nomodules')]);
     }
 
     public function testAllRequiresLogin()
@@ -42,12 +45,6 @@ class TicketControllerFunctionalTest extends TestCase
 
     public function testCreateNoUserRequested()
     {
-        // $request = m::mock('App\Http\Requests\TicketCreateRequest');
-        // $request->shouldReceive('has')->once()->andReturn(false);
-        // $this->app->instance('App\Http\Requests\TicketCreateRequest', $request);
-
-        $user = new User(['is_staff' => 0, 'display_name' => 'Hugh Fletcher']);
-
         $this->actingAs(factory(User::class, 'staff')->make())
             ->visit('/tickets/create')
             ->seePageIs('/tickets/create')
@@ -56,18 +53,6 @@ class TicketControllerFunctionalTest extends TestCase
 
     public function testCreateUserRequested()
     {
-        // $userModel = factory(User::class)->make();
-        // $userStaff = factory(User::class, 'staff', 10)->make();
-        // $user = m::mock('App\Contracts\Repositories\UserInterface');
-        // $user->shouldReceive('find')->once()->andReturn($userModel);
-        // $user->shouldReceive('findAllBy')->once()->andReturn($userStaff);
-        // $this->app->instance('App\Contracts\Repositories\UserInterface', $user);
-        //
-        // $request = m::mock('App\Http\Requests\TicketCreateRequest');
-        // $request->shouldReceive('has')->with('user_id')->once()->andReturn(true);
-        // $request->shouldReceive('get')->with('user_id')->once()->andReturn(315);
-        // $this->app->instance('App\Http\Requests\TicketCreateRequest', $request);
-
         $this->actingAs(factory(User::class, 'staff')->make())
             ->visit('/tickets/create?user_id=56')
             ->seePageIs('/tickets/create?user_id=56')
@@ -78,7 +63,152 @@ class TicketControllerFunctionalTest extends TestCase
     {
         $this->actingAs(factory(User::class, 'staff')->make())
             ->visit('/tickets/create?user_id=241')
-            ->seePageIs('/tickets/create?user_id=241')
+            ->seePageIs('/tickets/create')
             ->assertViewMissing('user');
+    }
+
+    public function testStoreCreateUser()
+    {
+        $this->startSession();
+
+        $data = factory(Ticket::class, 'ticket_create')->make()->toArray();
+        array_forget($data, ['user_id', 'status', 'hours', 'time_at', 'reply_body', 'comment_body']);
+        $data['_token'] = csrf_token();
+        // [dept_id, assigned_id, priority, display_name, email, title, body, _token]
+
+        $this->actingAs(factory(User::class, 'staff')->make())
+            ->expectsEvents(['App\Events\UserCreatedEvent'])
+            ->post('/tickets', $data)
+            ->followRedirects()
+            ->seePageIs('/tickets/301')
+            ->seeInDatabase(
+                'tickets',
+                array_merge(
+                    array_except($data, ['title', 'body', 'display_name', 'email', '_token']),
+                    ['id' => 301, 'user_id' => 201, 'status' => 'new', 'last_action_at' => null, 'hours' => 0]
+                )
+            )// [dept_id, assigned_id, priority, id, user_id, status, last_action_at, hours]
+            ->seeInDatabase(
+                'ticket_actions',
+                [
+                    'id' => 2093,
+                    'ticket_id' => 301,
+                    'user_id' => $this->app['auth']->user()->id,
+                    'type' => 'create',
+                    'title' => $data['title'],
+                    'body' => $data['body']
+                ]
+            )
+            ->seeInDatabase('users', ['id' => 201, 'display_name' => $data['display_name'], 'email' => $data['email']]);
+
+    }
+
+    public function testStoreTicketOnly()
+    {
+        $this->startSession();
+
+        $data = factory(Ticket::class, 'ticket_create')->make()->toArray();
+        array_forget($data, ['display_name', 'email', 'status', 'hours', 'time_at', 'reply_body', 'comment_body']);
+        $data['_token'] = csrf_token();
+        // [user_id, dept_id, assigned_id, priority, title, body, _token]
+
+        $this->actingAs(factory(User::class, 'staff')->make())
+            ->post('/tickets', $data)
+            ->followRedirects()
+            ->seePageIs('/tickets/301')
+            ->seeInDatabase(
+                'tickets',
+                array_merge(
+                    array_except($data, ['title', 'body', '_token']),
+                    ['id' => 301, 'status' => 'new', 'last_action_at' => null, 'hours' => 0]
+                )
+            )// [user_id, dept_id, assigned_id, priority, id, status, last_action_at, hours]
+            ->seeInDatabase(
+                'ticket_actions',
+                [
+                    'id' => 2093,
+                    'ticket_id' => 301,
+                    'user_id' => $this->app['auth']->user()->id,
+                    'type' => 'create',
+                    'title' => $data['title'],
+                    'body' => $data['body']
+                ]
+            );
+    }
+
+    public function testStoreWithOnlyReply()
+    {
+        $this->startSession();
+
+        $data = factory(Ticket::class, 'ticket_create')->make()->toArray();
+        array_forget($data, ['display_name', 'email', 'status', 'hours', 'time_at', 'comment_body']);
+        $data['_token'] = csrf_token();
+        // [user_id, dept_id, assigned_id, priority, title, body, reply_body, _token]
+
+        $this->actingAs(factory(User::class, 'staff')->make())
+            ->post('/tickets', $data)
+            ->followRedirects()
+            ->seePageIs('/tickets/301')
+            ->seeInDatabase(
+                'tickets',
+                array_merge(
+                    array_except($data, ['title', 'body', '_token', 'reply_body']),
+                    ['id' => 301, 'status' => 'open', 'hours' => 0]
+                )
+            )// [user_id, dept_id, assigned_id, priority, id, status, last_action_at, hours]
+            ->seeInDatabase(
+                'ticket_actions',
+                [
+                    'id' => 2093,
+                    'ticket_id' => 301,
+                    'user_id' => $this->app['auth']->user()->id,
+                    'type' => 'create',
+                    'title' => $data['title'],
+                    'body' => $data['body']
+                ]
+            )
+            ->seeInDatabase(
+                'ticket_actions',
+                [
+                    // 'id' => 2094,
+                    'ticket_id' => 301,
+                    'user_id' => $this->app['auth']->user()->id,
+                    'type' => 'reply',
+                    // 'title' => null,
+                    'body' => $data['reply_body']
+                ]
+            );
+            // dd(\App\Ticket::find(301)->toArray());
+            // dd(\App\TicketAction::find(2094)->toArray());
+    }
+
+    public function testStoreWithReplyAndComment()
+    {
+        # code...
+    }
+
+    public function testStoreWithOnlyReplyStatusClosed()
+    {
+        # code...
+    }
+
+    public function testStoreWithReplyStatusResolved()
+    {
+        # code...
+    }
+
+    public function testStoreWithReplyStatusOpen()
+    {
+        # code...
+    }
+
+    public function testStoreWithReplyAndCommentWithHours()
+    {
+        # code...
+    }
+
+    public function testStoreWithCommentWithHours()
+    {
+        # code...
     }
 }
