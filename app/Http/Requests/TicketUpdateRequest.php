@@ -1,6 +1,7 @@
 <?php namespace App\Http\Requests;
 
-class FormTicketUpdateRequest extends FormRequest {
+class TicketUpdateRequest extends FormRequest
+{
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -27,5 +28,4 @@ class FormTicketUpdateRequest extends FormRequest {
 	        'reason' => ['required', 'min:5']
         ];
 	}
-
 }

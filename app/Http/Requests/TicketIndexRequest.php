@@ -2,18 +2,19 @@
 
 use App\Http\Requests\Request;
 
-class QueryTicketRequest extends QueryRequest {
+class TicketIndexRequest extends QueryRequest
+{
 
 	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
+	* Get the validation rules that apply to the request.
+	*
+	* @return array
+	*/
 	public function rules()
 	{
 		return array_merge(parent::rules(), [
 			'status' => ['regex:/^(-?(open|closed|new)){1,3}$/'],
-        	'assigned_id' => ['regex:/^\d+(-\d+)*$/']
+			'assigned_id' => ['regex:/^\d+(-\d+)*$/']
 		]);
 	}
 
@@ -21,5 +22,4 @@ class QueryTicketRequest extends QueryRequest {
 	{
 		return ['id', 'last_action_at', 'subject', 'user', 'priority', 'staff'];
 	}
-
 }
