@@ -15,14 +15,14 @@ class TicketActionRepository extends Repository implements TicketActionInterface
 
     /**
      * Create Action and update ticket
-     *         
+     *
      * @param  array $attrs [ticket_id, user_id, type, body, [title, assigned_id, transfer_id, hours, status]]
      * @return App\TicketAction
      */
-	public function create(array $data) {
-
+    public function create(array $data)
+    {
         // create action
-		$action = $this->model->create($data);
+        $action = parent::create(array_except($data, ['hours', 'time_at', 'status']));
 
         //update timelog
         if (isset($data['hours']))
@@ -45,10 +45,10 @@ class TicketActionRepository extends Repository implements TicketActionInterface
 
 	}
 
-    protected function updateTimeLog($action_id, $user_id, $hours, $time_at) 
+    protected function updateTimeLog($action_id, $user_id, $hours, $time_at)
     {
         return $this->createTimeLogModel()->create([
-            'user_id' => $user_id, 
+            'user_id' => $user_id,
             'hours' => $hours,
             'type' => 'action',
             'ticket_action_id' => $action_id,
@@ -58,16 +58,16 @@ class TicketActionRepository extends Repository implements TicketActionInterface
 
         /**
      * Update ticket by a reply ticket action
-     * 
+     *
      * @param  array App\TicketAction + $status
      * @return array App\Ticket + $old_status
      */
-    protected function updateTicket(array $data) 
-    {   
+    protected function updateTicket(array $data)
+    {
         $ticket = $this->createTicketModel()->find($data['ticket_id']);
         // $ticket = $ticket;
 
-        $old_status = $ticket->status;
+        $old_status = $ticket->status != 'new' ? $ticket->status : null;
 
         $ticket->last_action_at = Carbon::now();
 
@@ -80,7 +80,7 @@ class TicketActionRepository extends Repository implements TicketActionInterface
         if (in_array($data['type'], ['reply', 'closed', 'resolved']))
         {
             $ticket->status = isset($data['status']) ? $data['status'] : $ticket->status;
-            $ticket->closed_at = isset($data['status']) && in_array($data['status'], ['resolved', 'closed']) ? Carbon::now() : $ticket->closed_at; 
+            $ticket->closed_at = isset($data['status']) && in_array($data['status'], ['resolved', 'closed']) ? Carbon::now() : $ticket->closed_at;
         }
 
         if ($data['type'] == 'transfer')
@@ -94,17 +94,17 @@ class TicketActionRepository extends Repository implements TicketActionInterface
         }
 
         $ticket->save();
-        // $ticket->put('old_status', $old_status); 
+        // $ticket->put('old_status', $old_status);
 
         return array_add($ticket->toArray(), 'old_status', $old_status);
     }
 
-    public function createTicketModel() 
+    public function createTicketModel()
     {
         return new Ticket;
     }
 
-    public function createTimeLogModel() 
+    public function createTimeLogModel()
     {
         return new TimeLog;
     }
