@@ -6,30 +6,24 @@ use Mockery;
 abstract class TestCase extends LaravelTestCase
 {
 
-	protected $baseUrl = 'http://localhost';
 
-	/**
-	* Creates the application.
-	*
-	* @return \Illuminate\Foundation\Application
-	*/
-	public function createApplication()
-	{
+    protected $baseUrl = 'http://localhost';
+
+    /**
+    * Creates the application.
+    *
+    * @return \Illuminate\Foundation\Application
+    */
+    public function createApplication()
+    {
 		$app = require __DIR__.'/../bootstrap/app.php';
 
-		$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
-		return $app;
+        return $app;
 	}
 
-	public function tearDown()
-	{
-		parent::tearDown();
-
-		Mockery::close();
-	}
-
-	public function mockEloquentResults($model, $data)
+    public function mockEloquentResults($model, $data)
 	{
 		$results = array();
 
