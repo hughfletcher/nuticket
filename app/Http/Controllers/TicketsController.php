@@ -65,7 +65,12 @@ class TicketsController extends BaseController
         if (!$request->has('user_id')) {
             $user = $this->user->create([
                 'display_name' => $request->input('display_name'),
-                'email' => $request->input('email')
+                'email' => $request->input('email'),
+                'username' =>  preg_replace(
+                    "/[^a-zA-Z0-9]/",
+                    "",
+                    $request->input('display_name')
+                ) . rand(10000, 99990)
             ]);
             $request->merge(['user_id' => $user->id]);
         }
