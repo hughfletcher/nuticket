@@ -4,7 +4,7 @@ use App\Repositories\TicketActionInterface;
 use Bosnadev\Repositories\Contracts\RepositoryInterface;
 use Bosnadev\Repositories\Eloquent\Repository;
 use App\Ticket;
-use App\Timelog;
+use App\TimeLog;
 use Carbon\Carbon;
 
 class TicketActionRepository extends Repository implements TicketActionInterface {
