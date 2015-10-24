@@ -42,8 +42,8 @@ class TicketRepository extends Repository implements TicketInterface {
     	$this->model = $this->model->select(
     			'tickets.*',
     			'ticket_actions.title as title',
-    			'users.display_name as user_display_name',
-    			'su.display_name as assigned_display_name'
+    			'users.display_name as user',
+    			'su.display_name as assigned'
     		)
 			->join('users', 'users.id', '=', 'tickets.user_id')
 			->join('users as su', 'su.id', '=', 'tickets.assigned_id')

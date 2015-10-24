@@ -60,12 +60,12 @@
 									<thead>
 										<tr>
 											<th><a href="{{ sort_url('id') }}">Id<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('id', null, '-') }}"></i></span></a></th>
-											<th><a href="{{ sort_url('created_at') }}">Created<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('last_action_at', null, '-') }}"></i></span></a></th>
+											<th><a href="{{ sort_url('created_at') }}">Created<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('created_at', null, '-') }}"></i></span></a></th>
 											<th><a href="{{ sort_url('last_action_at') }}">Last Action<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('last_action_at', null, '-') }}"></i></span></a></th>
-											<th><a href="{{ sort_url('subject') }}">Subject<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('subject', null, '-') }}"></i></span></a></th>
+											<th><a href="{{ sort_url('title') }}">Subject<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('title', null, '-') }}"></i></span></a></th>
 											<th><a href="{{ sort_url('user') }}">From<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('user', null, '-') }}"></i></span></a></th>
 											<th><a href="{{ sort_url('priority') }}">Priority<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('priority', null, '-') }}"></i></span></a></th>
-											<th><a href="{{ sort_url('staff') }}">Assigned<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('staff', null, '-') }}"></i></span></a></th>
+											<th><a href="{{ sort_url('assigned') }}">Assigned<span class="pull-right"><i class="fa fa-fw fa-sort{{ order('assigned', null, '-') }}"></i></span></a></th>
 										</tr>
 									</thead>
 
@@ -77,9 +77,9 @@
 											<td>{{ date_format($ticket['created_at'], config('system.date_format')) }}</td>
 											<td>{{ is_null($ticket['last_action_at']) ? 'None' : date_format($ticket['last_action_at'], config('system.date_format')) }}</td>
 											<td><a href="{{ route('tickets.show', [$ticket['id']]) }}">{{ $ticket->title }}</a></td>
-											<td>{{ $ticket['user_display_name'] }}</td>
+											<td>{{ $ticket['user'] }}</td>
 											<td>{{ $ticket['priority'] }}</td>
-											<td>{{ $ticket->assigned_display_name }}</td>
+											<td>{{ $ticket->assigned }}</td>
 										</tr>
 										@endforeach
 									</tbody>
