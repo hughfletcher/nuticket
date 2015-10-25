@@ -15,7 +15,7 @@ app.controllers.ticketsCreate = {
 		me.modal = app.modals.userSelect.init(this.app);
 		me.initUser();
 
-		
+
 
 		//listeners
 		this.modal.container.on('hide.bs.modal', function(e) { me.modalOnHide(e, me) });
@@ -25,14 +25,14 @@ app.controllers.ticketsCreate = {
 	},
 	'initUser': function() {
 
-		// console.log($('div.form-group').hasClass('has-error'));
-		if (this.pUser.hasClass('hide') && !$('div.form-group').hasClass('has-error')) {
+		console.log(this.inputUserId.val());
+		if (!this.inputUserId.val()) {
 			this.modal.container.modal('show');
 			return;
 		}
 	},
 	'modalOnHide': function(e, me) {
-		
+
 		if (me.modal.user) {
 
 			me.inputDisplayName.addClass('hide').prop("readonly", true);
@@ -46,7 +46,7 @@ app.controllers.ticketsCreate = {
 				me.pUserSpan.append(' &lt;' + me.modal.user.email + '&gt;');
 			}
 		}
-		
+
 	},
 	'changeOnClick': function(e, me) {
 		this.modal.container.modal('show');

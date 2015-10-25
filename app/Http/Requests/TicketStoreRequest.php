@@ -6,8 +6,6 @@ use App\Events\TicketCreateRequestValidateEvent;
 class TicketStoreRequest extends FormRequest
 {
 
-	protected $redirectRoute = 'tickets.create';
-
 	protected $rules = [
 		'user_id' => ['required_without_all:display_name,email', 'exists:users,id'],
 		'display_name' => ['required_without:user_id'],
@@ -41,6 +39,7 @@ class TicketStoreRequest extends FormRequest
 	 */
 	public function rules()
 	{
+        $this->redirect = 'tickets/create' . ($this->has('user_id') ? '?user_id=' . $this->get('user_id') : null);
 
 		if ($this->input('reply_body') != '') {
 			$this->rules['reply_body'] = $this->rules['reply_body'] + ['required_with:hours,status,date'];
