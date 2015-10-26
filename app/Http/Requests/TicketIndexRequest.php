@@ -20,6 +20,6 @@ class TicketIndexRequest extends QueryRequest
 
 	public function sort()
 	{
-		return ['id', 'last_action_at', 'title', 'user', 'priority', 'assigned'];
+		return ['id', 'last_action_at', 'title', 'user', 'priority', 'assigned', 'created_at'];
 	}
 }

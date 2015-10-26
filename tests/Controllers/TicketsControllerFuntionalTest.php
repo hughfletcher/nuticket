@@ -35,6 +35,22 @@ class TicketControllerFunctionalTest extends TestCase
             ->assertViewHas(['open_count', 'close_count', 'assigned_count', 'tickets']);
     }
 
+    public function testIndexWithCreatedAtSortAsc()
+    {
+        $this->actingAs(factory(User::class, 'staff')->make())
+            ->visit('/tickets?sort=created_at&order=asc')
+            ->seePageIs('/tickets?order=asc&sort=created_at')
+            ->see('10/14/2005');
+    }
+
+    public function testIndexWithCreatedAtSortDesc()
+    {
+        $this->actingAs(factory(User::class, 'staff')->make())
+            ->visit('/tickets?sort=created_at&order=desc')
+            ->seePageIs('/tickets?order=desc&sort=created_at')
+            ->see('09/24/2015');
+    }
+
     public function testShow()
     {
         $this->actingAs(factory(User::class, 'staff')->make())
