@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration {
 			$table->string('display_name')->nullable();
 			$table->string('email')->nullable();
 			$table->boolean('is_staff')->default(0);
+			$table->boolean('is_admin')->default(0);
 			$table->timestamps();
 			$table->softDeletes();
 			$table->rememberToken()->nullable();
