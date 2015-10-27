@@ -1,22 +1,19 @@
-<?php 
+<?php
 
 return [
 	'Tickets' => [
-		'public' => true,
 		'children' => [
 			'Tickets' => [
-				'route' => 'tickets.index',
-				'public' => true
+				'route' => 'tickets.index'
 			],
 			'Create Ticket' => [
-				'route' => 'tickets.create',
-				'public' => true
+				'route' => 'tickets.create'
 			]
-		] 
+		]
 	],
 
 	'Reports' => [
-		'public' => false,
+		'permissions' => ['isStaff'],
 		'url' => 'reports'
 	]
 ];
