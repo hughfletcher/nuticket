@@ -10,8 +10,13 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="Application Test Suite">
-            <directory>./tests/</directory>
+        <testsuite name="Unit">
+            <directory>./tests/Unit/</directory>
+        </testsuite>
+    </testsuites>
+    <testsuites>
+        <testsuite name="Functional">
+            <directory>./tests/Funtional/</directory>
         </testsuite>
     </testsuites>
     <filter>

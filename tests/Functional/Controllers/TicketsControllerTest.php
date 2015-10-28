@@ -1,4 +1,4 @@
-<?php namespace Tests\Controllers;
+<?php namespace Tests\Functional\Controllers;
 
 use Tests\TestCase;
 use Mockery as m;
@@ -7,7 +7,7 @@ use App\Ticket;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Artisan;
 
-class TicketControllerFunctionalTest extends TestCase
+class TicketControllerTest extends TestCase
 {
     use DatabaseMigrations;
 

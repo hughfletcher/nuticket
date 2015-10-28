@@ -1,4 +1,4 @@
-<?php namespace Tests\Providers;
+<?php namespace Tests\Unit\Providers;
 
 use Tests\TestCase, Mockery as m;
 use App\Providers\ConfigServiceProvider;
