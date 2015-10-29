@@ -1,7 +1,8 @@
 <?php namespace App\Services;
 
-use Illuminate\Foundation\Application;
+use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Auth\Access\Gate;
+use Caffeinated\Menus\Menu as CaffeinatedMenu;
 use Caffeinated\Menus\Builder;
 use Illuminate\Auth\AuthManager;
 
@@ -9,12 +10,13 @@ class Menu {
 
 	/**
 	 * Create a Menu instance
-	 *
-	 * @param Illuminate\Foundation\Application $app
-	 */
-	public function __construct(Application $app, AuthManager $auth, Gate $gate)
+     *
+     * @param Illuminate\Foundation\Application $app
+     */
+    public function __construct(CaffeinatedMenu $menu, Config $config, AuthManager $auth, Gate $gate)
     {
-		$this->app = $app;
+		$this->config = $config;
+		$this->menu = $menu;
 		$this->auth = $auth;
         $this->gate = $gate;
 	}
@@ -29,34 +31,16 @@ class Menu {
 	public function make($namespace, array $config = null) {
 
 		if (!$config) {
-			$config = $this->app['config']->get('menu');
+			$config = $this->config->get('menu');
 		}
 
-
-		$this->app['menu']->make($namespace, function($menu) use($config) {
-
-		  	$this->build($config, $menu);
+        $this->menu->make($namespace, function($menu) use ($config) {
+            $this->build($config, $menu);
 
 
 		})->filter(function($item){
+            return $this->filter($item);
 
-            if (!$this->auth->check()) {
-                return false;
-            }
-
-            if (!isset($item->data['permissions'])) {
-                return true;
-            }
-
-            if (is_array($item->data['permissions'])) {
-                foreach ($item->data('permissions') as $permission) {
-                    if ($this->gate->denies($permission)) {
-                        return false;
-                    }
-                }
-            }
-
-  			return true;
 		});;
 	}
 
@@ -68,7 +52,7 @@ class Menu {
 	 * @param  string|null $namespace
 	 * @return void
 	 */
-	protected function build(array $config, Builder $menu, $namespace = null) {
+	public function build(array $config, Builder $menu, $namespace = null) {
 
 		foreach ($config as $key => $value) {
 
@@ -99,4 +83,25 @@ class Menu {
 		}
 
 	}
+
+    public function filter($item)
+    {
+        if (!$this->auth->check()) {
+            return false;
+        }
+
+        if (!isset($item->data['permissions'])) {
+            return true;
+        }
+
+        if (is_array($item->data['permissions'])) {
+            foreach ($item->data('permissions') as $permission) {
+                if ($this->gate->allows($permission)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
