@@ -23,6 +23,14 @@ abstract class TestCase extends LaravelTestCase
         return $app;
 	}
 
+    public function tearDown()
+    {
+        if ($container = Mockery::getContainer()) {
+            $this->addToAssertionCount($container->mockery_getExpectationCount());
+        }
+        parent::tearDown();
+    }
+
     public function mockEloquentResults($model, $data)
 	{
 		$results = array();
