@@ -87,6 +87,26 @@ class RoboFile extends \Robo\Tasks
 		})->run();
 	}
 
+    public function testing()
+    {
+        $this->taskWatch()->monitor('tests', function ($event) {
+            $this->taskPHPUnit()
+                ->files([$event->getResource()])
+                ->run();
+        })->run();
+    }
+
+    public function test($suite = 'Unit', $opts = ['coverage|c' => false])
+    {
+        $task = $this->taskPHPUnit()->option('testsuite', ucfirst($suite));
+
+        if ($opts['coverage']) {
+            $task = $task->option('coverage-html', 'public/cc/' . strtolower($suite));
+        }
+
+        $task->run();
+    }
+
     private function b($path = '')
     {
         return $this->bowerPath . $path;
