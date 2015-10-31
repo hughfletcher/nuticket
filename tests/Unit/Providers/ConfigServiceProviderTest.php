@@ -15,15 +15,15 @@ class ConfigServiceProviderTest extends TestCase {
 		$this->app->instance('db', $db);
 
 		$result = $this->mockEloquentResults('App\Config', [
-			['key' => 'system.eyes', 'value' => 'blue', 'enviroment' => 'production', 'id' => 1],
-			['key' => 'system.hair', 'value' => 'brunette', 'enviroment' => 'production', 'id' => 2],
-			['key' => 'system.hottie', 'value' => 0, 'enviroment' => 'production', 'id' => 3]
+			['key' => 'system.eyes', 'value' => 'blue', 'id' => 1],
+			['key' => 'system.hair', 'value' => 'brunette',  'id' => 2],
+			['key' => 'system.hottie', 'value' => 0, 'id' => 3]
 		]);
 
 
 
 		$this->config = m::mock('App\Repositories\Eloquent\ConfigRepository');
-		$this->config->shouldReceive('findAllBy')->atMost(1)->andReturn($result);
+		$this->config->shouldReceive('all')->atMost(1)->andReturn($result);
 		$this->app->instance('App\Repositories\ConfigInterface', $this->config);
 	}
 

@@ -6,20 +6,21 @@ class Config extends Model {
 
 	protected $table = 'config';
 
+    public $timestamps = false;
+
 	protected $fillable = [
-        'enviroment', 
         'key',
         'value'
     ];
 
     public function getValueAttribute($value)
     {
-        if(in_array($value, ['0', 'false']) || $value === null) 
+        if(in_array($value, ['0', 'false']) || $value === null)
         {
             return false;
         }
 
-        if(in_array($value, ['1', 'true'])) 
+        if(in_array($value, ['1', 'true']))
         {
         	return true;
         }
@@ -28,4 +29,3 @@ class Config extends Model {
     }
 
 }
- 
