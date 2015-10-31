@@ -12,10 +12,7 @@ class ConfigRepository extends Repository implements ConfigInterface {
 
     public function store($key, $value)
     {
-    	$item = $this->model->firstOrCreate([
-    		'key' => $key,
-    		'enviroment' => app()->environment()
-    	]);
+    	$item = $this->model->firstOrCreate(['key' => $key]);
 
     	$item->value = $value;
     	$item->save();

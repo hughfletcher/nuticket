@@ -15,10 +15,9 @@ class CreateConfigTable extends Migration {
 		Schema::create(
 			'config', function ($table) {
 				$table->increments('id');
-				$table->string('environment', 255);
 				$table->string('key', 255)->index();
 				$table->text('value');
-				$table->unique(array('environment', 'key'));
+				$table->unique(array('key'));
 			}
 		);
 	}

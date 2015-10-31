@@ -18,7 +18,7 @@ class ConfigServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    
+
 
     public function boot()
     {
@@ -29,19 +29,19 @@ class ConfigServiceProvider extends ServiceProvider
 
         $config = $this->app->make('App\Repositories\ConfigInterface');
 
-        $values = $config->findAllBy('environment', $this->app->environment());
+        $values = $config->all();
 
         foreach ($values as $row) {
 
-            if ($this->app['config']->get($row->key) === $row->value)
+            if ($this->app['config']->get($row->key) == $row->value)
             {
                 $config->delete($row->id);
             }
-            else 
+            else
             {
                 $this->app['config']->set($row->key, $row->value);
             }
-            
+
        }
 
     }
