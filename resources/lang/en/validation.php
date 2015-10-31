@@ -74,6 +74,8 @@ return [
 	"url"                  => "The :attribute format is invalid.",
 	"timezone"             => "The :attribute must be a valid zone.",
 
+    'were_sucessfully_updated' => ':name were successfully updated.',
+
 	/*
 	|--------------------------------------------------------------------------
 	| Custom Validation Language Lines

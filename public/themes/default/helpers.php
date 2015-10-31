@@ -3,11 +3,12 @@
 if ( ! function_exists('menu_icon'))
 {
 	function menu_icon($string) {
-		
+
 		$icons = [
 			'Tickets' => 'ticket',
 			'Reports' => 'book',
-			'Change Log' => 'flask'
+			'Change Log' => 'flask',
+            'Settings' => 'gear'
 		];
 
 		return $icons[$string];
@@ -18,7 +19,7 @@ if ( ! function_exists('menu_icon'))
 // if ( ! function_exists('js'))
 // {
 // 	function js($path) {
-		
+
 // 		return asset('themes/default/assets/js/' . $path);
 
 // 	}
@@ -27,7 +28,7 @@ if ( ! function_exists('menu_icon'))
 if ( ! function_exists('user'))
 {
 	function user($string) {
-		
+
 		return app('auth')->user()->{$string};
 
 	}
@@ -57,16 +58,16 @@ if ( ! function_exists('cached_asset'))
 // if ( ! function_exists('datetime'))
 // {
 // 	function datetime($time) {
-		
+
 // 		return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $time)->format(config('site.date_time_format', 'm/d/Y g:i a'));
-		
+
 // 	}
 // }
 
 if ( ! function_exists('sort_url'))
 {
 	function sort_url($field) {
-		
+
 		$query = app('request')->query();
 		$order = 'desc';
 
@@ -78,22 +79,22 @@ if ( ! function_exists('sort_url'))
 
 		$query['sort'] = $field;
 		$query['order'] = $order;
-		
+
 
 		return route(app('router')->currentRouteName(), array_except($query, ['_url']));
-		
+
 	}
 }
 
 if ( ! function_exists('order'))
 {
 	function order($field, $default = null, $prefix = null) {
-		
+
 		$query = app('request')->query();
 		if (isset($query['sort']) && $query['sort']== $field) {
 			return $prefix . $query['order'];
 		}
-		
+
 		return $default;
 	}
 }
@@ -110,5 +111,3 @@ if ( ! function_exists('array_json'))
 		return json_encode($json);
 	}
 }
-
-

@@ -15,5 +15,13 @@ return [
 	'Reports' => [
 		'permissions' => ['isStaff'],
 		'url' => 'reports'
-	]
+	],
+    'Settings' => [
+        'permissions' => ['isAdmin'],
+        'children' => [
+            'System' => [
+                'url' => 'settings/system',
+            ]
+        ]
+    ]
 ];

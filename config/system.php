@@ -2,8 +2,10 @@
 
 return [
 
-	'page_size' => 25,
-	
+    'title' => 'NuTicket :: Ticket Support System',
+
+	'pagesize' => 25,
+
 	'time' => [
 		'enabled' => true,
 		'user_edit' => true

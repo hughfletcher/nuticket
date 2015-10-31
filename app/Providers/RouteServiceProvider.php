@@ -23,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider {
 	public function boot(Router $router)
 	{
 		//
-		
+
 		parent::boot($router);
 	}
 
@@ -42,26 +42,22 @@ class RouteServiceProvider extends ServiceProvider {
 				$router->get('/', array('as' => 'dash.index', 'uses' => 'DashController@getIndex'));
 
 				$router->resource('session', 'SessionController', ['only' => ['store', 'create', 'index']]);
-				
+
 
 				$router->group(array('middleware' => 'auth'), function($router) {
 
-					$router->resource('tickets', 'TicketsController', ['except' => ['destroy']]); 
+					$router->resource('tickets', 'TicketsController', ['except' => ['destroy']]);
 					$router->resource('actions', 'TicketActionsController', ['only' => ['store']]);
 					$router->resource('reports', 'ReportsController', ['only' => ['index', 'show']]);
+
+                    $router->get('settings/{type}', ['as' => 'settings.edit', 'uses' => 'SettingsController@edit']);
+                    $router->put('settings/{type}', ['as' => 'settings.update', 'uses' => 'SettingsController@update']);
 
 					$router->group(['prefix' => 'me'], function($router) {
 						$router->resource('time', 'TimeController');
 
 					});
-					
-					// 	'index' => 'me.time.index',
-					// 	'store' => 'me.time.store',
-					// 	'edit' => 'me.time.edit',
-					// 	'update' => 'me.time.update',
-					// 	'delete' => 'me.time.delete',
-					// 	'destroy' => 'me.time.destroy',
-					// ]]);
+
 				});
 
 			});

@@ -7,7 +7,7 @@ var app = {
 	'modals': {},
 	'controllers': {},
 	'init': function(route)
-	{	
+	{
 		var me = this;
 
 		$.ajaxSetup({
@@ -26,7 +26,7 @@ var app = {
     if (typeof window['app']['controllers'][route] != "undefined") {
         this.controller = window['app']['controllers'][route].init(this);
     }
-		
+
 	},
 	'depricated': function() {
 
@@ -34,16 +34,17 @@ var app = {
         var url = document.location.toString();
         if (url.match('#')) {
             $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
-        } 
+        }
         $('.go-show-tab').click(function() {
             $('.nav-tabs a[href="' + $(this).attr('href') + '"]').tab('show')
         })
 
-        
-        
+
+
         //user add/select modal
 
       $("select.select2-default").select2({minimumResultsForSearch: 8});
+      $("select.select2-nosearch").select2({minimumResultsForSearch: -1});
 
         $('.daterange').daterangepicker();
         $('.daterange-rangeonly').daterangepicker({
@@ -57,15 +58,15 @@ var app = {
              'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
           },
         });
-        $('.singledate').daterangepicker({ 
-            singleDatePicker: true, 
-            format: 'MM/DD/YYYY', 
+        $('.singledate').daterangepicker({
+            singleDatePicker: true,
+            format: 'MM/DD/YYYY',
             drops: 'up'
         });
-        $('.singledatedown').daterangepicker({ 
-            singleDatePicker: true, 
-            format: 'MM/DD/YYYY', 
+        $('.singledatedown').daterangepicker({
+            singleDatePicker: true,
+            format: 'MM/DD/YYYY',
             drops: 'down'
         });
-	} 
+	}
 }
