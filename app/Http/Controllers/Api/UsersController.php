@@ -19,8 +19,8 @@ class UsersController extends Controller {
 	public function index(UserQueryRequest $request)
 	{
 
-		return response()->json($this->user->all(explode(',', $request->get('fields')), $request->all()));
-		
+		return response()->json($this->user->all(explode(',', $request->get('fields')), $request->all(), false));
+
 
 	}
 
@@ -32,11 +32,11 @@ class UsersController extends Controller {
 	 */
 	public function store(UserStoreRequest $request)
 	{
-		if (!$request->exists('display_name') && ($request->has('first_name') || $request->has('last_name'))) 
+		if (!$request->exists('display_name') && ($request->has('first_name') || $request->has('last_name')))
 		{
 			$request->merge(['display_name' => $request->input('first_name') . ' ' . $request->input('last_name')]);
 		}
-		
+
 		return $this->user->create($request->all());
 	}
 
@@ -51,7 +51,7 @@ class UsersController extends Controller {
 	{
 		// dd($this->user->find($id));
 		$result = $this->user->find($id);
-			
+
 		return response()->json($result);
 	}
 
@@ -62,9 +62,9 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($request, $id)
 	{
-		$this->user->update($id, Request::all());
+		$this->user->update($id, $request->all());
 	}
 
 
