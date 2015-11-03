@@ -16,10 +16,10 @@ return [
 		'permissions' => ['isStaff'],
 		'url' => 'reports'
 	],
-    'Settings' => [
+    'settings.settings' => [
         'permissions' => ['isAdmin'],
         'children' => [
-            'System' => [
+            'settings.system' => [
                 'url' => 'settings/system',
             ]
         ]
