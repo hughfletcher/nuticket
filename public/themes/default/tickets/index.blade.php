@@ -79,7 +79,7 @@
 											<td><a href="{{ route('tickets.show', [$ticket['id']]) }}">{{ $ticket->title }}</a></td>
 											<td>{{ $ticket['user'] }}</td>
 											<td>{{ $ticket['priority'] }}</td>
-											<td>{{ $ticket->assigned }}</td>
+											<td>{{ $ticket->assigned or trans('nobody') }}</td>
 										</tr>
 										@endforeach
 									</tbody>
