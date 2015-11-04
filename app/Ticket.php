@@ -12,7 +12,7 @@ class Ticket extends Eloquent {
         'last_action_at',
         'user_id',
         'priority',
-        'staff_id',
+        'assigned_id',
         'status',
         'dept_id',
         'hours'
