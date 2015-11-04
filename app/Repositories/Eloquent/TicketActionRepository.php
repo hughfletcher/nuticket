@@ -90,7 +90,7 @@ class TicketActionRepository extends Repository implements TicketActionInterface
 
         if ($data['type'] == 'assign')
         {
-            $ticket->staff_id = $data['assigned_id'];
+            $ticket->assigned_id = $data['assigned_id'];
         }
 
         $ticket->save();

@@ -94,7 +94,7 @@
 							@elseif ($action['type'] == 'transfer')
 							transfered ticket to {{ $action['transfer']['display_name']}}
 							@elseif ($action['type'] == 'assign')
-							assigned ticket to <a href="#">{{ $action['assigned']['user']['display_name'] }}</a>
+							assigned ticket to <a href="#">{{ $action->assigned->display_name or trans('nobody') }}</a>
 							@elseif ($action['type'] == 'create')
 							created ticket
 							@elseif ($action['type'] == 'open')
