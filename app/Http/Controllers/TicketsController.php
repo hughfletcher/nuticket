@@ -7,8 +7,6 @@ use App\Http\Requests\TicketIndexRequest;
 use App\Http\Requests\TicketStoreRequest;
 use App\Http\Requests\TicketCreateRequest;
 use App\Http\Requests\TicketUpdateRequest;
-use App\Events\TicketCreatedEvent;
-use App\Events\ActionCreatedEvent;
 use Auth;
 
 class TicketsController extends BaseController
@@ -78,12 +76,11 @@ class TicketsController extends BaseController
         }
 
         $ticket = $this->tickets->create(array_add($request->except(['hours', 'display_name', 'email']), 'auth_id', Auth::user()->id));
-        event(new TicketCreatedEvent($ticket));
 
         $hours = $request->get('hours');
 
         if ($request->has('reply_body')) {
-            $action = $this->action->create([
+            $this->action->create([
                 'ticket_id' => $ticket->id,
                 'user_id' => Auth::user()->id,
                 'type' => in_array($request->get('status'), ['closed', 'resolved']) ? $request->get('status') : 'reply',
@@ -93,11 +90,10 @@ class TicketsController extends BaseController
                 'status' => $request->has('status') ? $request->get('status') : 'open'
             ]);
             $hours = 0;
-            event(new ActionCreatedEvent($action));
         }
 
         if ($request->has('comment_body')) {
-            $action = $this->action->create([
+            $this->action->create([
                 'ticket_id' => $ticket->id,
                 'user_id' => Auth::user()->id,
                 'type' => 'comment',
@@ -106,7 +102,6 @@ class TicketsController extends BaseController
                 'time_at' => $request->get('time_at'),
                 'status' => $request->has('status') ? $request->get('status') : 'open'
             ]);
-            event(new ActionCreatedEvent($action));
         }
 
         return redirect()->route('tickets.show', [$ticket['id']])
