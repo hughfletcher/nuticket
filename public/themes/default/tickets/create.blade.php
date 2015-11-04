@@ -64,8 +64,8 @@
 				<div class="form-group{{ $errors->has('assigned_id') ? ' has-error' : null }}">
 					<label for="assigned_id" class="col-sm-1 control-label">Assigned</label>
 					<div class="col-sm-5">
-						<select name="assigned_id" class="form-control select2-default input-sm" placeholder="Select a Staff Member">
-							<option></option>
+						<select name="assigned_id" class="form-control select2-default input-sm">
+							<option value="">{{ trans('nobody') }}</option>
 							@foreach ($staff as $id => $user)
 								<option value="{{ $id }}"{{ Input::old('assigned_id') == $id ? ' selected=selected' : null }}>{{ $user }}</option>
 							@endforeach
