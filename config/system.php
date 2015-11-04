@@ -15,7 +15,8 @@ return [
 
 	'format' => [
 		'date' => 'm/d/Y',
-		'dateday' => 'm/d/Y D'
+		'dateday' => 'm/d/Y D',
+        'datetime' => 'm/d/Y g:i a'
 	],
 
 	'theme' => 'default'

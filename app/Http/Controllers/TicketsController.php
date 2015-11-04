@@ -104,6 +104,8 @@ class TicketsController extends BaseController
             ]);
         }
 
+        event(new TicketCreatedEvent($ticket, true));
+
         return redirect()->route('tickets.show', [$ticket['id']])
             ->with('message', 'Ticket #' . $ticket['id'] . ' sucessfully created.');
 
