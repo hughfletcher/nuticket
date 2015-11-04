@@ -46,7 +46,7 @@ class TicketRepository extends Repository implements TicketInterface {
     			'su.display_name as assigned'
     		)
 			->join('users', 'users.id', '=', 'tickets.user_id')
-			->join('users as su', 'su.id', '=', 'tickets.assigned_id')
+			->leftJoin('users as su', 'su.id', '=', 'tickets.assigned_id')
 			->join('ticket_actions','ticket_actions.ticket_id', '=', 'tickets.id')
 			->where('ticket_actions.type', 'create');
 
