@@ -25,7 +25,7 @@ class TicketActionRepository extends Repository implements TicketActionInterface
         $action = parent::create(array_except($data, ['hours', 'time_at', 'status']));
 
         //update timelog
-        if (isset($data['hours']))
+        if (isset($data['hours']) && $data['hours'] > 0)
         {
             $this->updateTimeLog($action->id, $action->user_id, $data['hours'], $data['time_at']);
         }

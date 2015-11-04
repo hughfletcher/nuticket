@@ -342,7 +342,7 @@
 							<div class="col-xs-12">
 								<dl class="dl-horizontal detail">
 									<dt>Assigned</dt>
-									<dd>{{ $ticket['assigned']['display_name'] }}</dd>
+									<dd>{{ $ticket['assigned']['display_name'] or trans('nobody') }}</dd>
 									<dt>Total Hours</dt>
 									<dd>{{ $ticket['hours'] }}</dd>
 									<dt>Last Action</dt>
