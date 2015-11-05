@@ -92,9 +92,9 @@
 							@elseif ($action['type'] == 'edit')
 							edited ticket
 							@elseif ($action['type'] == 'transfer')
-							transfered ticket to {{ $action['transfer']['display_name']}}
+							transfered ticket to {{ $action['transfer']['name']}}
 							@elseif ($action['type'] == 'assign')
-							assigned ticket to <a href="#">{{ $action['assigned']['user']['display_name'] }}</a>
+							assigned ticket to <a href="#">{{ $action->assigned->display_name or trans('nobody') }}</a>
 							@elseif ($action['type'] == 'create')
 							created ticket
 							@elseif ($action['type'] == 'open')
@@ -342,7 +342,7 @@
 							<div class="col-xs-12">
 								<dl class="dl-horizontal detail">
 									<dt>Assigned</dt>
-									<dd>{{ $ticket['assigned']['display_name'] }}</dd>
+									<dd>{{ $ticket['assigned']['display_name'] or trans('nobody') }}</dd>
 									<dt>Total Hours</dt>
 									<dd>{{ $ticket['hours'] }}</dd>
 									<dt>Last Action</dt>

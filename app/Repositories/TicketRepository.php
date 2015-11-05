@@ -23,7 +23,7 @@ class TicketRepository extends Repository implements TicketInterface {
 		// $array = array_add($data, 'last_action_at', Carbon::now());
 
 		//create ticket
-		$ticket = parent::create(array_only($data, ['status', 'assigned_id', 'priority', 'dept_id', 'user_id']));
+		$ticket = parent::create(array_only($data, ['assigned_id', 'priority', 'dept_id', 'user_id']));
 
 		$action = $this->createTicketAction([
 			'user_id' => $data['auth_id'],
@@ -46,7 +46,7 @@ class TicketRepository extends Repository implements TicketInterface {
     			'su.display_name as assigned'
     		)
 			->join('users', 'users.id', '=', 'tickets.user_id')
-			->join('users as su', 'su.id', '=', 'tickets.assigned_id')
+			->leftJoin('users as su', 'su.id', '=', 'tickets.assigned_id')
 			->join('ticket_actions','ticket_actions.ticket_id', '=', 'tickets.id')
 			->where('ticket_actions.type', 'create');
 
