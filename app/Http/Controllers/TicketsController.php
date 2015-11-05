@@ -7,6 +7,7 @@ use App\Http\Requests\TicketIndexRequest;
 use App\Http\Requests\TicketStoreRequest;
 use App\Http\Requests\TicketCreateRequest;
 use App\Http\Requests\TicketUpdateRequest;
+use App\Events\TicketCreatedEvent;
 use Auth;
 
 class TicketsController extends BaseController
@@ -104,7 +105,7 @@ class TicketsController extends BaseController
             ]);
         }
 
-        event(new TicketCreatedEvent($ticket, true));
+        event(new TicketCreatedEvent($ticket));
 
         return redirect()->route('tickets.show', [$ticket['id']])
             ->with('message', 'Ticket #' . $ticket['id'] . ' sucessfully created.');

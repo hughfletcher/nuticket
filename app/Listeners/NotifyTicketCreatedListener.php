@@ -35,7 +35,7 @@ class NotifyTicketCreatedListener implements ShouldQueue
         foreach ($staff as $user) {
             $this->mailer->send(
                 ['text' => 'mail.new_ticket'],
-                ['user' => $user, 'ticket' => $ticket, 'summary' => $event->summary],
+                ['user' => $user, 'ticket' => $ticket],
                 function ($message) use ($user, $ticket) {
                     $message->from('support@tennesseetractor.com', 'IT Support')
                         ->to($user->email, $user->display_name)

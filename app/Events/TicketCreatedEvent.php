@@ -12,17 +12,15 @@ class TicketCreatedEvent extends Event
     use SerializesModels;
 
     public $ticket;
-    public $summary;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Ticket $ticket, $action_summary = false)
+    public function __construct(Ticket $ticket)
     {
         $this->ticket = $ticket;
-        $this->summary = $action_summary;
     }
 
     /**
