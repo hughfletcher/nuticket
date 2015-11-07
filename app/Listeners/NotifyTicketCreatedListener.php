@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\TicketCreatedEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Repositories\UserRepository;
+use App\Contracts\Repositories\UserInterface;
 use Illuminate\Mail\Mailer;
 
 class NotifyTicketCreatedListener implements ShouldQueue
@@ -15,7 +15,7 @@ class NotifyTicketCreatedListener implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(UserRepository $user, Mailer $mailer)
+    public function __construct(UserInterface $user, Mailer $mailer)
     {
             $this->user = $user;
             $this->mailer = $mailer;
