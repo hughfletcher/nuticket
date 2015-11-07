@@ -21,8 +21,7 @@ class DashController extends BaseController {
 	 */
 	public function getIndex()
 	{
-		// return redirect()->route('tickets.index');
-	    return view('mail.new_ticket', ['user' => \App\User::where('is_admin', true)->first(), 'ticket' => \App\Ticket::find(324), 'summary' => true]);
+		return redirect()->route('tickets.index');
 	}
 
 	/**
