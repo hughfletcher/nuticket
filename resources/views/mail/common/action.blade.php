@@ -3,4 +3,5 @@
 @else {{ trans('action.acted_on.' . $action->type) }}
 @endif
 {!! $action->body !!}
+
  
