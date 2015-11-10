@@ -52,7 +52,7 @@ class TicketActionRepository extends Repository implements TicketActionInterface
             'hours' => $hours,
             'type' => 'action',
             'ticket_action_id' => $action_id,
-            'time_at' => Carbon::createFromFormat('m/d/Y', $time_at)
+            'time_at' => Carbon::createFromFormat('m/d/Y', $time_at, auth()->user()->timezone)->startOfDay()->tz(config('app.timezone'))
         ]);
     }
 

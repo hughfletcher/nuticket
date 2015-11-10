@@ -26,7 +26,7 @@
                     <button class="btn btn-box-tool btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
                   </div>
             </div><!-- /.box-header -->
-            <form method="POST" action="{{ route('me.time.store') }}" accept-charset="UTF-8"> 
+            <form method="POST" action="{{ route('me.time.store') }}" accept-charset="UTF-8">
             <input name="_token" type="hidden" value="{{ csrf_token() }}">
             <input name="_redirect" type="hidden" value="{{ URL::full() }}">
             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
@@ -90,7 +90,7 @@
                 <div class="box-tools pull-right">
                 	<ul class="pagination pagination-sm no-margin pull-right">
 	                    <li{!! $logs->currentPage() == 1 ? ' class="disabled"' : null !!}><a href="{{ route('me.time.index', ['page' => $logs->currentPage() - 1]) }}"><i class="fa fa-chevron-left"></i></a></li>
-	                	
+
 	                    <li{!! !$logs->hasMorePages() ? ' class="disabled"' : null !!}><a href="{{ route('me.time.index', ['page' => $logs->currentPage() + 1]) }}"><i class="fa fa-chevron-right"></i></a></li>
 	                </ul>
                 </div>
@@ -106,7 +106,7 @@
                     </tr>
                     @foreach ($logs as $entry)
                     <tr>
-                        <td>{{ date_format($entry['time_at'], config('system.format.dateday')) }}</td>
+                        <td>{{ $entry->time_at->tz(auth()->user()->timezone)->format(config('system.format.dateday')) }}</td>
                         <td>{{ $entry['hours'] }}</td>
                         <td><span class="label label-{{ in_array($entry['type'], ['holiday', 'vacation']) ? 'primary' : ( $entry['type'] == 'sick' ? 'info' : ( $entry['type'] == 'other' ? 'default' : ( !is_null($entry['action']['ticket']['id']) ? 'success' : null))) }}">
                         	{{ !is_null($entry['action']['ticket']['id']) ? '#' . $entry['action']['ticket']['id'] : ucfirst($entry['type']) }}
@@ -126,7 +126,7 @@
                 </table>
             </div>
             <div class="box-footer clearfix">
-	            
+
 	        </div>
         </div>
     </div><!-- /.col -->

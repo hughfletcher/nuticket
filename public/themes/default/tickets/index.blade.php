@@ -74,8 +74,8 @@
 										@foreach ($tickets as $ticket)
 										<tr>
 											<td><a href="{{ route('tickets.show', [$ticket['id'], '#action']) }}">{{ $ticket['id'] }}</a></td>
-											<td>{{ date_format($ticket['created_at'], config('system.date_format')) }}</td>
-											<td>{{ is_null($ticket['last_action_at']) ? 'None' : date_format($ticket['last_action_at'], config('system.date_format')) }}</td>
+											<td>{{ $ticket->created_at->tz(auth()->user()->timezone)->format(config('system.date_format')) }}</td>
+											<td>{{ is_null($ticket['last_action_at']) ? 'None' : $ticket->last_action_at->tz(auth()->user()->timezone)->format(config('system.format.date')) }}</td>
 											<td><a href="{{ route('tickets.show', [$ticket['id']]) }}">{{ $ticket->title }}</a></td>
 											<td>{{ $ticket['user'] }}</td>
 											<td>{{ $ticket['priority'] }}</td>

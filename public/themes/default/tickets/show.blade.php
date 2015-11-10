@@ -25,7 +25,7 @@
 			<ul class="timeline">
 				<!-- timeline time label -->
 				<li class="time-label">
-					<span class="bg-red">{{ date_format($ticket['created_at'], 'j M Y') }}{{-- */ $lastday = $ticket['created_at'] /*--}}</span>
+					<span class="bg-red">{{ $ticket['created_at']->tz(auth()->user()->timezone)->format('j M Y') }}{{-- */ $lastday = $ticket['created_at'] /*--}}</span>
 					<div class="btn-group pull-right">
 						<a href="#reply" class="btn btn-default go-show-tab">Reply</a>
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -60,9 +60,9 @@
 					</div>
 				</li> -->--}}
 				@foreach ($ticket['actions'] as $action)
-				@if (!isset($lastday) || !$action['created_at']->isSameDay($lastday))
+				@if (!isset($lastday) || !$action['created_at']->tz(auth()->user()->timezone)->isSameDay($lastday))
 				<li class="time-label">
-					<span class="bg-red">{{ $action['created_at']->format('j M Y') }}</span>
+					<span class="bg-red">{{ $action['created_at']->tz(auth()->user()->timezone)->format('j M Y') }}</span>
 				</li>
 				{{-- */$lastday = $action['created_at'];/* --}}
 				@endif
@@ -73,9 +73,9 @@
 					<div class="timeline-item">
 						<ul class="list-inline time">
 							@if (!is_null($action['time']))
-							<li><span  data-toggle="tooltip" title="{{ $action['time']['hours'] }} hour(s) on {{ date_format($action['time']['time_at'], 'm/d/Y') }}"><i class="fa fa-wrench"></i> {{ $action['time']['hours'] }}</span></li>
+							<li><span  data-toggle="tooltip" title="{{ $action['time']['hours'] }} hour(s) on {{ $action->time->time_at->tz(auth()->user()->timezone)->format(config('system.format.date')) }}"><i class="fa fa-wrench"></i> {{ $action['time']['hours'] }}</span></li>
 							@endif
-							<li><i class="fa fa-clock-o"></i> {{ date_format($action['created_at'], 'g:i a') }}</li>
+							<li><i class="fa fa-clock-o"></i> {{ $action->created_at->tz(auth()->user()->timezone)->format('g:i a') }}</li>
 						</ul>
 						<h3 class="timeline-header{{ $action['message'] == null ? ' no-border' : '' }}">
 							@if ($action['user_id'] == '0')

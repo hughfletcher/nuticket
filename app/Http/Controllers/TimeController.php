@@ -36,10 +36,10 @@ class TimeController extends Controller {
 	public function store(TimeCreateRequest $request)
 	{
 
-		$request->merge(['time_at' => Carbon::createFromFormat('m/d/Y', $request->input('time_at'))]);
+		$request->merge(['time_at' => Carbon::createFromFormat('m/d/Y', $request->input('time_at'), auth()->user()->timezone)->startOfDay()->tz(config('app.timezone'))]);
 
 		$time = $this->time->create($request->all());
-		
+
 		return redirect($request->input('_redirect'));
 	}
 
@@ -68,7 +68,7 @@ class TimeController extends Controller {
 		}
 
 		$time = $this->time->update($request->only('time_at', 'hours', 'type', 'message'), $id);
-		
+
 		return redirect()->route('me.time.index');
 	}
 
