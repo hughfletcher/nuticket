@@ -32,10 +32,30 @@ class MenuTest extends TestCase
 
     public function testMakeUsingConfig()
     {
+        $collect = m::mock('Caffeinated\Menus\Collection');
+        $caff = m::mock('Caffeinated\Menus\Menu');
+        $item = m::mock('Caffeinated\Menus\Item');
+        $builder = m::mock('Caffeinated\Menus\Builder');
+
+        $caff->shouldReceive('make')->once()->with(
+            'Profile',
+            m::on(function($callable) use ($builder) {
+                $callable($builder);
+                return true;
+            })
+        )->andReturn($collect);
+        $collect->shouldReceive('filter')
+            ->with(m::on(function($callable) use ($item) {
+                $callable($item);
+                return true;
+            })
+            )->once();
+
         $config = ['Reports' => ['permissions' => ['isStaff'],'url' => 'reports']];
         $this->config->shouldReceive('get')->with('menu')->once()->andReturn($config);
-        $menu = m::mock('App\Services\Menu[build,filter]', [$this->app['menu'], $this->config, $this->auth, $this->gate]);
-        $menu->shouldReceive('build')->once()->with($config, m::type('Caffeinated\Menus\Builder'));
+        $menu = m::mock('App\Services\Menu[build,filter]', [$caff, $this->config, $this->auth, $this->gate]);
+        $menu->shouldReceive('build')->once()->with($config, $builder);
+        $menu->shouldReceive('filter')->once()->with($item);
         $menu->make('Profile');
 
     }
