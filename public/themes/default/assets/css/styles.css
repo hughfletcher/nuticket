@@ -60,7 +60,7 @@ div.row.act {
 /*reports*/
 section.reports .fa-stack-2x {
 	font-size: 1.9em;
-} 
+}
 
 /*timelog*/
 td.tools {
@@ -85,7 +85,7 @@ table.no-wrap-col {
 	table-layout: fixed;
 }
 td.no-wrap {
-	white-space: nowrap; 
+	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	min-width: 400px;
@@ -98,4 +98,9 @@ th.width-100 {
 }
 th.width-120 {
 	width: 120px;
+}
+
+/* forms */
+div.checkbox.show input[type=checkbox] {
+    opacity: 1 !important;
 }

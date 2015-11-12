@@ -19,9 +19,8 @@ return [
     'settings.settings' => [
         'permissions' => ['isAdmin'],
         'children' => [
-            'settings.system' => [
-                'url' => 'settings/system',
-            ]
+            'settings.system' => ['route' => ['settings.edit', 'system']],
+            'settings.emails' => ['route' => ['settings.edit', 'emails']]
         ]
     ]
 ];

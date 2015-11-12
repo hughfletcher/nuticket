@@ -2,6 +2,20 @@
 
 return [
 
+    'default' => null,
+
+    'admin' => null,
+
+    'fetching' => false,
+
+    'replyseperator' => '-- reply above this line --',
+
+    'keeppriority' => false,
+
+    'acceptunknown' =>false,
+
+    'defaultmta' => null,
+
 	/*
 	|--------------------------------------------------------------------------
 	| Mail Driver
