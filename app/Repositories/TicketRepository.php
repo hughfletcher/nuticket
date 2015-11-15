@@ -37,6 +37,11 @@ class TicketRepository extends Repository implements TicketInterface {
 		return $ticket;
 	}
 
+    public function job_create($array)
+    {
+        return parent::create($array);
+    }
+
     public function paginateByRequest($perPage = 1, $columns = ['*'])
     {
     	$this->model = $this->model->select(
