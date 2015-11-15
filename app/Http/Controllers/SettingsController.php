@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Settings\SystemUpdateRequest;
+use App\Http\Requests\SettingsUpdateRequest;
 use App\Jobs\UpdateConfigJob;
 
 class SettingsController extends Controller
@@ -27,7 +27,7 @@ class SettingsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(SystemUpdateRequest $request, $type)
+    public function update(SettingsUpdateRequest $request, $type)
     {
         $this->dispatch(new UpdateConfigJob($request->except('_token', '_method'), true));
 
