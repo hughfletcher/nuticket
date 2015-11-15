@@ -103,7 +103,7 @@
 						</h3>
 						@if($action['body'] != null)
 						<div class="timeline-body">
-							{!! $action['body'] !!}
+							{!! parse_links(nl2br($action['body'])) !!}
 						</div>
 						@endif
 					</div>

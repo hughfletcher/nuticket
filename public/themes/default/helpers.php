@@ -111,3 +111,11 @@ if ( ! function_exists('array_json'))
 		return json_encode($json);
 	}
 }
+if ( ! function_exists('array_json'))
+{
+    function parse_links($string, $limit = 40) {
+        return preg_replace_callback('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', function($matches) use ($limit) {
+            return '<a href="'. $matches[1] . '" target="_blank">' . str_limit($matches[1], $limit) . '</a>';
+        }, $string);
+    }
+}
