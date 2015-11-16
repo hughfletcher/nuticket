@@ -4,6 +4,8 @@ return [
 
     'title' => 'NuTicket :: Ticket Support System',
 
+    'defaultdept' => 1, 
+
 	'pagesize' => 25,
 
 	'time' => [

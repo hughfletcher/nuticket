@@ -18,6 +18,7 @@ class CreateTicketActionsTable extends Migration {
 			$table->integer('ticket_id');
 			$table->integer('user_id');
 			$table->enum('type', array('create','reply','comment','assign','closed','edit','transfer','open','resolved'));
+            $table->enum('source', array('ui', 'mail', 'import'));
 			$table->integer('assigned_id')->nullable();
 			$table->integer('transfer_id')->nullable();
 			$table->string('title')->nullable();

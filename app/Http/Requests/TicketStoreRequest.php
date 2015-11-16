@@ -6,7 +6,7 @@ use App\Events\TicketCreateRequestValidateEvent;
 class TicketStoreRequest extends FormRequest
 {
 
-	protected $rules = [
+	public static $rules = [
 		'user_id' => ['required_without_all:display_name,email', 'exists:users,id'],
 		'display_name' => ['required_without:user_id'],
 		'email' => ['required_without:user_id', 'email'],
@@ -15,10 +15,10 @@ class TicketStoreRequest extends FormRequest
         'body' => ['required', 'min:10'],
 		'hours' => ['numeric'],
 		'time_at' => ['required_with:hours', 'date_format:m/d/Y'],
-        'reply_body' => ['min:3'],
-        'comment_body' => ['min:3'],
-        'status' => ['in:open,closed,resolved'],
-        'dept_id' => ['required', 'exists:depts,id'],
+        'reply' => ['min:3'],
+        'comment' => ['min:3'],
+        'status' => ['in:open,closed,resolved,new'],
+        'dept_id' => ['exists:depts,id'],
         'assigned_id' => ['exists:users,id,is_staff,1'],
     ];
 
@@ -41,14 +41,16 @@ class TicketStoreRequest extends FormRequest
 	{
         $this->redirect = 'tickets/create' . ($this->has('user_id') ? '?user_id=' . $this->get('user_id') : null);
 
-		if ($this->input('reply_body') != '') {
-			$this->rules['reply_body'] = $this->rules['reply_body'] + ['required_with:hours,status,date'];
+        $rules = static::$rules;
+
+		if ($this->input('reply') != '') {
+			$rules['reply'] = $rules['reply'] + ['required_with:hours,status,date'];
 		}
 
-		if ($this->input('comment_body') != '') {
-			$this->rules['comment_body'] = $this->rules['comment_body'] + ['required_with:hours,status,date'];
+		if ($this->input('comment') != '') {
+			$rules['comment'] = $rules['comment'] + ['required_with:hours,status,date'];
 		}
 
-		return $this->rules;
+		return $rules;
 	}
 }

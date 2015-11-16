@@ -148,6 +148,7 @@ return [
 		'App\Providers\RepositoryServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
+        'Bosnadev\Repositories\Providers\RepositoryProvider',
 		'Caffeinated\Menus\MenusServiceProvider',
 		'Caffeinated\Modules\ModulesServiceProvider',
 

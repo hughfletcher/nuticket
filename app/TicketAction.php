@@ -14,7 +14,8 @@ class TicketAction extends Eloquent {
         'title',
         'body',
         'assigned_id',
-        'transfer_id'
+        'transfer_id',
+        'source'
     ];
 
 	/**
