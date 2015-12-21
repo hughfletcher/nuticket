@@ -19,7 +19,7 @@ class NotifyTicketCreatedListenerTest extends TestCase
         config(['mail.pretend' => true]);
 
         $staff = factory(App\User::class, 3)->make();
-        $ticket = factory(App\Ticket::class)->make();
+        $ticket = factory(App\Ticket::class)->make(['actions' => factory(App\TicketAction::class, 3)->make()]);
         $event = m::mock('App\Events\TicketCreatedEvent');
         $event->ticket = $ticket;
         $user  = m::mock('App\Contracts\Repositories\UserInterface');

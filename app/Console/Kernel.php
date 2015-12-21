@@ -2,9 +2,13 @@
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use App\Contracts\Repositories\EmailInterface;
+use App\Jobs\FetchEmailJob;
 
 class Kernel extends ConsoleKernel {
 
+    use DispatchesJobs;
 	/**
 	 * The Artisan commands provided by your application.
 	 *
@@ -22,8 +26,17 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('inspire')
-				 ->hourly();
+        if (!$this->app->environment('production')) {return;}
+
+        $mail = $this->app->make('App\Contracts\Repositories\EmailInterface');
+        $emails = $mail->findAllBy('mail_active', true);
+
+        foreach ($emails as $email) {
+            $schedule->call(function() use ($email) {
+                $this->dispatch(new FetchEmailJob($email));
+            })->cron('*/' . $email->mail_fetchfreq . ' * * * *');
+        }
+
 	}
 
 }

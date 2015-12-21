@@ -15,3 +15,4 @@ require_once('TicketModelFactory.php');
 require_once('TicketActionModelFactory.php');
 require_once('UserModelFactory.php');
 require_once('DeptModelFactory.php');
+require_once('EmailModelFactory.php');

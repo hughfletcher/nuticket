@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Mockery as m;
-use App\Listeners\NotifyActionCreatedListener;
+use App\Listeners\NotifyTicketActivityListener;
 
 class NotifyActionCreatedListenerTest extends TestCase
 {
@@ -16,17 +16,21 @@ class NotifyActionCreatedListenerTest extends TestCase
         $staff = factory(App\User::class, 3)->make();
         $action = factory(App\TicketAction::class)->make();
         $event = m::mock('App\Events\ActionCreatedEvent');
-        $event->action = $action;
+        $event->actions = collect([$action]);
         $user  = m::mock('App\Contracts\Repositories\UserInterface');
         $user->shouldReceive('findWhere')
             ->once()
             ->with(['username' => 'hfletcher'])
             ->andReturn($staff);
-
+        $ticket = m::mock('App\Contracts\Repositories\TicketInterface');
+        $ticket->shouldReceive('find')
+            ->once()
+            ->with($action->ticket_id)
+            ->andReturn(factory(App\Ticket::class)->make());
 
         Mail::shouldReceive('send')
         ->with(
-            ['text' => 'mail.new_action'],
+            ['text' => 'mail.ticket_action'],
             nonEmptyArray(),
             m::on(function ($closure) use ($staff) {
                 $message = m::mock('Illuminate\Mail\Message');
@@ -38,7 +42,7 @@ class NotifyActionCreatedListenerTest extends TestCase
             })
         )->times(3);
 
-        $notify = new NotifyActionCreatedListener($user, $this->app['mailer']);
+        $notify = new NotifyTicketActivityListener($user, $ticket, $this->app['mailer']);
         $notify->handle($event);
 
     }

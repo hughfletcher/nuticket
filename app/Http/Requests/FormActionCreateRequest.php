@@ -1,12 +1,12 @@
 <?php namespace App\Http\Requests;
 
-class FormActionCreateRequest extends FormRequest 
+class FormActionCreateRequest extends FormRequest
 {
 
-	protected $rules = [
+	public static $rules = [
 		'ticket_id' => ['required', 'numeric', 'exists:tickets,id'],
 		'body' => ['required', 'min:3'],
-		'status' => ['required_if:type,reply', 'in:closed,open,resolved'], 
+		'status' => ['required_if:type,reply', 'in:closed,open,resolved'],
         'hours' => ['numeric'],
         'transfer_id' => ['required_if:type,transfer', 'numeric', 'exists:depts,id'],
         'assigned_id' => ['required_if:type,assign', 'numeric'],
@@ -29,9 +29,9 @@ class FormActionCreateRequest extends FormRequest
 	 * @return array
 	 */
 	public function rules()
-	{	
+	{
 
-		return $this->rules;
+		return static::$rules;
 	}
 
 	public function response(array $errors)

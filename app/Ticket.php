@@ -43,5 +43,10 @@ class Ticket extends Eloquent {
         return $this->hasMany('App\TicketAction')->orderBy('created_at', 'asc');
     }
 
+    public function getTitleAttribute($value)
+    {
+        return $this->actions()->where('type', 'create')->get()->first()->title;
+    }
+
 
 }

@@ -9,13 +9,15 @@ $factory->define(App\TicketAction::class, function (Faker\Generator $faker) {
     return [
         'ticket_id' => $faker->numberBetween(1, 200),
         'user_id' => $faker->numberBetween(1, 200),
-        'created_at' => $date = $faker->dateTimeThisDecade(),
-        'title' => $faker->sentence($faker->numberBetween(4, 10)),
-        'body' => $faker->paragraph($faker->numberBetween(1, 4)),
         'type' => $type,
-        'assigned_id' => $type == 'assign' ? : $assigned_id,
-        'priority' => $faker->numberBetween(1, 5),
+        'body' => $faker->paragraph($faker->numberBetween(1, 4)),
+        'transfer_id' => $type == 'transfer' ? $faker->numberBetween(1, 200) : null,
+        'assigned_id' => $type == 'assign' ? $faker->numberBetween(1, 200) : null,
         'status' => $faker->randomElement(['open', 'closed', 'new', 'resolved']),
         'hours' => $faker->randomFloat(2, 0, 10),
+        'created_at' => $date = $faker->dateTimeThisDecade(),
+        'title' => $faker->sentence($faker->numberBetween(4, 10)),
+        'priority' => $faker->numberBetween(1, 5),
+        'source' => $faker->randomElement(['ui', 'mail', 'import'])
     ];
 });

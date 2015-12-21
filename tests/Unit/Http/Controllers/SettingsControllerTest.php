@@ -23,7 +23,7 @@ class SettingsControllerTest extends TestCase
 
     public function testSettingsUpdate()
     {
-        $request = m::mock('App\Http\Requests\Settings\SystemUpdateRequest');
+        $request = m::mock('App\Http\Requests\SettingsUpdateRequest');
         $request->shouldReceive('except')->once()->with('_token', '_method')->andReturn([]);
 
         $this->expectsJobs(App\Jobs\UpdateConfigJob::class);

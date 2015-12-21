@@ -10,5 +10,5 @@ return [
         'resolved' => 'resolved ticket',
         'open' => 'opened ticket',
         'transfer' => 'transfered ticket to :name'
-    ]
+    ],
 ];

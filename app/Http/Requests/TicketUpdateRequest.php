@@ -2,7 +2,13 @@
 
 class TicketUpdateRequest extends FormRequest
 {
-
+    public static $rules = [
+        'user_id' => ['exists:users,id'],
+        'priority' => ['between:1,5'],
+        'title' => ['min:10'],
+        'body' => ['min:10'],
+        'reason' => ['min:5']
+    ];
 	/**
 	 * Determine if the user is authorized to make this request.
 	 *
@@ -15,17 +21,11 @@ class TicketUpdateRequest extends FormRequest
 
 	/**
 	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-		return [
-	        'user_id' => ['required', 'exists:users,id'],
-	        'priority' => ['required', 'between:1,5'],
-	        'title' => ['required', 'min:10'],
-	        'body' => ['required', 'min:10'],
-	        'reason' => ['required', 'min:5']
-        ];
-	}
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return static::$rules;
+    }
 }

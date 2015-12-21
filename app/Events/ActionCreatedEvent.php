@@ -5,22 +5,22 @@ namespace App\Events;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\TicketAction;
+use Illuminate\Support\Collection;
 
 class ActionCreatedEvent extends Event
 {
     use SerializesModels;
 
-    public $action;
+    public $actions;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(TicketAction $action)
+    public function __construct(Collection $actions)
     {
-        $this->action = $action;
+        $this->actions = $actions;
     }
 
     /**
