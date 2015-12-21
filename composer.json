@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "5.1.24",
+		"laravel/framework": "5.1.*",
 		"caffeinated/menus": "2.1.4",
 		"caffeinated/modules": "2.1.7",
 		"bosnadev/repositories": "dev-master#95facc6",
