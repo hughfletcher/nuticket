@@ -25,7 +25,7 @@
 			<ul class="timeline">
 				<!-- timeline time label -->
 				<li class="time-label">
-					<span class="bg-red">{{ $ticket['created_at']->tz(auth()->user()->timezone)->format('j M Y') }}{{-- */ $lastday = $ticket['created_at'] /*--}}</span>
+					<span class="bg-red">{{ $ticket['created_at']->tz(auth()->user()->timezone)->format('j M Y') }}{{-- */ $lastday = $ticket['created_at']->tz(auth()->user()->timezone) /*--}}</span>
 					<div class="btn-group pull-right">
 						<a href="#reply" class="btn btn-default go-show-tab">Reply</a>
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -64,7 +64,7 @@
 				<li class="time-label">
 					<span class="bg-red">{{ $action['created_at']->tz(auth()->user()->timezone)->format('j M Y') }}</span>
 				</li>
-				{{-- */$lastday = $action['created_at'];/* --}}
+				{{-- */$lastday = $action['created_at']->tz(auth()->user()->timezone);/* --}}
 				@endif
 				<!-- /.timeline-label -->
 				<!-- timeline item -->
