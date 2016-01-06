@@ -20,8 +20,6 @@ class ActionPipe
 
     public function create(MessageInterface $message)
     {
-        // $this->setBody($message);
-        // dd($message);
         return $this->build($message);
     }
 

@@ -25,7 +25,7 @@ class CreateTicketActionsTable extends Migration {
 			$table->text('body');
 			$table->timestamps();
 			$table->softDeletes();
-			$table->index(['ticket_id','user_id','assigned_id','transfer_id'], '`RELATION`');
+			$table->index(['ticket_id','user_id','assigned_id','transfer_id'], 'RELATION');
 		});
 	}
 

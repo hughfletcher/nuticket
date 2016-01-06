@@ -318,9 +318,9 @@ class DatabaseSeeder extends Seeder {
     protected function createConfigData()
     {
         $this->data['Config'] = [
-            ['key' => 'system.eyes', 'value' => 'blue', 'environment' => 'testing'],
-            ['key' => 'system.hair', 'value' => 'brunette', 'environment' => 'testing'],
-            ['key' => 'system.hottie', 'value' => true, 'environment' => 'testing']
+            ['key' => 'system.eyes', 'value' => 'blue'],
+            ['key' => 'system.hair', 'value' => 'brunette'],
+            ['key' => 'system.hottie', 'value' => true]
         ];
     }
 

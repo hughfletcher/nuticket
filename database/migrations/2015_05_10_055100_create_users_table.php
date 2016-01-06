@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration {
 			$table->increments('id');
 			$table->text('timezone', 65535)->nullable();
 			$table->text('locale', 65535)->nullable();
-			$table->string('username', 128)->unique('`accounts_username_unique`');
+			$table->string('username', 128)->unique('accounts_username_unique');
 			$table->string('password', 128)->nullable();
 			$table->string('first_name', 128)->nullable();
 			$table->string('middle_name', 128)->nullable();
