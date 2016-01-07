@@ -156,6 +156,10 @@ abstract class Message
 
     public function getCreatedTicketId()
     {
+        if (!$this->data->has('ticket')) {
+            return;
+        }
+        
         return $this->data->get('ticket')->id;
     }
 
