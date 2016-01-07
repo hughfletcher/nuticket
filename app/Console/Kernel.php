@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-        if (!$this->app->environment('production')) {return;}
+        if (!$this->app->environment('production') || !$this->app['db']->connection()->getSchemaBuilder()->hasTable('emails')) {return;}
 
         $mail = $this->app->make('App\Contracts\Repositories\EmailInterface');
         $emails = $mail->findAllBy('mail_active', true);
