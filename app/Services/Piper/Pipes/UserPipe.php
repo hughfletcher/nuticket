@@ -8,7 +8,7 @@ class UserPipe
 
     public function __construct(AuthManager $auth, UserInterface $user)
     {
-        $this->auth = $auth;
+        $this->auth = $auth->driver();
         $this->user = $user;
     }
 
