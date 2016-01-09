@@ -34,14 +34,14 @@ class NotifyTicketActivityListener implements ShouldQueue
      */
     public function handle(ActionCreatedEvent $event)
     {
-        $staff = $this->user->findWhere(['username' => 'hfletcher']);
-        
+        $staff = $this->user->find(explode(',', config('mail.notify')));
+
         $ticket = $this->ticket->pushCriteria(new WithLoadedActions($event->actions->lists('id')->toArray()))
             ->find($event->actions->first()->ticket_id);
         $email = $this->email->find(config('mail.default'));
 
         foreach ($staff as $user) {
-            $this->mailer->send(
+            $this->mailer->queue(
                 ['text' => 'mail.ticket_action'],
                 ['user' => $user, 'ticket' => $ticket],
                 function ($message) use ($user, $ticket, $email) {
