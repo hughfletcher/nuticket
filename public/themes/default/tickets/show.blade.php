@@ -69,7 +69,7 @@
 				<!-- /.timeline-label -->
 				<!-- timeline item -->
 				<li id="action-{{ $action['id'] }}">
-					<i class="fa fa-desktop bg-blue"></i>
+					<i class="fa fa-@if($action->source == 'ui')desktop @elseif($action->source == 'mail')envelope @elseif($action->source == 'import')download @elseif($action->source == 'system')cogs @endif bg-blue"></i>
 					<div class="timeline-item">
 						<ul class="list-inline time">
 							@if (!is_null($action['time']))
