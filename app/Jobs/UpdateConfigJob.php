@@ -27,7 +27,7 @@ class UpdateConfigJob extends Job implements SelfHandling
     public function handle(Config $config)
     {
         foreach ($this->keys as $key => $value) {
-            $config->store(($this->convert ? str_replace('_', '.', $key) : $key), $value);
+            $config->store(($this->convert ? str_replace('_', '.', $key) : $key), serialize([$value]));
         }
     }
 }
