@@ -50,8 +50,10 @@ class RouteServiceProvider extends ServiceProvider {
 					$router->resource('actions', 'TicketActionsController', ['only' => ['store']]);
 					$router->resource('reports', 'ReportsController', ['only' => ['index', 'show']]);
 
-                    $router->get('settings/{type}', ['as' => 'settings.edit', 'uses' => 'SettingsController@edit']);
-                    $router->put('settings/{type}', ['as' => 'settings.update', 'uses' => 'SettingsController@update']);
+                    $router->get('settings/{type}', ['as' => 'settings.edit', 'uses' => 'SettingsController@edit'])
+                        ->where('type', 'emails|system');
+                    $router->put('settings/{type}', ['as' => 'settings.update', 'uses' => 'SettingsController@update'])
+                        ->where('type', 'emails|system');
 
 					$router->group(['prefix' => 'me'], function($router) {
 						$router->resource('time', 'TimeController');
