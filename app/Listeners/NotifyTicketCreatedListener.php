@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Repositories\UserInterface;
 use App\Contracts\Repositories\TicketInterface;
 use App\Repositories\Criteria\Tickets\WithLoadedActions;
+use App\Repositories\Criteria\WithDept;
 use App\Contracts\Repositories\EmailInterface;
 use Illuminate\Mail\Mailer;
 
@@ -37,6 +38,7 @@ class NotifyTicketCreatedListener implements ShouldQueue
         $staff = $this->user->find(explode(',', config('mail.notify')));
 
         $ticket = $this->ticket->pushCriteria(new WithLoadedActions())
+            ->pushCriteria(new WithDept())
             ->find($event->ticket->id);
         $email = $this->email->find(config('mail.default'));
 
