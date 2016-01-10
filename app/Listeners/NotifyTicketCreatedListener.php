@@ -6,6 +6,8 @@ use App\Events\TicketCreatedEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Repositories\UserInterface;
+use App\Contracts\Repositories\TicketInterface;
+use App\Repositories\Criteria\Tickets\WithLoadedActions;
 use App\Contracts\Repositories\EmailInterface;
 use Illuminate\Mail\Mailer;
 
@@ -16,9 +18,10 @@ class NotifyTicketCreatedListener implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(UserInterface $user, EmailInterface $email, Mailer $mailer)
+    public function __construct(UserInterface $user, TicketInterface $ticket, EmailInterface $email, Mailer $mailer)
     {
             $this->user = $user;
+            $this->ticket = $ticket;
             $this->mailer = $mailer;
             $this->email = $email;
     }
@@ -33,7 +36,8 @@ class NotifyTicketCreatedListener implements ShouldQueue
     {
         $staff = $this->user->find(explode(',', config('mail.notify')));
 
-        $ticket = $event->ticket;
+        $ticket = $this->ticket->pushCriteria(new WithLoadedActions())
+            ->find($event->ticket->id);
         $email = $this->email->find(config('mail.default'));
 
         foreach ($staff as $user) {
