@@ -33,7 +33,7 @@ class ConfigServiceProvider extends ServiceProvider
 
         foreach ($values as $row) {
 
-            if ($this->app['config']->get($row->key) == $row->value)
+            if ($this->app['config']->get($row->key) === $row->value)
             {
                 $config->delete($row->id);
             }
