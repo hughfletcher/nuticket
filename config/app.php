@@ -146,6 +146,7 @@ return [
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\PiperServiceProvider',
+		'App\Providers\ReportsServiceProvider',
 		'App\Providers\RepositoryServiceProvider',
 		'App\Providers\RouteServiceProvider',
 

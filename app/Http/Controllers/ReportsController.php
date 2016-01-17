@@ -1,35 +1,31 @@
 <?php namespace App\Http\Controllers;
 
 use App\Repositories\ReportInterface;
-use View, DB;
+use App\Services\Reports\Manager;
 
 class ReportsController extends BaseController {
 
-    public function __construct(ReportInterface $report) {
+    public function __construct(ReportInterface $report, Manager $manager) 
+    {
         $this->reports = $report;
+        $this->manager = $manager;
     }
 
-    public function index() {
+    public function index() 
+    {
 
         $reports = $this->reports->all();
-        return View::make('reports.index', ['reports' => $reports]);
+        return view('reports.index', ['reports' => $reports]);
 
-        // $name = 'App\Reports\\' . ucfirst(camel_case($report) . 'Report');
-
-        // // try {
-        //     return $this->report->make($name);
-        // // } catch (Exception $e) {
-        //     // return App::abort(404);
-        // // }
     }
 
     public function show($id) {
 
         $report = $this->reports->find($id);
-        // dd($report['sql']);
-        $results = DB::select($report['sql']);
+
+        $results = $this->manager->driver($report->source)->run($report->sql);
         $depts = [];
-        return View::make('reports.show', compact('report', 'results', 'depts'));
+        return view('reports.show', compact('report', 'results', 'depts'));
 
     }
 
