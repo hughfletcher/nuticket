@@ -8,7 +8,8 @@ use Carbon\Carbon;
 class DatabaseSeeder extends Seeder {
 
 	private $users = 200;
-	private $depts = 20;
+    private $depts = 5;
+	private $orgs = 20;
 	private $staff = 10;
 	private $tickets = 300;
 	private $time = 500;
@@ -64,6 +65,7 @@ class DatabaseSeeder extends Seeder {
 
 	protected function createData()
 	{
+        $this->createOrgsData();
 		$this->createDeptsData();
 		$this->createReportsData();
 		$this->createUsersData();
@@ -85,20 +87,44 @@ class DatabaseSeeder extends Seeder {
 		return $faker;
 	}
 
-	protected function createDeptsData()
+    public function createDeptsData()
+    {
+        $faker = $this->createFaker();
+
+        $rl = 1;
+
+        for ($i=1; $i <= $this->depts; $i++)
+        {
+
+            $data[$i] = [
+                'id' => $i,
+                'name' => strtoupper($faker->unique()->word) . ' ' . $faker->randomElement(['Team', 'Group', 'Crew', 'Unit', 'Division']),
+                'description' => ( $faker->boolean ? $faker->catchPhrase : null ),
+                'status' => true,
+                'lft' => $rl++,
+                'rgt' => $rl++,
+                'updated_at' => ($date = $faker->dateTimeThisDecade()),
+                'created_at' => ( $faker->boolean ? $date : $faker->dateTimeThisDecade($date) )
+            ];
+        }
+
+        $this->data['Dept'] = $data;
+    }
+
+	protected function createOrgsData()
 	{
 		$faker = $this->createFaker();
 
         $rl = 1;
 
-        for ($i=1; $i <= 20; $i++)
+        for ($i=1; $i <= $this->orgs; $i++)
         {
 
         	$data[$i] = [
                 'id' => $i,
         		'name' => $faker->company,
         		'description' => ( $faker->boolean ? $faker->catchPhrase : null ),
-        		'status' => 1,
+        		'active' => true,
         		'lft' => $rl++,
         		'rgt' => $rl++,
         		'updated_at' => ($date = $faker->dateTimeThisDecade()),
@@ -106,7 +132,7 @@ class DatabaseSeeder extends Seeder {
         	];
         }
 
-        $this->data['Dept'] = $data;
+        $this->data['Org'] = $data;
 	}
 
 	protected function createReportsData()
@@ -134,6 +160,8 @@ class DatabaseSeeder extends Seeder {
                 'password' => Hash::make($username),
         		'email' => $username . '@' . $faker->domainName,
                 'is_staff' => $faker->boolean(($this->staff/$this->users) * 100),
+                'org_id' => $faker->numberBetween(1, $this->orgs),
+                'source' => 'local',
         		'updated_at' => ($date = $faker->dateTimeThisDecade()),
         		'created_at' => ( $faker->boolean ? $date : $faker->dateTimeThisDecade($date) )
         	];
@@ -156,8 +184,9 @@ class DatabaseSeeder extends Seeder {
         	$data[$i] = [
                 'id' => $i,
                 'user_id' => $faker->numberBetween(1,200),
-        		'dept_id' => $faker->numberBetween(1,20),
+        		'dept_id' => $faker->numberBetween(1, $this->depts),
                 'assigned_id' => $faker->randomElement($this->staffers),
+                'org_id' => $faker->numberBetween(1, $this->orgs),
                 'status' => 'open',
                 'priority' => $faker->numberBetween(1,5),
                 'updated_at' => ($date = $faker->dateTimeThisDecade()),
@@ -318,9 +347,6 @@ class DatabaseSeeder extends Seeder {
     protected function createConfigData()
     {
         $this->data['Config'] = [
-            ['key' => 'system.eyes', 'value' => 'blue'],
-            ['key' => 'system.hair', 'value' => 'brunette'],
-            ['key' => 'system.hottie', 'value' => true]
         ];
     }
 

@@ -47,13 +47,27 @@
 						@endif
 					</div>
 				</div>
+				<div class="form-group{{ $errors->has('org_id') ? ' has-error' : null }}">
+					<label for="org_id" class="col-sm-1 control-label">Orginization</label>
+					<div class="col-sm-5">
+						<select class="form-control input-sm select2-default org" name="org_id" data-placeholder="Select An Organization">
+							<option></option>
+							@foreach($orgs as $org)
+								<option value="{{ $org->id }}"{{ old('org_id') == $org->id ? ' selected=selected' : null }}>{{ $org->name }}</option>
+							@endforeach
+							</select>
+						@if ($errors->has('org_id'))
+						<span class="help-block"><strong>{{ $errors->first('org_id') }}</strong></span>
+						@endif
+					</div>
+				</div>
 				<div class="form-group{{ $errors->has('dept_id') ? ' has-error' : null }}">
 					<label for="dept_id" class="col-sm-1 control-label">Dept</label>
 					<div class="col-sm-5">
 						<select name="dept_id" class="form-control select2-default input-sm" placeholder="Select a Department">
 							<option></option>
 							@foreach ($depts as $key => $dept)
-								<option value="{{ $key }}"{{ old('dept_id') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
+								<option value="{{ $key }}"{{ old('dept_id') == $key ? ' selected=selected' : !old('dept_id') && config('system.default.dept') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
 							@endforeach
 						</select>
 						@if ($errors->has('dept_id'))
@@ -67,7 +81,7 @@
 						<select name="assigned_id" class="form-control select2-default input-sm">
 							<option value="">{{ trans('nobody') }}</option>
 							@foreach ($staff as $id => $user)
-								<option value="{{ $id }}"{{ Input::old('assigned_id') == $id ? ' selected=selected' : null }}>{{ $user }}</option>
+								<option value="{{ $id }}"{{ old('assigned_id') == $id ? ' selected=selected' : !old('assigned_id') && Auth::user()->id == $id ? ' selected=selected' : null }}>{{ $user }}</option>
 							@endforeach
 						</select>
 						@if ($errors->has('assigned_id'))
@@ -80,11 +94,11 @@
 					<div class="col-sm-5">
 						<select name="priority" class="form-control select2-default input-sm" placeholder="Select a Priority">
 							<option></option>
-							<option value="1"{{ Input::old('priority') == '1' ? ' selected=selected' : null }}>1 - Business is stopped</option>
-							<option value="2"{{ Input::old('priority') == '2' ? ' selected=selected' : null }}>2 - User is stopped</option>
-							<option value="3"{{ Input::old('priority') == '3' ? ' selected=selected' : null }}>3 - Business is hendered</option>
-							<option value="4"{{ Input::old('priority') == '4' ? ' selected=selected' : null }}>4 - User is hendered</option>
-							<option value="5"{{ Input::old('priority') == '5' ? ' selected=selected' : null }}>5 - Increase productivity/savings</option>
+							<option value="1"{{ old('priority') == '1' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '1' ? ' selected=selected' : null }}>1 - Business is stopped</option>
+							<option value="2"{{ old('priority') == '2' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '2' ? ' selected=selected' : null }}>2 - User is stopped</option>
+							<option value="3"{{ old('priority') == '3' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '3' ? ' selected=selected' : null }}>3 - Business is hendered</option>
+							<option value="4"{{ old('priority') == '4' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '4' ? ' selected=selected' : null }}>4 - User is hendered</option>
+							<option value="5"{{ old('priority') == '5' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '5' ? ' selected=selected' : null }}>5 - Increase productivity/savings</option>
 						</select>
 						@if ($errors->has('priority'))
 						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('priority') }}</strong></span>

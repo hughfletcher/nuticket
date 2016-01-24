@@ -7,7 +7,8 @@ class TicketUpdateRequest extends FormRequest
         'priority' => ['between:1,5'],
         'title' => ['min:10'],
         'body' => ['min:10'],
-        'reason' => ['min:5']
+        'reason' => ['min:5'],
+        'org_id' => ['exists:orgs,id']
     ];
 	/**
 	 * Determine if the user is authorized to make this request.

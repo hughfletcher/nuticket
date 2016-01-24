@@ -22,6 +22,7 @@ class TicketUpdateJob extends Job implements SelfHandling
         $ticket_id,
         $auth_id,
         $user_id = null,
+        $org_id = null,
         $priority = null,
         $title = null,
         $body = null,
@@ -33,6 +34,7 @@ class TicketUpdateJob extends Job implements SelfHandling
             'ticket_id' => $ticket_id,
             'auth_id' => $auth_id,
             'user_id' => $user_id,
+            'org_id' => $org_id,
             'priority' => $priority,
             'title' => $title,
             'body' => $body,
@@ -54,7 +56,7 @@ class TicketUpdateJob extends Job implements SelfHandling
         $ticketOld = $ticket->find($this->data->get('ticket_id'));
         $actionOld = $action->findWhere(['ticket_id' => $this->data->get('ticket_id'), 'type' => 'create'])->first();
         // dd($this->data);
-        $ticket->update($this->data->only(['user_id', 'priority'])->toArray(), $this->data->get('ticket_id'));
+        $ticket->update($this->data->only(['user_id', 'priority', 'org_id'])->toArray(), $this->data->get('ticket_id'));
         $action->update($this->data->only(['body', 'title'])->toArray(), $actionOld->id);
 
         $ticketUpdated = $ticket->find($this->data->get('ticket_id'));
@@ -64,7 +66,7 @@ class TicketUpdateJob extends Job implements SelfHandling
             $this->getActionChanges($actionOld, $actionUpdated),
             $this->getTicketChanges($ticketOld, $ticketUpdated)
         );
-        // dd($changes);
+        
         if (empty($changes)) {
             return null;
         }
@@ -107,6 +109,10 @@ class TicketUpdateJob extends Job implements SelfHandling
 
         if ($updated->priority != $old->priority) {
             $changed['Priority'] = ['from' => $old->priority, 'to' => $updated->priority];
+        }
+
+        if ($updated->org_id != $old->org_id) {
+            $changed['Organization'] = ['from' => $old->org->name, 'to' => $updated->org->name];
         }
 
         return $changed;

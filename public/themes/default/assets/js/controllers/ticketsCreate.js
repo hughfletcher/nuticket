@@ -7,6 +7,7 @@ app.controllers.ticketsCreate = {
 	'inputEmail': $('#create-form input[name=email]'),
 	'buttonChange': $('#create-form p.user button'),
 	'inputUserId': $('#create-form input[name=user_id]'),
+	'selectOrg': $('select.org', '#create-form'),
 	'init': function(app) {
 
 		var me = this;
@@ -41,6 +42,7 @@ app.controllers.ticketsCreate = {
 
 			me.inputUserId.val(me.modal.user.id)
 			me.pUserSpan.html(me.modal.user.display_name);
+			me.selectOrg.select2('val', me.modal.user.org_id);
 
 			if (me.modal.user.email) {
 				me.pUserSpan.append(' &lt;' + me.modal.user.email + '&gt;');

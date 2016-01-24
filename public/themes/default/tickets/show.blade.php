@@ -328,8 +328,10 @@
 									<dd>{{ $ticket['priority'] }}</dd>
 									<dt>Department</dt>
 									<dd>{{ $ticket['dept']['name'] }}</dd>
+									<dt>Organization</dt>
+									<dd>{{ $ticket->org->name }}</dd>
 									<dt>User</dt>
-									<dd><a href="#">{{ $ticket['user']['display_name'] }}</a></dd>
+									<dd>{{ $ticket['user']['display_name'] }}</dd>
 									<dt>Phone</dt>
 									<dd></dd>
 								</dl>

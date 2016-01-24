@@ -10,3 +10,4 @@
 /public/cc/
 *.db
 .bundle/
+public/themes/default/img/

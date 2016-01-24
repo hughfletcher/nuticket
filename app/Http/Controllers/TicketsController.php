@@ -120,57 +120,16 @@ class TicketsController extends BaseController
 
     public function update(TicketUpdateRequest $request, $ticketId)
     {
-        $attrs = $request->all();
+        $request->merge(['ticket_id' => $ticketId, 'auth_id' => Auth::user()->id]);
 
-        //get old ticket/sction data so we can see if anything is changing
-        $oldTicket = $this->tickets->find($ticketId);
-        $oldCreate = $this->action->findWhere(['ticket_id' => $ticketId, 'type' => 'create'])[0]->toArray();
+        if (!$action = $this->dispatchFrom('App\Jobs\TicketUpdateJob', $request)) {
 
-        //lets see what's exactly changing
-        $changed = [];
-
-        if ($attrs['user_id'] != $oldTicket['user_id']) {
-            $changed[] = 'user_id';
-        }
-
-        if ($attrs['priority'] != $oldTicket['priority']) {
-            $changed[] = 'priority';
-        }
-
-        if ($attrs['title'] != $oldCreate['title']) {
-            $changed[] = 'title';
-        }
-
-        if ($attrs['body'] != $oldCreate['body']) {
-            $changed[] = 'body';
-        }
-
-        $oldTicket = array_merge($oldTicket->toArray(), array_only($oldCreate, ['title', 'body']));
-
-        //no changes, user is wasting our time
-        if (empty($changed)) {
             return redirect()->route('tickets.edit', [$ticketId])
             ->with('message', 'There were no changes made to this ticket.')
             ->withInput();
         }
 
-        //update ticket/create action
-        $this->tickets->update(array_only($attrs, ['user_id', 'priority']), $ticketId);
-        $this->action->update(array_only($attrs, ['body', 'title']), $oldCreate['id']);
+        return redirect()->route('tickets.show', [$ticketId, '#action-' . $action->id]);
 
-        //lets create a edit action
-        $body = '';
-        foreach ($changed as $change) {
-            $body .= $change . ' changed from ' . $oldTicket[$change] . ' to ' . $attrs[$change] . "\n";
-        }
-
-        $newAction = $this->action->create([
-            'ticket_id' => $ticketId,
-            'user_id' => Auth::user()->id,
-            'type' => 'edit',
-            'body' => $body . "\n" . $attrs['reason']
-        ]);
-
-        return redirect()->route('tickets.show', [$ticketId, '#action-' . $newAction['id']]);
     }
 }

@@ -17,6 +17,7 @@ class CreateTicketsTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->integer('dept_id');
+			$table->integer('org_id');
 			$table->integer('assigned_id')->default(0);
 			$table->enum('status', array('new','open','closed','resolved'))->default('new');
 			$table->smallInteger('priority')->default(3);

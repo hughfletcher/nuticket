@@ -10,6 +10,7 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind('App\Repositories\DeptInterface', 'App\Repositories\Eloquent\DeptRepository');
         $this->app->bind('App\Contracts\Repositories\EmailInterface', 'App\Repositories\EmailRepository');
         $this->app->bind('App\Repositories\FieldInterface', 'App\Repositories\Eloquent\FieldRepository');
+        $this->app->bind('App\Contracts\Repositories\OrgInterface', 'App\Repositories\OrgRepository');
         $this->app->bind('App\Repositories\ReportInterface', 'App\Repositories\Eloquent\ReportRepository');
         $this->app->bind('App\Repositories\TicketActionInterface', 'App\Repositories\Eloquent\TicketActionRepository');
         $this->app->bind('App\Contracts\Repositories\TicketActionInterface', 'App\Repositories\TicketActionRepository');

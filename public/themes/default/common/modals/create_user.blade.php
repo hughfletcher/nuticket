@@ -6,42 +6,60 @@
 					<h4 class="modal-title"><i class="fa fa-user"></i> Search or create a user</h4>
 				</div>
 				<form action="" method="post" enctype="text/plain">
+					<input name="_method" type="hidden" value="POST">
 					<input name="source" type="hidden" value="">
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<input name="user_id" type="text" class="form-control select2-users input-sm search" placeholder="Search for a user">
+									<input name="id" type="text" class="form-control select2-users input-sm search" placeholder="Search for a user">
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<div class="form-group">
 									<label for="first_name" class="control-label">First Name</label>
 									<input class="form-control input-sm" name="first_name">
 									<span class="help-block hide"></span>
 								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="lastname" class="control-label">Last Name</label>
+									<input class="form-control input-sm" name="last_name">
+									<span class="help-block hide"></span>
+								</div>
+							</div>
+							<div class="col-md-4">
 								<div class="form-group">
 									<label for="username" class="control-label">User Name</label>
 									<input class="form-control input-sm" name="username">
 									<span class="help-block hide"></span>
 								</div>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
-								<div class="form-group">
-									<label for="lastname" class="control-label">Last Name</label>
-									<input class="form-control input-sm" name="last_name">
-									<span class="help-block hide"></span>
-								</div>
 								<div class="form-group">
 									<label for="email" class="control-label">Email</label>
 									<input class="form-control input-sm" name="email">
 									<span class="help-block hide"></span>
 								</div>
+							</div>					
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="lastname" class="control-label">Organization</label>
+									<select class="form-control input-sm select2-nosearch org" name="org_id" data-placeholder="Select An Organization">
+									<option></option>
+									@foreach($orgs as $org)
+										<option value="{{ $org->id }}">{{ $org->name }}</option>
+									@endforeach
+									</select>
+									<span class="help-block hide"></span>
+								</div>
 							</div>
 						</div>
-
 					</div>
 					<div class="modal-footer clearfix">
 

@@ -31,12 +31,27 @@
 			<form method="POST" action="{{ route('tickets.update', [$ticket['id']]) }}" accept-charset="UTF-8" class="form-horizontal" id="edit-form">
 				<input name="_method" type="hidden" value="PUT">
 				<input name="_token" type="hidden" value="{{ csrf_token() }}">
-				<input name="user_id" type="hidden" value="{{ isset($user) ? $user['id'] : null }}">
+				<input name="user_id" type="hidden" value="{{ $ticket->user->id }}">
 				<div class="form-group{{ $errors->has('display_name') ? ' has-error' : null }}">
 					<label for="user_id" class="col-sm-1 control-label">User</label>
 					<div class="col-sm-5">
 						<p class="form-control-static user"><span>{{ $ticket->user->display_name }}{{ !is_null($ticket->user->email) ? ' &lt;' . $ticket->user->email . '&gt;' : null }}</span> 
 						<button type="button" class="btn btn-default btn-xs pull-right">Change</button></p>
+					</div>
+				</div>
+				
+				<div class="form-group{{ $errors->has('org_id') ? ' has-error' : null }}">
+					<label for="org_id" class="col-sm-1 control-label">Orginization</label>
+					<div class="col-sm-5">
+						<select class="form-control input-sm select2-default org" name="org_id" data-placeholder="Select An Organization">
+							<option></option>
+							@foreach($orgs as $org)
+								<option value="{{ $org->id }}"{{ old('org_id') == $org->id || $ticket->org->id == $org->id ? ' selected=selected' : null }}>{{ $org->name }}</option>
+							@endforeach
+							</select>
+						@if ($errors->has('org_id'))
+						<span class="help-block"><strong>{{ $errors->first('org_id') }}</strong></span>
+						@endif
 					</div>
 				</div>
 				<div class="form-group{{ $errors->has('priority') ? ' has-error' : null }}">

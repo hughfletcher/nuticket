@@ -21,6 +21,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'display_name',
         'email',
         'is_staff',
+        'org_id',
+        'source'
     ];
 
     protected $dates = ['deleted_at'];
@@ -39,11 +41,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = array('password', 'remember_token');
 
-    protected $appends = array('source');
 
-	public function getSourceAttribute($value)
+    public function org() 
     {
-        return 'local';
+        return $this->belongsTo('App\Org', 'org_id');
     }
 
 }

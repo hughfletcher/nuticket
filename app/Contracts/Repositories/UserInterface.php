@@ -2,6 +2,6 @@
 
 interface UserInterface {
 
-	public function all($columns, array $params, $defer_listeners);
+	// public function all($columns, array $params, $defer_listeners);
 	
 }

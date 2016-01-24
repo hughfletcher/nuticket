@@ -67,7 +67,7 @@ class RouteServiceProvider extends ServiceProvider {
 			$router->group(['namespace' => 'Api', 'prefix' => 'api', 'middleware' => 'auth'], function($router) {
 
 
-				$router->resource('users', 'UsersController', ['except' => ['create', 'edit', 'update', 'destroy']]);
+				$router->resource('users', 'UsersController', ['except' => ['create', 'edit', 'destroy']]);
 				$router->resource('staff', 'StaffController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
 				$router->resource('tickets', 'TicketsController', ['except' => ['index', 'create', 'store', 'show', 'edit', 'destroy']]);
 
