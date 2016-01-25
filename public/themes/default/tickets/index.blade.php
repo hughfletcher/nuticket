@@ -140,16 +140,17 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="exampleInputEmail1" class="control-label">Status</label>
-									<select name="status" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+									<select name="status[]" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
 										<option></option>
-										<option value="open">Open</option>
-										<option value="closed">Closed</option>
 										<option value="new">New</option>
+										<option value="open">Open</option>
+										<option value="resolved">Resolved</option>
+										<option value="closed">Closed</option>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1" class="control-label">Priority</label>
-									<select name="priority" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+									<select name="priority[]" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
 										<option></option>
 										<option value="1">1</option>
 										<option value="2">2</option>
@@ -162,7 +163,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="assigned_id" class="control-label">Assigned To</label>
-									<select name="assigned_id" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+									<select name="assigned_id[]" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
 										<option></option>
 										@foreach ($staff as $id => $user)
 											<option value="{{ $id }}">{{ $user }}</option>
@@ -171,7 +172,7 @@
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1" class="control-label">Department</label>
-									<select name="dept_id" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+									<select name="dept_id[]" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
 										<option></option>
 										@foreach ($depts as $key => $dept)
 											<option value="{{ $key }}"{{ old('dept_id') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>

@@ -13,8 +13,11 @@ class TicketIndexRequest extends QueryRequest
 	public function rules()
 	{
 		return array_merge(parent::rules(), [
-			'status' => ['regex:/^(-?(open|closed|new)){1,3}$/'],
-			'assigned_id' => ['regex:/^\d+(-\d+)*$/']
+			'status' => ['array', 'in:open,new,closed,resolved'],
+			'assigned_id' => ['array', 'exists:users,id,is_staff,1'],
+			'dept_id' => ['array', 'exists:depts,id'],
+			'priority' => ['array', 'between:1,5'],
+			'created_at' => []
 		]);
 	}
 

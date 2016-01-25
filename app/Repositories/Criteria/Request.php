@@ -17,7 +17,7 @@ class Request extends Criteria {
      */
     public function apply($model, Repository $repository)
     {
-    	$values = array_filter(explode('-', app('request')->get($this->param)));
+    	$values = app('request')->get($this->param);
 
     	if (!app('request')->has($this->param) || empty($values)) {
 			return $model;
