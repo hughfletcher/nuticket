@@ -61,6 +61,7 @@ class TicketRepository extends Repository implements TicketInterface {
     		->pushCriteria(new Criteria\Request('status'))
     		->pushCriteria(new Criteria\Request('priority'))
     		->pushCriteria(new Criteria\Request('dept_id'))
+    		->pushCriteria(new Criteria\Request('org_id'))
     		->pushCriteria(new Criteria\Request('assigned_id'));
 
     	return parent::paginate($perPage);

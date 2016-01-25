@@ -149,15 +149,22 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="exampleInputEmail1" class="control-label">Priority</label>
-									<select name="priority[]" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+									<label for="exampleInputEmail1" class="control-label">Department</label>
+									<select name="dept_id[]" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
 										<option></option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
+										@foreach ($depts as $key => $dept)
+											<option value="{{ $key }}"{{ old('dept_id') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
+										@endforeach
 									</select>
+								</div>
+								<div class="form-group">
+									<label for="org_id" class="control-label">Organization</label>
+										<select class="form-control input-sm select2-default" name="org_id[]" data-placeholder="Leave empty for all" multiple>
+											<option></option>
+											@foreach($orgs as $org)
+											<option value="{{ $org->id }}">{{ $org->name }}</option>
+											@endforeach
+								</select>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -171,18 +178,29 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="exampleInputEmail1" class="control-label">Department</label>
-									<select name="dept_id[]" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
+									<label for="exampleInputEmail1" class="control-label">Priority</label>
+									<select name="priority[]" class="form-control select2-default input-sm" placeholder="Leave empty for any" multiple>
 										<option></option>
-										@foreach ($depts as $key => $dept)
-											<option value="{{ $key }}"{{ old('dept_id') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
-										@endforeach
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
 									</select>
+								</div>
+								<div class="form-group">
+									<label>Date Range [Create Date]:</label>
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-clock-o"></i>
+										</div>
+										<input type="text" class="form-control pull-right input-sm daterange" name="created_at" placeholder="Leave empty for all"/>
+									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="row">
+{{-- 						<div class="row">
 							<div class="col-md-12">
 								<label>Date Range [Create Date]:</label>
 								<div class="input-group">
@@ -190,9 +208,9 @@
 										<i class="fa fa-clock-o"></i>
 									</div>
 									<input type="text" class="form-control pull-right input-sm daterange" name="created_at" placeholder="Leave empty for all"/>
-								</div><!-- /.input group -->
+								</div>
 							</div>
-						</div>
+						</div> --}}
 
 					</div>
 					<div class="modal-footer clearfix">

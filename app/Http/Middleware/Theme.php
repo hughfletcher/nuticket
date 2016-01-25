@@ -43,7 +43,7 @@ class Theme
             'App\\Http\\Composers\\TicketsOpenCountComposer' => ['tickets.index'],
             'App\\Http\\Composers\\TicketPrioritiesComposer' => ['tickets.create'],
             'App\\Http\\Composers\\DeptComposer' => ['tickets.index', 'tickets.create', 'tickets.show'],
-            'App\\Http\\Composers\\OrgComposer' => ['tickets.create', 'tickets.edit'],
+            'App\\Http\\Composers\\OrgComposer' => ['tickets.create', 'tickets.edit', 'tickets.index'],
             'App\\Http\\Composers\\StaffComposer' => ['tickets.index', 'tickets.create', 'tickets.show'],
             'App\\Http\\Composers\\SettingsEmailsComposer' => ['settings.emails'],
         ));
