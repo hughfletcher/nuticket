@@ -81,19 +81,30 @@ class RoboFile extends \Robo\Tasks
 
 	public function watch()
 	{
+        $this->taskExec('browser-sync')
+            ->arg('start')
+            ->option('proxy', 'localhost')
+            ->option('files', 'public/themes/js/*.js, public/themes/default/css/*.css')
+            ->option('port', 3000)
+            ->background()->run();
+            
 		$this->taskWatch()
 		 	->monitor('public/themes/default/assets/js', function() {
 		     $this->taskExec('robo scripts')->run();
 		})->run();
+
+
 	}
 
     public function testing()
     {
+
         $this->taskWatch()->monitor('tests', function ($event) {
             $this->taskPHPUnit()
                 ->files([$event->getResource()])
                 ->run();
         })->run();
+
     }
 
     public function test($suite = 'Unit', $opts = ['coverage|c' => false])
@@ -105,6 +116,11 @@ class RoboFile extends \Robo\Tasks
         }
 
         $task->run();
+    }
+
+    public function FunctionName($value='')
+    {
+        # code...
     }
 
     private function b($path = '')
