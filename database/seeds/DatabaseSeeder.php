@@ -347,6 +347,8 @@ class DatabaseSeeder extends Seeder {
     protected function createConfigData()
     {
         $this->data['Config'] = [
+            ['key' => 'adldap.org.enabled', 'value' => serialize([true])],
+            ['key' => 'adldap.org.fields', 'value' => serialize([['physicaldeliveryofficename', 'slug']])],
         ];
     }
 
