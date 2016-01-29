@@ -45,7 +45,8 @@ class NotifyTicketCreatedListener implements ShouldQueue
             ->pushCriteria(new WithOrg())
             ->pushCriteria(new WithUser())
             ->pushCriteria(new WithAssigned())
-            ->find($event->ticket->id);
+            ->find($event->ticket->id)
+            ->toArray();
         $email = $this->email->find(config('mail.default'));
 
         foreach ($staff as $user) {
@@ -55,7 +56,7 @@ class NotifyTicketCreatedListener implements ShouldQueue
                 function ($message) use ($user, $ticket, $email) {
                     $message->from($email->email, $email->name)
                         ->to($user->email, $user->display_name)
-                        ->subject('[New - #' . $ticket->id . '] ' . str_limit($ticket->title, 40));
+                        ->subject(trans('mail.subject.new', ['id' => $ticket['id'], 'title' => str_limit($ticket['title'], 40)], $user['locale']));
                 }
             );
         }

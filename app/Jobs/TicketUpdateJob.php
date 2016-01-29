@@ -138,7 +138,7 @@ class TicketUpdateJob extends Job implements SelfHandling
         $body = null;
         foreach ($changes as $attr => $change) {
             $body.= trans(
-                'ticket.changedfrom',
+                'action.changedfrom',
                 ['attr' => trans('ticket.' . $attr), 'from' => $change['from'], 'to' => $change['to']]
             ) . "\n";
         }

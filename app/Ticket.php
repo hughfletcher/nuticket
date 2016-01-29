@@ -19,6 +19,8 @@ class Ticket extends Eloquent {
         'org_id'
     ];
 
+    protected $appends = ['title'];
+
     protected $dates = ['last_action_at', 'closed_at'];
 
 	/**

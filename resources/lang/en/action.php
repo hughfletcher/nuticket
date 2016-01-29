@@ -11,4 +11,5 @@ return [
         'open' => 'opened ticket',
         'transfer' => 'transfered ticket to :name'
     ],
+    'changedfrom' => ':attr changed from :from to :to.',
 ];

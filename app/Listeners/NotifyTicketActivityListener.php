@@ -40,12 +40,16 @@ class NotifyTicketActivityListener implements ShouldQueue
     {
         $staff = $this->user->find(explode(',', config('mail.notify')));
 
+        // dd($event->actions->lists('id')->toArray());
+
         $ticket = $this->ticket->pushCriteria(new WithLoadedActions($event->actions->lists('id')->toArray()))
             ->pushCriteria(new WithDept())
             ->pushCriteria(new WithOrg())
             ->pushCriteria(new WithUser())
             ->pushCriteria(new WithAssigned())
-            ->find($event->actions->first()->ticket_id);
+            ->find($event->actions->first()->ticket_id)
+            ->toArray();
+
         $email = $this->email->find(config('mail.default'));
 
         foreach ($staff as $user) {
@@ -55,7 +59,7 @@ class NotifyTicketActivityListener implements ShouldQueue
                 function ($message) use ($user, $ticket, $email) {
                     $message->from($email->email, $email->name)
                         ->to($user->email, $user->display_name)
-                        ->subject('[Activity - #' . $ticket->id . '] ' . str_limit($ticket->title, 40));
+                        ->subject(trans('mail.subject.activity', ['id' => $ticket['id'], 'title' => str_limit($ticket['title'], 40)], $user['locale']));
                 }
             );
         }

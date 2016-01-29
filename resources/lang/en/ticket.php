@@ -3,8 +3,12 @@
 return [
     'Priority' => 'Priority',
     'User' => 'User',
-    'Title' => 'Title',
+    'Summary' => 'Summary',
     'Body' => 'Body',
-    'Organization' => 'Organization',
-    'changedfrom' => ':attr changed from :from to :to.',
+    'Organization' => 'Organization'
+    'Priority_' => 'Priority',
+    'User' => 'User',
+    'Summary' => 'Summary',
+    'Body' => 'Body',
+    'Organization' => 'Organization'
 ];
