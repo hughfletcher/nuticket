@@ -10,6 +10,7 @@ use App\Contracts\Repositories\TicketInterface;
 use App\Repositories\Criteria\Tickets\WithLoadedActions;
 use App\Repositories\Criteria\Tickets\WithAssigned;
 use App\Repositories\Criteria\WithDept;
+use App\Repositories\Criteria\WithOrg;
 use App\Repositories\Criteria\WithUser;
 use App\Contracts\Repositories\EmailInterface;
 use Illuminate\Mail\Mailer;
@@ -41,6 +42,7 @@ class NotifyTicketCreatedListener implements ShouldQueue
 
         $ticket = $this->ticket->pushCriteria(new WithLoadedActions())
             ->pushCriteria(new WithDept())
+            ->pushCriteria(new WithOrg())
             ->pushCriteria(new WithUser())
             ->pushCriteria(new WithAssigned())
             ->find($event->ticket->id);

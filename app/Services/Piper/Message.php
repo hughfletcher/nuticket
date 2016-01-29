@@ -2,6 +2,7 @@
 
 use EmailReplyParser\Parser\EmailParser;
 use App\Services\Piper\Pipes\UserPipe;
+use App\Contracts\Repositories\OrgInterface;
 
 abstract class Message
 {
@@ -15,10 +16,11 @@ abstract class Message
 
     protected $message;
 
-    public function __construct(EmailParser $parser, UserPipe $user)
+    public function __construct(EmailParser $parser, UserPipe $user, OrgInterface $org)
     {
         $this->parser = $parser;
         $this->user = $user;
+        $this->org = $org;
         $this->data = collect();
     }
 
@@ -113,16 +115,21 @@ abstract class Message
 
     public function getUserId()
     {
+        return $this->getUser()->id;
+    }
+
+    public function getUser()
+    {
         if ($this->data->has('user')) {
-            return $this->data->get('user')->id;
+            return $this->data->get('user');
         }
 
         $tags = $this->getTags();
         if ($tags->has('user')) {
-            return $this->data->put('user', $this->user->findByUserName($tags->get('user')))->get('user')->id;
+            return $this->data->put('user', $this->user->findByUserName($tags->get('user')))->get('user');
         }
 
-        return $this->getAuthorId();
+        return $this->getAuthor();
     }
 
     public function getAssignedId()
@@ -138,6 +145,24 @@ abstract class Message
 
         if ($tags->has('claim')) {
             return $this->data->put('assigned', $this->getAuthor())->get('assigned')->id;
+        }
+
+        return null;
+    }
+
+    public function getOrgId()
+    {
+        if ($this->data->has('org')) {
+            return $this->data->get('org')->id;
+        }
+
+        $tags = $this->getTags();
+        if ($tags->has('org')) {
+            $org = $this->org->findBy('slug', $tags->get('org'), ['id']);
+            if ($org) {
+                $this->data->put('org', $org);
+                return $org->id;
+            }
         }
 
         return null;

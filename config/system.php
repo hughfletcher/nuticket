@@ -8,17 +8,18 @@ return [
 
 	'time' => [
 		'enabled' => true,
-		'user_edit' => true
+		'edit' => true
 	],
 
-	'date_format' => 'm/d/Y',
+	'date_format' => 'm/d/Y', //depricated
 
 	'default' => [
 		'tz' => 'US/Central',
 		'dept' => 1,
 		'pagesize' => 25,
-		'priority' => 3
-	],
+		'priority' => 3,
+		'org' => 1
+ 	],
 
 	'format' => [
 		'date' => 'm/d/Y',

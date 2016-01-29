@@ -2,6 +2,7 @@ Hi {{ $user->first_name }},
 
 Summary: {!! $ticket->title !!}
 User: {{ $ticket->user->display_name }}
+Orginization: {{ $ticket->org->name }}
 Dept: {{ $ticket->dept->name }}
 Assigned: {{ $ticket->assigned_id > 0 ? $ticket->assigned->display_name : 'Nobody' }}
 

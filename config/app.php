@@ -2,6 +2,34 @@
 
 return [
 
+	'title' => 'NuTicket :: Ticket Support System',
+
+	'pagesize' => 25,
+
+	'time' => [
+		'enabled' => true,
+		'edit' => true
+	],
+
+	'date_format' => 'm/d/Y', //depricated
+
+	'default' => [
+		'tz' => 'US/Central',
+		'dept' => 1,
+		'pagesize' => 25,
+		'priority' => 3,
+		'org' => 1,
+		'locale' => 'en'
+ 	],
+
+	'format' => [
+		'date' => 'm/d/Y',
+		'dateday' => 'm/d/Y D',
+        'datetime' => 'm/d/Y g:i a'
+	],
+
+	'theme' => 'default',
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Debug Mode

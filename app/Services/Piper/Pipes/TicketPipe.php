@@ -49,7 +49,8 @@ class TicketPipe
     {
         return array_merge([
             'assigned_id' => $message->getAssignedId(),
-            'dept_id' => '',
+            'dept_id' => config('system.default.dept'),
+            'org_id' => $message->getOrgId() ? $message->getOrgId() : $message->getUser()->org_id,
             'title' => $message->getSubject(),
             'body' => $message->getSkinny(),
             'user_id' => $message->getUserId(),
@@ -72,6 +73,10 @@ class TicketPipe
 
         if ($tags->has('priority')) {
             $attrs['priority'] = $tags->get('priority');
+        }
+
+        if ($tags->has('org')) {
+            $attrs['org_id'] = $message->getOrgId();
         }
 
         return array_merge($attrs, $this->attrs($message));
