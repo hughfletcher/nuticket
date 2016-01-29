@@ -23,7 +23,7 @@ class TicketRepository extends Repository implements TicketInterface {
 		// $array = array_add($data, 'last_action_at', Carbon::now());
 
 		//create ticket
-		$ticket = parent::create(array_only($data, ['assigned_id', 'priority', 'dept_id', 'user_id']));
+		$ticket = parent::create(array_only($data, ['assigned_id', 'priority', 'dept_id', 'user_id', 'org_id']));
 
 		$action = $this->createTicketAction([
 			'user_id' => $data['auth_id'],
