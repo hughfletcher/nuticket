@@ -1,15 +1,17 @@
 <?php namespace App\Http\Middleware;
 
-use Illuminate\View\Factory;
+use Illuminate\Foundation\Application;
+use App\Support\Themes;
 use App\Services\Menu;
 use Closure;
 
 class Theme
 {
 
-    public function __construct(Factory $view, Menu $menu)
+    public function __construct(Application $app, Themes $themes, Menu $menu)
     {
-        $this->view = $view;
+        $this->app = $app;
+        $this->themes = $themes;
         $this->menu= $menu;
     }
 
@@ -23,29 +25,34 @@ class Theme
     public function handle($request, Closure $next)
     {
         // theme
-        $this->view->addLocation(public_path() . '/themes/default/views');
-        include(public_path() . '/themes/default/helpers.php');
+        $theme = config('settings.theme');
+        $path = public_path() . '/themes/' . $theme .'/';
+        $config = $this->themes->config($theme);
+
+        //views
+        $views = 'views';
+        if (isset($config['views'])) {
+            $views = $config['views'];
+        }
+        $this->app['view']->addLocation($path . $views);
+
+        //includes
+        if (isset($config['includes'])) {
+            foreach ($config['includes'] as $file) {
+                include($path . $file);
+            }
+        }
+        
 
         // menu
         $this->menu->make('nav');
 
         // composers
-        $this->loadComposers();
+        if (isset($config['composers'])) {
+            $this->app['view']->composers($config['composers']);
+        }
 
         return $next($request);
     }
 
-    private function loadComposers()
-    {
-        $this->view->composers(array(
-            'App\\Http\\Composers\\TicketsAssignedCountComposer' => ['tickets.index'],
-            'App\\Http\\Composers\\TicketsClosedCountComposer' => ['tickets.index'],
-            'App\\Http\\Composers\\TicketsOpenCountComposer' => ['tickets.index'],
-            'App\\Http\\Composers\\TicketPrioritiesComposer' => ['tickets.create'],
-            'App\\Http\\Composers\\DeptComposer' => ['tickets.index', 'tickets.create', 'tickets.show'],
-            'App\\Http\\Composers\\OrgComposer' => ['tickets.create', 'tickets.edit', 'tickets.index'],
-            'App\\Http\\Composers\\StaffComposer' => ['tickets.index', 'tickets.create', 'tickets.show'],
-            'App\\Http\\Composers\\SettingsEmailsComposer' => ['settings.emails'],
-        ));
-    }
 }

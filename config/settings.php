@@ -11,8 +11,6 @@ return [
 		'edit' => true
 	],
 
-	'date_format' => 'm/d/Y', //depricated
-
 	'default' => [
 		'tz' => 'US/Central',
 		'dept' => 1,
