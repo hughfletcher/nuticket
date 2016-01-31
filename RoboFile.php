@@ -14,7 +14,8 @@ class RoboFile extends \Robo\Tasks
     {
 
     	$this->taskConcat([
-    		$this->b('AdminLTE/css/AdminLTE.css'),
+    		$this->b('AdminLTE/dist/css/AdminLTE.css'),
+            'vendor/bower_components/AdminLTE/dist/css/skins/skin-blue.css',
 	        'vendor/bower_components/select2/select2.css',
 	        'vendor/bower_components/select2-bootstrap-css/select2-bootstrap.css',
 	        'vendor/bower_components/bootstrap-daterangepicker/daterangepicker-bs3.css',
@@ -27,13 +28,13 @@ class RoboFile extends \Robo\Tasks
     public function copy ()
     {
     	$this->taskFileSystemStack()
-    	    ->copy($this->b('bootstrap/dist/css/bootstrap.min.css'), $this->t('css/bootstrap.min.css'))
+    	    ->copy('vendor/bower_components/AdminLTE/bootstrap/css/bootstrap.min.css', 'public/themes/default/css/bootstrap.min.css')
 		    ->copy('vendor/bower_components/font-awesome/css/font-awesome.min.css', 'public/themes/default/css/font-awesome.min.css')
 		    ->copy('vendor/bower_components/select2/select2-spinner.gif', 'public/themes/default/css/select2-spinner.gif')
 		    ->copy('vendor/bower_components/select2/select2x2.png', 'public/themes/default/css/select2x2.png')
 		    ->copy('vendor/bower_components/select2/select2.png', 'public/themes/default/css/select2.png')
-		    ->copy('vendor/bower_components/jquery/dist/jquery.min.js', 'public/themes/default/js/jquery.min.js')
-		    ->copy('vendor/bower_components/bootstrap/dist/js/bootstrap.min.js', 'public/themes/default/js/bootstrap.min.js')
+		    ->copy('vendor/bower_components/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js', 'public/themes/default/js/jquery.min.js')
+		    ->copy('vendor/bower_components/AdminLTE/bootstrap/js/bootstrap.min.js', 'public/themes/default/js/bootstrap.min.js')
 		    ->run();
 
         $this->taskCopyDir(
@@ -62,7 +63,7 @@ class RoboFile extends \Robo\Tasks
             $this->b('select2/select2.js'),
             $this->b('moment/moment.js'),
             $this->b('bootstrap-daterangepicker/daterangepicker.js'),
-            $this->b('AdminLTE/js/app.js')
+            'vendor/bower_components/AdminLTE/dist/js/app.js'
 	    	])
             ->to($this->t('js/libs.js'))
 	        ->run();
@@ -84,7 +85,7 @@ class RoboFile extends \Robo\Tasks
         $this->taskExec('browser-sync')
             ->arg('start')
             ->option('proxy', 'localhost')
-            ->option('files', 'public/themes/js/*.js, public/themes/default/css/*.css')
+            ->option('files', 'public/themes/js/*.js, public/themes/default/css/*.css, public/themes/default/views/*.php')
             ->option('port', 3000)
             ->background()->run();
             

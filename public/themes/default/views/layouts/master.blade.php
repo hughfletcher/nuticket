@@ -19,65 +19,91 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body class="skin-blue fixed">{{-- dd($main->roots()[1]) --}}
-        <!-- header logo: style can be found in header.less -->
-        <header class="header">
+    <body class="hold-transition skin-blue {{ user('is_staff') ? 'fixed sidebar-mini' :  'layout-top-nav layout-boxed' }}">
+        <div class="wrapper">
+        <header class="main-header">
+            @if(user('is_staff'))
             <a href="index.html" class="logo">
-                <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                Support
+               <!-- mini logo for sidebar mini 50x50 pixels -->
+              <span class="logo-mini"><b>IT</b>S</span>
+              <!-- logo for regular state and mobile devices -->
+              <span class="logo-lg"><b>IT</b>Support</span>
             </a>
+            @endif
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                @if(user('is_staff'))
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
                 </a>
-                <div class="navbar-right">
-                    <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        
-                        <!-- Notifications: style can be found in dropdown.less -->
-                        
-                        <!-- Tasks: style can be found in dropdown.less -->
-                        
-                        <!-- User Account: style can be found in dropdown.less -->
-                        <li class="dropdown user">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                @endif
+                @if(!user('is_staff'))
+                <div class="navbar-header">
+                    <a href="../../index2.html" class="navbar-brand"><b>IT</b>Support</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+                @include('common.topnav', ['items' => $menu_nav->roots()])
+                @endif
+              <!-- Navbar Right Menu -->
+              @if(user())
+              <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                  <!-- Messages: style can be found in dropdown.less-->
+
+                  <!-- /.messages-menu -->
+
+                  <!-- Control Sidebar Toggle Button -->
+                  <li class="dropdown user">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="glyphicon glyphicon-user"></i>
                                 <span>{{ user('display_name') }} <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                @if (config('system.time.user_edit'))
+                                @if (config('app.time.edit'))
                                 <li><a href="{{ route('me.time.index') }}">Time Log</a></li>
-                                @endif
                                 <li class="divider"></li>
+                                @endif
                                 <li><a href="{{ route('session.index') }}">Logout</a></li>
                             </ul>
                         </li>
-                    </ul>
-                </div>
+                </ul>
+              </div>
+              @endif
             </nav>
         </header>
 
-        <div class="wrapper row-offcanvas row-offcanvas-left">
-            <!-- Left side column. contains the logo and sidebar -->
-            <aside class="left-side sidebar-offcanvas">
+        @if(user('is_staff'))
+        <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
                 <!-- sidebar: style can be found in sidebar.less -->
                 @include('common.sidebar', ['items' => $menu_nav->roots()])
                 <!-- /.sidebar -->
-            </aside>
+            </section>
+        </aside>
+        @endif
 
             <!-- Right side column. Contains the navbar and content of the page -->
-            <aside class="right-side" id="content">
+        <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                     @yield('content')
 
 
-            </aside>
         </div>
+
+        <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.0-alpha 1
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2015 <a href="https://github.com/hughfletcher/nuticket">NuTicket</a>.</strong> All rights reserved.
+  </footer>
+    </div>
 
 
         <script src="{{ cached_asset('js/jquery.min.js') }}"></script>

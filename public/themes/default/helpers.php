@@ -16,18 +16,13 @@ if ( ! function_exists('menu_icon'))
 	}
 }
 
-// if ( ! function_exists('js'))
-// {
-// 	function js($path) {
-
-// 		return asset('themes/default/assets/js/' . $path);
-
-// 	}
-// }
-
 if ( ! function_exists('user'))
 {
-	function user($string) {
+	function user($string = 'id') {
+
+		if (!app('auth')->check()) {
+			return null;
+		}
 
 		return app('auth')->user()->{$string};
 

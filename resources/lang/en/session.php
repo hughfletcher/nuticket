@@ -2,6 +2,7 @@
 return [
 
 	//login
+	'letsgetstarted' => 'Let\'s get started.',
 	'signin' => 'Sign In',
 	'remember_me' => 'Remember me',
 	'iforgot' => 'I forgot my password',

@@ -1,7 +1,7 @@
 {
   "name": "Tickets",
   "dependencies": {
-    "AdminLTE": "almasaeed2010/AdminLTE#1.2",
+    "AdminLTE": "almasaeed2010/AdminLTE#v2.3.2",
     "jquery-placeholder": "v2.0.8",
     "select2": "3.5.2",
     "select2-bootstrap-css": "v1.4.6",

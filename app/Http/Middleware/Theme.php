@@ -23,7 +23,7 @@ class Theme
     public function handle($request, Closure $next)
     {
         // theme
-        $this->view->addLocation(public_path() . '/themes/default');
+        $this->view->addLocation(public_path() . '/themes/default/views');
         include(public_path() . '/themes/default/helpers.php');
 
         // menu
