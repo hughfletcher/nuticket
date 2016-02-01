@@ -37,28 +37,24 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		$router->group(['namespace' => $this->namespace], function($router)
 		{
+			$router->get('/', array('as' => 'dash.index', 'uses' => 'DashController@getIndex'));
 
-			$router->group(['middleware' => 'theme'], function($router) {
-				$router->get('/', array('as' => 'dash.index', 'uses' => 'DashController@getIndex'));
-
-				$router->resource('session', 'SessionController', ['only' => ['store', 'create', 'index']]);
+			$router->resource('session', 'SessionController', ['only' => ['store', 'create', 'index']]);
 
 
-				$router->group(array('middleware' => 'auth'), function($router) {
+			$router->group(array('middleware' => 'auth'), function($router) {
 
-					$router->resource('tickets', 'TicketsController', ['except' => ['destroy']]);
-					$router->resource('actions', 'TicketActionsController', ['only' => ['store']]);
-					$router->resource('reports', 'ReportsController', ['only' => ['index', 'show']]);
+				$router->resource('tickets', 'TicketsController', ['except' => ['destroy']]);
+				$router->resource('actions', 'TicketActionsController', ['only' => ['store']]);
+				$router->resource('reports', 'ReportsController', ['only' => ['index', 'show']]);
 
-                    $router->get('settings/{type}', ['as' => 'settings.edit', 'uses' => 'SettingsController@edit'])
-                        ->where('type', 'emails|system');
-                    $router->put('settings/{type}', ['as' => 'settings.update', 'uses' => 'SettingsController@update'])
-                        ->where('type', 'emails|system');
+                $router->get('settings/{type}', ['as' => 'settings.edit', 'uses' => 'SettingsController@edit'])
+                    ->where('type', 'emails|system');
+                $router->put('settings/{type}', ['as' => 'settings.update', 'uses' => 'SettingsController@update'])
+                    ->where('type', 'emails|system');
 
-					$router->group(['prefix' => 'me'], function($router) {
-						$router->resource('time', 'TimeController');
-
-					});
+				$router->group(['prefix' => 'me'], function($router) {
+					$router->resource('time', 'TimeController');
 
 				});
 
@@ -68,7 +64,7 @@ class RouteServiceProvider extends ServiceProvider {
 
 
 				$router->resource('users', 'UsersController', ['except' => ['create', 'edit', 'destroy']]);
-				$router->resource('staff', 'StaffController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
+				// $router->resource('staff', 'StaffController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
 				$router->resource('tickets', 'TicketsController', ['except' => ['index', 'create', 'store', 'show', 'edit', 'destroy']]);
 
 			});

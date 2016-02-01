@@ -1,4 +1,4 @@
-<?php namespace App\Services;
+<?php namespace App\Http\Composers;
 
 use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Auth\Access\Gate;
@@ -6,13 +6,8 @@ use Caffeinated\Menus\Menu as CaffeinatedMenu;
 use Caffeinated\Menus\Builder;
 use Illuminate\Auth\AuthManager;
 
-class Menu {
+class NavMenuComposer {
 
-	/**
-	 * Create a Menu instance
-     *
-     * @param Illuminate\Foundation\Application $app
-     */
     public function __construct(CaffeinatedMenu $menu, Config $config, AuthManager $auth, Gate $gate)
     {
 		$this->config = $config;
@@ -21,7 +16,13 @@ class Menu {
         $this->gate = $gate;
 	}
 
-	/**
+    public function compose($view)
+    {
+        $this->make('nav');
+
+    }
+
+    	/**
 	 * Create a Menu
 	 *
 	 * @param  string $namespace
@@ -104,4 +105,5 @@ class Menu {
 
         return false;
     }
+
 }
