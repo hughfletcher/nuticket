@@ -2,35 +2,47 @@
 
 return [
 
-    'title' => 'NuTicket :: Ticket Support System',
-
-	'pagesize' => 25,
+    'title' => (string) 'NuTicket :: Ticket Support System',
 
 	'time' => [
-		'enabled' => true,
-		'edit' => true
+		'enabled' => (boolean) true,
+		'edit' => (boolean) true
 	],
 
 	'default' => [
-		'tz' => 'US/Central',
-		'dept' => 1,
-		'pagesize' => 25,
-		'priority' => 3,
-		'org' => 1
+		'tz' => (string) 'America/Chicago',
+		'dept' => (integer) 1,
+		'pagesize' => (integer) 25,
+		'priority' => (integer) 3,
+		'org' => (integer) 1
  	],
 
 	'format' => [
-		'date' => 'm/d/Y',
-		'dateday' => 'm/d/Y D',
-        'datetime' => 'm/d/Y g:i a'
+		'date' => (string) 'm/d/Y',
+		'dateday' => (string) 'm/d/Y D',
+        'datetime' => (string) 'm/d/Y g:i a'
 	],
 
-	'theme' => 'default',
+	'theme' => (string) 'adminlte',
 
 	//access
 	'registration' => [
-		'required' => true,
-		'method' => false //public,private,false
+		'required' => (boolean) true,
+		'method' => (string) 'false' //public,private,false
+	],
+
+	//mail
+	'mail' => [
+
+		'default' => (integer) 1,
+
+	    'admin' => (string) '',
+
+	    'fetching' => (boolean) false,
+
+	    'acceptunknown' => (boolean) false,
+
+	    'defaultmta' => (integer) 1,
 	]
 
 ];

@@ -9,19 +9,24 @@ class SettingsUpdateRequest extends Request
 {
     private $rules = [
         'system' => [
-            'system_title' => 'required',
-            'system_pagesize' => ['required', 'numeric'],
-            'system_format_date' => ['required'],
-            'system_format_dateday' => ['required']
+            'settings_title' => 'required',
+            'settings_time_enabled' => ['required', 'boolean'],
+            'settings_time_edit' => ['required', 'boolean'],
+            'settings_default_tz' => ['required', 'timezone'],
+            'settings_default_dept' => ['required', 'integer', 'exists:depts,id'],
+            'settings_default_pagesize' => ['required', 'integer'],
+            'settings_default_priority' => ['required', 'integer'],
+            'settings_default_org' => ['required', 'integer', 'exists:orgs,id'],
+            'settings_format_date' => ['required'],
+            'settings_format_dateday' => ['required'],
+            'settings_format_datetime' => ['required'],
         ],
         'emails' => [
-            'mail_default' => ['required', 'exists:emails,id'],
-            'mail_admin' => ['required', 'email'],
-            'mail_fetching' => ['in:true'],
-            'mail_replyseperator' => [],
-            'mail_keeppriority' => ['in:true'],
-            'mail_acceptunknown' => ['in:true'],
-            'mail_defaultmta' => ['required', 'exists:emails,id']
+            'settings_mail_default' => ['required', 'integer', 'exists:emails,id'],
+            'settings_mail_admin' => ['required', 'email'],
+            'settings_mail_fetching' => ['required', 'boolean'],
+            'settings_mail_acceptunknown' => ['required', 'boolean'],
+            'settings_mail_defaultmta' => ['required', 'integer', 'exists:emails,id']
         ]
     ];
 
@@ -36,7 +41,7 @@ class SettingsUpdateRequest extends Request
      */
     public function authorize()
     {
-        return $this->gate->allows('manage_settings_system');
+        return $this->gate->allows('manage_settings_' . $this->segment(2));
     }
 
     /**
