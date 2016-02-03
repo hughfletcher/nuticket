@@ -1,0 +1,106 @@
+.skin-blue .navbar .dropdown-menu > li > a:hover {
+    color: #f9f9f9;
+}
+.search-form input {
+    width: 300px !important;
+}
+table {
+	margin-bottom: 6px !important;
+}
+table thead th a {
+	display: block;
+	color: #333;
+}
+table thead th a:hover {
+	color: #333;
+}
+div.table_info {
+	padding-top: 8px;
+}
+
+div.table_paginate {
+	float: right;
+	margin: 0;
+}
+ul.pagination {
+	margin-top: 10px;
+}
+dl.detail.dl-horizontal dt {
+	width: 90px;
+}
+dl.detail.dl-horizontal dd {
+	margin-left: 100px;
+}
+/*buttons*/
+.btn:active, .btn.active {
+background-image: none;
+outline: 0;
+-webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+
+/*timeline*/
+div.row.act {
+	padding-top: 16px;
+}
+
+/*errors*/
+.has-error .help-block { color: #f56954;}
+.has-error .select2-choice, .has-error .select2-choices {
+	border-color: #f56954;
+}
+
+.tab-pane {
+	padding-top: 20px;
+}
+
+/*old reports*/
+.form-inline .input-group>.form-control.daterange {width:170px;}
+
+/*reports*/
+section.reports .fa-stack-2x {
+	font-size: 1.9em;
+}
+
+/*timelog*/
+td.tools {
+	width: 93px;
+}
+td.tools div {
+	display: none;
+}
+tr:hover td.tools div {
+	display: block;
+}
+
+div.inline-fields > div > label, div.inline-fields > div > div {
+	padding: 0;
+}
+div.inline-fields > div {
+	padding-right: 0;
+}
+
+/*tables*/
+table.no-wrap-col {
+	table-layout: fixed;
+}
+td.no-wrap {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	min-width: 400px;
+}
+th.width-60 {
+	width: 60px;
+}
+th.width-100 {
+	width: 100px;
+}
+th.width-120 {
+	width: 120px;
+}
+
+/* forms */
+div.checkbox.show input[type=checkbox] {
+    opacity: 1 !important;
+}

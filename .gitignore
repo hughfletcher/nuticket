@@ -3,11 +3,11 @@
 .env
 .vagrant/
 /public/themes/*
-!/public/themes/default
+!/public/themes/adminlte
 /modules/*
 !/modules/.gitkeep
 *.log*
 /public/cc/
 *.db
 .bundle/
-public/themes/default/img/
+public/themes/adminlte/img/

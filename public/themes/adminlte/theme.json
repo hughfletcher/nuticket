@@ -1,0 +1,8 @@
+{
+    "name": "AdminLte",
+    "description": "Default Theme for nuTicket",
+    "author": "Hugh Fletcher",
+    "views":"views",
+    "provider": "Themes\\Adminlte\\Support\\ServiceProvider",
+    "settings": "theme.adminlte.edit"
+}
