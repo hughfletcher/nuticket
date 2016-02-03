@@ -38,7 +38,7 @@ class NotifyTicketActivityListener implements ShouldQueue
      */
     public function handle(ActionCreatedEvent $event)
     {
-        $staff = $this->user->find(explode(',', config('mail.notify')));
+        $staff = $this->user->find(explode(',', config('settings.mail.notify')));
 
         // dd($event->actions->lists('id')->toArray());
 
@@ -50,7 +50,7 @@ class NotifyTicketActivityListener implements ShouldQueue
             ->find($event->actions->first()->ticket_id)
             ->toArray();
 
-        $email = $this->email->find(config('mail.default'));
+        $email = $this->email->find(config('settings.mail.default'));
 
         foreach ($staff as $user) {
             $this->mailer->queue(

@@ -18,7 +18,7 @@ class UserPipe
 
         if (!$user) {
 
-            if (config('mail.acceptunknown')) {
+            if (config('settings.mail.acceptunknown')) {
                 return $this->user->create(compact($display_name, $email));
             }
 
