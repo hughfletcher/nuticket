@@ -30,17 +30,6 @@ var app = {
 	},
 	'depricated': function() {
 
-        //tab linking
-        var url = document.location.toString();
-        if (url.match('#')) {
-            $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
-        }
-        $('.go-show-tab').click(function() {
-            $('.nav-tabs a[href="' + $(this).attr('href') + '"]').tab('show')
-        })
-
-
-
         //user add/select modal
 
       $("select.select2-default").select2({minimumResultsForSearch: 8});

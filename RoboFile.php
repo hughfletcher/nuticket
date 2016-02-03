@@ -6,8 +6,8 @@
  */
 class RoboFile extends \Robo\Tasks
 {
-    private $defaultThemeBasePath = 'public/themes/default/';
-    private $defaultThemeAssetPath = 'public/themes/default/assets/';
+    private $defaultThemeBasePath = 'public/themes/adminlte/';
+    private $defaultThemeAssetPath = 'public/themes/adminlte/assets/';
     private $bowerPath = 'vendor/bower_components/';
 
     public function styles ($env = 'local')
@@ -28,19 +28,19 @@ class RoboFile extends \Robo\Tasks
     public function copy ()
     {
     	$this->taskFileSystemStack()
-    	    ->copy('vendor/bower_components/AdminLTE/bootstrap/css/bootstrap.min.css', 'public/themes/default/css/bootstrap.min.css')
-		    ->copy('vendor/bower_components/font-awesome/css/font-awesome.min.css', 'public/themes/default/css/font-awesome.min.css')
-		    ->copy('vendor/bower_components/select2/select2-spinner.gif', 'public/themes/default/css/select2-spinner.gif')
-		    ->copy('vendor/bower_components/select2/select2x2.png', 'public/themes/default/css/select2x2.png')
-		    ->copy('vendor/bower_components/select2/select2.png', 'public/themes/default/css/select2.png')
-		    ->copy('vendor/bower_components/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js', 'public/themes/default/js/jquery.min.js')
-		    ->copy('vendor/bower_components/AdminLTE/bootstrap/js/bootstrap.min.js', 'public/themes/default/js/bootstrap.min.js')
+    	    ->copy('vendor/bower_components/AdminLTE/bootstrap/css/bootstrap.min.css', 'public/themes/adminlte/css/bootstrap.min.css')
+		    ->copy('vendor/bower_components/font-awesome/css/font-awesome.min.css', 'public/themes/adminlte/css/font-awesome.min.css')
+		    ->copy('vendor/bower_components/select2/select2-spinner.gif', 'public/themes/adminlte/css/select2-spinner.gif')
+		    ->copy('vendor/bower_components/select2/select2x2.png', 'public/themes/adminlte/css/select2x2.png')
+		    ->copy('vendor/bower_components/select2/select2.png', 'public/themes/adminlte/css/select2.png')
+		    ->copy('vendor/bower_components/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js', 'public/themes/adminlte/js/jquery.min.js')
+		    ->copy('vendor/bower_components/AdminLTE/bootstrap/js/bootstrap.min.js', 'public/themes/adminlte/js/bootstrap.min.js')
 		    ->run();
 
         $this->taskCopyDir(
             [
-                'vendor/bower_components/bootstrap/dist/fonts' => 'public/themes/default/fonts',
-                'vendor/bower_components/font-awesome/fonts' => 'public/themes/default/fonts'
+                'vendor/bower_components/bootstrap/dist/fonts' => 'public/themes/adminlte/fonts',
+                'vendor/bower_components/font-awesome/fonts' => 'public/themes/adminlte/fonts'
             ]
         )->run();
     }
@@ -85,12 +85,12 @@ class RoboFile extends \Robo\Tasks
         $this->taskExec('browser-sync')
             ->arg('start')
             ->option('proxy', 'localhost')
-            ->option('files', 'public/themes/js/*.js, public/themes/default/css/*.css, public/themes/default/views/*.php')
+            ->option('files', 'public/themes/js/*.js, public/themes/adminlte/css/*.css, public/themes/adminlte/views/*.php')
             ->option('port', 3000)
             ->background()->run();
             
 		$this->taskWatch()
-		 	->monitor('public/themes/default/assets/js', function() {
+		 	->monitor('public/themes/adminlte/assets/js', function() {
 		     $this->taskExec('robo scripts')->run();
 		})->run();
 
