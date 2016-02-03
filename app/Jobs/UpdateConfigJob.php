@@ -31,8 +31,10 @@ class UpdateConfigJob extends Job implements SelfHandling
                 $key = str_replace('_', '.', $key);
             }
 
-            $default = config($key);
-            $type = gettype($default);
+            $type = 'string';
+            if ($default = config($key)) {
+                $type = gettype($default);
+            }
             
             settype($value, $type);
 
