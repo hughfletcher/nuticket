@@ -25,9 +25,9 @@
             @if(user('is_staff'))
             <a href="index.html" class="logo">
                <!-- mini logo for sidebar mini 50x50 pixels -->
-              <span class="logo-mini">{!! config('theme.adminlte.logomini', 'Nu<b>Ticket</b>') !!}</span>
+              <span class="logo-mini">{!! config('theme.adminlte.logomini', 'NU<b>T</b>') !!}</span>
               <!-- logo for regular state and mobile devices -->
-              <span class="logo-lg">{!! config('theme.adminlte.logo', 'NU<b>T</b>') !!}</span>
+              <span class="logo-lg">{!! config('theme.adminlte.logo', 'Nu<b>Ticket</b>') !!}</span>
             </a>
             @endif
             <!-- Header Navbar: style can be found in header.less -->
