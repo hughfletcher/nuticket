@@ -158,7 +158,9 @@ abstract class Message
 
         $tags = $this->getTags();
         if ($tags->has('org')) {
-            $org = $this->org->findBy('slug', $tags->get('org'), ['id']);
+            $org = $this->org->findWhere([
+            ['name', 'like', '%' . $tags->get('org') . '%']
+            ], ['id'])->first();
             if ($org) {
                 $this->data->put('org', $org);
                 return $org->id;
