@@ -40,7 +40,7 @@
                 @endif
                 @if(!user('is_staff'))
                 <div class="navbar-header">
-                    <a href="../../index2.html" class="navbar-brand"><b>IT</b>Support</a>
+                    <a href="../../index2.html" class="navbar-brand">{!! config('theme.adminlte.logo', 'Nu<b>Ticket</b>') !!}</a>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
                     </button>
