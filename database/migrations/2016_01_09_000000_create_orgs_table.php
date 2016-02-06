@@ -15,7 +15,6 @@ class CreateOrgsTable extends Migration
         Schema::create('orgs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('slug');
             $table->text('description')->nullable();
             $table->boolean('active')->default(true);
             $table->integer('default_mta');
