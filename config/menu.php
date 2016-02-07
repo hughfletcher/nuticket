@@ -20,7 +20,8 @@ return [
         'permissions' => ['isAdmin'],
         'children' => [
             'settings.system' => ['route' => ['settings.edit', 'system']],
-            'settings.emails' => ['route' => ['settings.edit', 'emails']]
+            'settings.emails' => ['route' => ['settings.edit', 'emails']],
+            'settings.notifications' => ['route' => ['settings.edit', 'notifications']]
         ]
     ]
 ];

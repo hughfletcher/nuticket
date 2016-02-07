@@ -43,6 +43,45 @@ return [
 	    'acceptunknown' => (boolean) false,
 
 	    'defaultmta' => (integer) 1,
+	],
+
+	//notifications
+	'notify' => [
+		'newticket' => [
+			'status' => (boolean) true,
+			'admin' => (boolean) true,
+			'mgr' => (boolean) true,
+			'dept' => (boolean) false,
+			'org' => (boolean) false
+		],
+		'reply' => [
+			'status' => (boolean) true,
+			'last' => (boolean) true,
+			'assigned' => (boolean) true,
+			'mgr' => (boolean) false,
+			'org' => (boolean) false,
+		],
+		'internal' => [
+			'status' => (boolean) false,
+			'last' => (boolean) true,
+			'assigned' => (boolean) true,
+			'mgr' => (boolean) false,
+		],
+		'assign' => [
+			'status' => (boolean) true,
+			'assigned' => (boolean) true,
+			'mgr' => (boolean) false,
+			'dept' => (boolean) false,
+		],
+		'transfer' => [
+			'status' => (boolean) false,
+			'assigned' => (boolean) true,
+			'mgr' => (boolean) true,
+			'dept' => (boolean) false,
+		],
+		'system' => [
+			'status' => (boolean) true,
+		]
 	]
 
 ];
