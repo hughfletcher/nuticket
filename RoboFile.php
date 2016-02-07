@@ -29,7 +29,7 @@ class RoboFile extends \Robo\Tasks
     {
     	$this->taskFileSystemStack()
     	    ->copy('vendor/bower_components/AdminLTE/bootstrap/css/bootstrap.min.css', 'public/themes/adminlte/css/bootstrap.min.css')
-		    ->copy('vendor/bower_components/font-awesome/css/font-awesome.min.css', 'public/themes/adminlte/css/font-awesome.min.css')
+		    ->copy('vendor/bower_components/fontawesome/css/font-awesome.min.css', 'public/themes/adminlte/css/font-awesome.min.css')
 		    ->copy('vendor/bower_components/select2/select2-spinner.gif', 'public/themes/adminlte/css/select2-spinner.gif')
 		    ->copy('vendor/bower_components/select2/select2x2.png', 'public/themes/adminlte/css/select2x2.png')
 		    ->copy('vendor/bower_components/select2/select2.png', 'public/themes/adminlte/css/select2.png')
@@ -39,8 +39,8 @@ class RoboFile extends \Robo\Tasks
 
         $this->taskCopyDir(
             [
-                'vendor/bower_components/bootstrap/dist/fonts' => 'public/themes/adminlte/fonts',
-                'vendor/bower_components/font-awesome/fonts' => 'public/themes/adminlte/fonts'
+                'vendor/bower_components/AdminLTE/bootstrap/fonts' => 'public/themes/adminlte/fonts',
+                'vendor/bower_components/fontawesome/fonts' => 'public/themes/adminlte/fonts'
             ]
         )->run();
     }
