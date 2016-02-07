@@ -32,7 +32,8 @@ class UpdateConfigJob extends Job implements SelfHandling
             }
 
             $type = 'string';
-            if ($default = config($key)) {
+            $default = config($key);
+            if (!is_null($default)) {
                 $type = gettype($default);
             }
             

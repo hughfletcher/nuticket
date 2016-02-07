@@ -32,7 +32,7 @@ class SettingsController extends Controller
         $this->dispatch(new UpdateConfigJob($request->except('_token', '_method'), true));
 
         return redirect()->route('settings.edit', [$type])
-            ->with('message', trans('validation.were_sucessfully_updated', ['name' => trans('settings.system_settings')]));
+            ->with('message', trans('validation.were_sucessfully_updated', ['name' => trans('settings.' . $type . '_settings')]));
 
     }
 }
