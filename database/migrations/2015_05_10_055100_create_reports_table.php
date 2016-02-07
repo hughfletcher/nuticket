@@ -17,7 +17,7 @@ class CreateReportsTable extends Migration {
 			$table->increments('id');
 			$table->string('name', 64);
 			$table->string('desc')->nullable();
-			$table->string('name', 64)->default('default');
+			$table->string('source', 64)->default('default');
 			$table->text('sql');
 			$table->timestamps();
 			$table->softDeletes();
