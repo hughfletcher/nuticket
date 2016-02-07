@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\TicketInterface;
-use App\Repositories\TicketActionInterface;
+use App\Contracts\Repositories\TicketActionInterface;
 use App\Contracts\Repositories\UserInterface;
 use App\Http\Requests\TicketIndexRequest;
 use App\Http\Requests\TicketStoreRequest;

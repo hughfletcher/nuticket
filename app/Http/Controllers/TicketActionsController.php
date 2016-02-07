@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\Repositories\TicketActionInterface;
+use App\Contracts\Repositories\TicketActionInterface;
 use App\Http\Requests\FormActionCreateRequest;
 use Illuminate\Foundation\Application;
 use App\Events\ActionCreatedEvent;
