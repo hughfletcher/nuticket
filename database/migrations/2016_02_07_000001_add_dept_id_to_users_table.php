@@ -13,7 +13,7 @@ class AddDeptIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('dept_id')->after('org_id');
+            $table->integer('dept_id')->after('org_id')->default(null)->nullable();
         });
     }
 

@@ -72,7 +72,8 @@ class DatabaseSeeder extends Seeder {
 		$this->createTicketsData();
 		$this->createTicketActionsData();
         $this->createTimeLogData();
-		$this->createConfigData();
+        $this->createConfigData();
+		$this->createEmailData();
 
 		$storage = Storage::disk('local');
 		$storage->put('seeds/develop', serialize($this->data));
@@ -159,8 +160,9 @@ class DatabaseSeeder extends Seeder {
                 'display_name' => $fname . ' ' . $lname,
                 'password' => Hash::make($username),
         		'email' => $username . '@' . $faker->domainName,
-                'is_staff' => $faker->boolean(($this->staff/$this->users) * 100),
+                'is_staff' => $staff = $faker->boolean(($this->staff/$this->users) * 100),
                 'org_id' => $faker->numberBetween(1, $this->orgs),
+                'dept_id' => null,
                 'source' => 'local',
         		'updated_at' => ($date = $faker->dateTimeThisDecade()),
         		'created_at' => ( $faker->boolean ? $date : $faker->dateTimeThisDecade($date) )
@@ -168,6 +170,11 @@ class DatabaseSeeder extends Seeder {
 
             if ($data[$i]['is_staff']) {
                 $this->staffers[] = $i;
+                $data[$i]['dept_id'] = $faker->numberBetween(1, $this->depts);
+                $data[$i]['org_id'] = null;
+                if (!isset($this->data['Dept'][$data[$i]['dept_id']]['mgr_id'])) {
+                    $this->data['Dept'][$data[$i]['dept_id']]['mgr_id'] = $i;
+                }
             }
         }
 
@@ -263,7 +270,7 @@ class DatabaseSeeder extends Seeder {
 
                 	case 'transfer':
                 		$action['user_id'] = ($faker->boolean(75) ? $row['assigned_id'] : $faker->randomElement($this->staffers));
-                		$action['transfer_id'] = $faker->numberBetween(1,10);
+                		$action['transfer_id'] = $faker->numberBetween(1,5);
                 		break;
 
                 	case 'closed':
@@ -349,6 +356,18 @@ class DatabaseSeeder extends Seeder {
         $this->data['Config'] = [
             ['key' => 'adldap.org.enabled', 'value' => serialize([true])],
             ['key' => 'adldap.org.fields', 'value' => serialize([['physicaldeliveryofficename', 'name']])],
+        ];
+    }
+
+    protected function createEmailData()
+    {
+        $this->data['Email'] = [
+            [
+                'email' => 'support@nuticket.com', 
+                'name' => 'Support Staff',
+                'userid' => 'someuser',
+                'userpass' => 'somepass'
+            ],
         ];
     }
 

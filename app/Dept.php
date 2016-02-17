@@ -15,6 +15,9 @@ class Dept extends Eloquent {
 	 */
 	protected $hidden = [];
 
-
+	public function members()
+	{
+		return $this->hasMany('App\User');
+	}
 
 }

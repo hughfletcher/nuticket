@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration {
 			$table->string('last_name', 128)->nullable();
 			$table->string('display_name')->nullable();
 			$table->string('email')->nullable();
-			$table->integer('org_id');
+			$table->integer('org_id')->default(null)->nullable();
 			$table->boolean('is_staff')->default(0);
 			$table->boolean('is_admin')->default(0);
 			$table->string('source', 128)->default('local');
