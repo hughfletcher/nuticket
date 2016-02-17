@@ -33,7 +33,6 @@
     npm: name={{ item }} state=present global=yes
     with_items:
       - bower
-      - browser-sync
 
   - name: Fix infamous node vs nodejs issue
     file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
@@ -49,7 +48,6 @@
       - php5-curl
       - php5-mcrypt
       - php5-ldap
-      - php5-xdebug
       - php5-gd
       - php5-imap
       - php5-fpm

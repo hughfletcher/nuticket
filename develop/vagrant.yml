@@ -18,6 +18,29 @@
   - name: set permissions on rocketeer
     file: path=/usr/local/bin/rocketeer mode=755
 
+  - name: Install common packages
+    apt: name={{ item }} state=present update_cache=yes
+    with_items:
+      - ruby-dev
+      - libsqlite3-dev
+
+  - name: Install nginx php-fpm and deps
+    apt: name={{ item }} state=present
+    with_items:
+      - php5-xdebug
+    notify: restart nginx
+
+  - name: Install npm modules
+    npm: name={{ item }} state=present global=yes
+    with_items:
+      - browser-sync
+
+  - name: Install mailcatcher
+    gem: name=mailcatcher state=latest
+
+  - name: create mailcatcher upstart
+    template: src=/opt/nuticket/current/develop/files/mailcatcher.conf dest=/etc/init/mailcatcher.conf
+
   handlers:
 
   - include: handlers.yml
