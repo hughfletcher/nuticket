@@ -75,7 +75,7 @@ class ActionCreateJob extends Job implements SelfHandling
         // $action->save();
         //throw event
         if (!$this->data->get('defer_event')) {
-            event(new ActionCreatedEvent(collect([$action])));
+            event(new ActionCreatedEvent($action));
         }
 
         return $action;

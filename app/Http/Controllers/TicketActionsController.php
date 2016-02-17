@@ -18,7 +18,7 @@ class TicketActionsController extends BaseController {
 
 		$action = $this->action->create(array_add($request->all(), 'user_id', Auth::user()->id));
 
-        event(new ActionCreatedEvent(collect([$action])));
+        event(new ActionCreatedEvent($action));
 
 		return redirect()->route('tickets.show', [$action->ticket_id, '#action-' . $action->id]);
 	}
