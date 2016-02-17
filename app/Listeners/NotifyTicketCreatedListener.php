@@ -7,11 +7,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Repositories\UserInterface;
 use App\Contracts\Repositories\TicketInterface;
-use App\Repositories\Criteria\Tickets\WithLoadedActions;
-use App\Repositories\Criteria\Tickets\WithAssigned;
-use App\Repositories\Criteria\WithDept;
-use App\Repositories\Criteria\WithOrg;
-use App\Repositories\Criteria\WithUser;
+use App\Repositories\Criteria\Tickets\WithAll;
+use App\Repositories\Criteria\Users\WhereNotify;
 use App\Contracts\Repositories\EmailInterface;
 use Illuminate\Mail\Mailer;
 
@@ -38,25 +35,22 @@ class NotifyTicketCreatedListener implements ShouldQueue
      */
     public function handle(TicketCreatedEvent $event)
     {
-        $staff = $this->user->find(explode(',', config('settings.mail.notify')));
 
-        $ticket = $this->ticket->pushCriteria(new WithLoadedActions())
-            ->pushCriteria(new WithDept())
-            ->pushCriteria(new WithOrg())
-            ->pushCriteria(new WithUser())
-            ->pushCriteria(new WithAssigned())
-            ->find($event->ticket->id)
-            ->toArray();
+        $this->ticket->pushCriteria(new WithAll())->find($event->ticket->id);
+        $ticket = $this->ticket->all()->first();
+        $ticket->events = $ticket->actions;
+        $this->user->pushCriteria(new WhereNotify($ticket));
+
         $email = $this->email->find(config('settings.mail.default'));
 
-        foreach ($staff as $user) {
+        foreach ($this->user->all() as $user) {
             $this->mailer->queue(
                 ['text' => 'mail.ticket_action'],
-                ['user' => $user, 'ticket' => $ticket],
+                ['user' => $user->toArray(), 'ticket' => $ticket->toArray()],
                 function ($message) use ($user, $ticket, $email) {
                     $message->from($email->email, $email->name)
                         ->to($user->email, $user->display_name)
-                        ->subject(trans('mail.subject.new', ['id' => $ticket['id'], 'title' => str_limit($ticket['title'], 40)], $user['locale']));
+                        ->subject(trans('mail.subject.new', ['id' => $ticket->id, 'title' => str_limit($ticket->title, 40)], $user->locale));
                 }
             );
         }

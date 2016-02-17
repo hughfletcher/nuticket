@@ -46,42 +46,49 @@ return [
 	],
 
 	//notifications
+	'autorespond' => [
+		'bymail' => (boolean) true,
+	],
 	'notify' => [
-		'newticket' => [
-			'status' => (boolean) true,
+		'create' => [
 			'admin' => (boolean) true,
 			'mgr' => (boolean) true,
-			'dept' => (boolean) false,
-			'org' => (boolean) false
+			'dept' => (boolean) true,
+			'org' => (boolean) false,
+			'owner' => (boolean) false,
+			'assigned' => (boolean) true
 		],
 		'reply' => [
-			'status' => (boolean) true,
 			'last' => (boolean) true,
 			'assigned' => (boolean) true,
 			'mgr' => (boolean) false,
 			'org' => (boolean) false,
+			'owner' => (boolean) false,
 		],
-		'internal' => [
-			'status' => (boolean) false,
-			'last' => (boolean) true,
+		'comment' => [
 			'assigned' => (boolean) true,
 			'mgr' => (boolean) false,
 		],
 		'assign' => [
-			'status' => (boolean) true,
 			'assigned' => (boolean) true,
 			'mgr' => (boolean) false,
 			'dept' => (boolean) false,
+			'owner' => (boolean) false,
 		],
 		'transfer' => [
-			'status' => (boolean) false,
 			'assigned' => (boolean) true,
 			'mgr' => (boolean) true,
 			'dept' => (boolean) false,
+			'owner' => (boolean) false,
+		],
+		'edit' => [
+			'assigned' => (boolean) true,
+			'mgr' => (boolean) true,
+			'owner' => (boolean) false,
 		],
 		'system' => [
-			'status' => (boolean) true,
+			'admin' => (boolean) true,
 		]
-	]
+	],
 
 ];

@@ -9,11 +9,8 @@ use App\Contracts\Repositories\UserInterface;
 use App\Contracts\Repositories\TicketInterface;
 use App\Contracts\Repositories\EmailInterface;
 use Illuminate\Mail\Mailer;
-use App\Repositories\Criteria\Tickets\WithLoadedActions;
-use App\Repositories\Criteria\Tickets\WithAssigned;
-use App\Repositories\Criteria\WithDept;
-use App\Repositories\Criteria\WithOrg;
-use App\Repositories\Criteria\WithUser;
+use App\Repositories\Criteria\Tickets\WithAll;
+use App\Repositories\Criteria\Users\WhereNotify;
 
 class NotifyTicketActivityListener implements ShouldQueue
 {
@@ -38,30 +35,28 @@ class NotifyTicketActivityListener implements ShouldQueue
      */
     public function handle(ActionCreatedEvent $event)
     {
-        $staff = $this->user->find(explode(',', config('settings.mail.notify')));
+        // $staff = $this->user->find(explode(',', config('settings.mail.notify')));
 
-        // dd($event->actions->lists('id')->toArray());
+        $this->ticket->pushCriteria(new WithAll)->find($event->action->ticket_id);
+        $ticket = $this->ticket->all()->first();
+        $ticket->events = $ticket->actions->where('id', $event->action->id);
 
-        $ticket = $this->ticket->pushCriteria(new WithLoadedActions($event->actions->lists('id')->toArray()))
-            ->pushCriteria(new WithDept())
-            ->pushCriteria(new WithOrg())
-            ->pushCriteria(new WithUser())
-            ->pushCriteria(new WithAssigned())
-            ->find($event->actions->first()->ticket_id)
-            ->toArray();
+        $this->user->pushCriteria(new WhereNotify($ticket));
 
         $email = $this->email->find(config('settings.mail.default'));
 
-        foreach ($staff as $user) {
+        foreach ($this->user->all() as $user) {
             $this->mailer->queue(
                 ['text' => 'mail.ticket_action'],
-                ['user' => $user, 'ticket' => $ticket],
+                ['user' => $user->toArray(), 'ticket' => $ticket->toArray()],
                 function ($message) use ($user, $ticket, $email) {
                     $message->from($email->email, $email->name)
-                        ->to($user->email, $user->display_name)
+                        ->to($user['email'], $user['display_name'])
                         ->subject(trans('mail.subject.activity', ['id' => $ticket['id'], 'title' => str_limit($ticket['title'], 40)], $user['locale']));
                 }
             );
         }
+
+
     }
 }

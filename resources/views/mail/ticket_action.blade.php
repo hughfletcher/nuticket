@@ -1,4 +1,4 @@
-{{ trans('mail.hi_user', ['name' => $user['first_name']], $user['locale']) }},
+{{ trans('mail.hi_user', ['name' => $user['first_name']], $user['locale']) }}
 
 {!! trans('mail.def.summary', ['summary' => $ticket['title']], $user['locale']) !!}
 {!! trans('mail.def.user', ['user' => $ticket['user']['display_name']], $user['locale']) !!}

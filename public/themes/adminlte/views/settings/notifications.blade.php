@@ -19,303 +19,92 @@
     @if (session('message'))
     @include('common.message')
 	@endif
-    {{-- {{ dd($errors)}} --}}
     <div class="box box-primary">
         <form method="POST" action="{{ route('settings.update', ['notifications']) }}" accept-charset="UTF-8" class="form-horizontal" id="create-form">
             <input name="_method" type="hidden" value="PUT">
             <input name="_token" type="hidden" value="{{ csrf_token() }}">
             <div class="box-header">
-    			<h3 class="box-title">{{ trans('settings.new_ticket_notification') }}</h3>
+                <h3 class="box-title">{{ trans('settings.autoresponder_settings') }}</h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="settings_notify_internal_status" class="col-sm-2 control-label">{{ trans('settings.by_mail_confirmation') }}  <span class="glyphicon glyphicon-question-sign text-muted" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ trans('settings.help.bymail') }}"></span></label>
+                    <div class="col-sm-10">
+                          <label class="radio-inline">
+                              <input type="radio" name="settings_autorespond_bymail" value="1"{{ old('settings_autorespond_bymail', config('settings.autorespond.bymail')) == true ? ' checked' : null }}> {{ trans('settings.enabled') }}
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" name="settings_autorespond_bymail" value="0"{{ old('settings_autorespond_bymail', config('settings.autorespond.bymail')) == false ? ' checked' : null }}> {{ trans('settings.disabled') }}
+                            </label>
+                    </div>
+                </div>
+            </div>
+            <div class="box-header">
+                <h3 class="box-title">{{ trans('settings.alert_settings') }}</h3>
+            </div>
+            <div class="box-body">
+                @foreach(config('settings.notify') as $type => $array)
+                    @foreach($array as $key => $value)
+                    <input name="settings_notify_{{ $type }}_{{ $key }}" type="hidden" value="0">
+                    @endforeach
+                @endforeach
+                <table class="table table-hover">
+                    <thead>
+                        <tr>    
+                            <th> </th>
+                            <th>{{ trans('settings.admin') }} <span class="glyphicon glyphicon-question-sign text-muted" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ trans('settings.help.admin') }}"></span></th>
+                            <th>{{ trans('settings.dept_mgr') }} <span class="glyphicon glyphicon-question-sign text-muted" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ trans('settings.help.mgr') }}"></span></th>
+                            <th>{{ trans('settings.dept') }} <span class="glyphicon glyphicon-question-sign text-muted" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ trans('settings.help.dept') }}"></span></th>
+                            <th>{{ trans('settings.org_mgr') }} <span class="glyphicon glyphicon-question-sign text-muted" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ trans('settings.help.org') }}"></span></th>
+                            <th>{{ trans('settings.assigned') }} <span class="glyphicon glyphicon-question-sign text-muted" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ trans('settings.help.assigned') }}"></span></th>
+                            <th>{{ trans('settings.last') }} <span class="glyphicon glyphicon-question-sign text-muted" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ trans('settings.help.last') }}"></span></th>
+                            <th>{{ trans('settings.owner') }} <span class="glyphicon glyphicon-question-sign text-muted" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ trans('settings.help.owner') }}"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(config('settings.notify') as $key => $value)
+                        <tr>
+                            <td>@if($key == 'create') {{ trans('settings.new_ticket') }} @elseif($key == 'system') {{ trans('settings.system_events') }}  @else {{ trans('settings.new_' . $key) }} @endif</td>
+                            <td>
+                                @if(isset($value['admin']))
+                                <input type="checkbox" name="settings_notify_{{ $key }}_admin" value="1"{{ old('settings_notify_' . $key . '_admin', config('settings.notify.' . $key . '.admin')) ? ' checked' : null }}>
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['mgr']))
+                                <input type="checkbox" name="settings_notify_{{ $key }}_mgr" value="1"{{ old('settings_notify_' . $key . '_mgr', config('settings.notify.' . $key . '.mgr')) ? ' checked' : null }}>
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['dept']))
+                                <input type="checkbox" name="settings_notify_{{ $key }}_dept" value="1"{{ old('settings_notify_' . $key . '_dept', config('settings.notify.' . $key . '.dept')) ? ' checked' : null }}>
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['org']))
+                                <input type="checkbox" name="settings_notify_{{ $key }}_org" value="1"{{ old('settings_notify_' . $key . '_org', config('settings.notify.' . $key . '.org')) ? ' checked' : null }}>
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['assigned']))
+                                <input type="checkbox" name="settings_notify_{{ $key }}_assigned" value="1"{{ old('settings_notify_' . $key . '_assigned', config('settings.notify.' . $key . '.assigned')) ? ' checked' : null }}>
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['last']))
+                                <input type="checkbox" name="settings_notify_{{ $key }}_last" value="1"{{ old('settings_notify_' . $key . '_last', config('settings.notify.' . $key . '.last')) ? ' checked' : null }}>
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['owner']))
+                                <input type="checkbox" name="settings_notify_c{{ $key }}_owner" value="1"{{ old('settings_notify_' . $key . '_owner', config('settings.notify.' . $key . '.owner')) ? ' checked' : null }}>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
     		</div>
-            <div class="box-body">
-                <div class="form-group">
-                    <label for="settings_notify_newticket_status" class="col-sm-2 control-label">{{ trans('settings.status') }}</label>
-                    <div class="col-sm-10">
-                          <label class="radio-inline">
-                              <input type="radio" name="settings_notify_newticket_status" value="1"{{ old('settings_notify_newticket_status', config('settings.notify.newticket.status')) == true ? ' checked' : null }}> {{ trans('settings.enabled') }}
-                            </label>
-                            <label class="radio-inline">
-                              <input type="radio" name="settings_notify_newticket_status" value="0"{{ old('settings_notify_newticket_status', config('settings.notify.newticket.status')) == false ? ' checked' : null }}> {{ trans('settings.disabled') }}
-                            </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_newticket_admin" class="col-sm-2 control-label">{{ trans('settings.admin_email') }}</label>
-                    <div class="col-sm-2">
-                        {{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_newticket_admin" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_newticket_admin" value="1"{{ old('settings_notify_newticket_admin', config('settings.notify.newticket.admin')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-				<div class="form-group">
-					<label for="settings_notify_newticket_mgr" class="col-sm-2 control-label">{{ trans('settings.department_manager') }}</label>
-					<div class="col-sm-2">
-						{{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_newticket_mgr" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_newticket_mgr" value="1"{{ old('settings_notify_newticket_mgr', config('settings.notify.newticket.mgr')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-					</div>
-				</div>
-                <div class="form-group">
-                    <label for="settings_notify_newticket_dept" class="col-sm-2 control-label">{{ trans('settings.department_members') }}</label>
-                    <div class="col-sm-2">
-                        {{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_newticket_dept" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_newticket_dept" value="1"{{ old('settings_notify_newticket_dept', config('settings.notify.newticket.dept')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_newticket_org" class="col-sm-2 control-label">{{ trans('settings.organization_manager') }}</label>
-                    <div class="col-sm-2">
-                        {{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_newticket_org" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_newticket_org" value="1"{{ old('settings_notify_newticket_org', config('settings.notify.newticket.org')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-    		</div>
-            <div class="box-header">
-                <h3 class="box-title">{{ trans('settings.new_ticket_reply_notification') }}</h3>
-            </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <label for="settings_notify_reply_status" class="col-sm-2 control-label">{{ trans('settings.status') }}</label>
-                    <div class="col-sm-10">
-                          <label class="radio-inline">
-                              <input type="radio" name="settings_notify_reply_status" value="1"{{ old('settings_notify_reply_status', config('settings.notify.reply.status')) == true ? ' checked' : null }}> {{ trans('settings.enabled') }}
-                            </label>
-                            <label class="radio-inline">
-                              <input type="radio" name="settings_notify_reply_status" value="0"{{ old('settings_notify_reply_status', config('settings.notify.reply.status')) == false ? ' checked' : null }}> {{ trans('settings.disabled') }}
-                            </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_reply_last" class="col-sm-2 control-label">{{ trans('settings.last_respondent') }}</label>
-                    <div class="col-sm-2">
-                        {{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_reply_last" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_reply_last" value="1"{{ old('settings_notify_reply_last', config('settings.notify.reply.last')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_reply_assigned" class="col-sm-2 control-label">{{ trans('settings.assigned_user') }}</label>
-                    <div class="col-sm-2">
-                        {{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_reply_assigned" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_reply_assigned" value="1"{{ old('settings_notify_reply_assigned', config('settings.notify.reply.assigned')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_reply_mgr" class="col-sm-2 control-label">{{ trans('settings.department_manager') }}</label>
-                    <div class="col-sm-2">
-                        {{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_reply_mgr" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_reply_mgr" value="1"{{ old('settings_notify_reply_mgr', config('settings.notify.reply.mgr')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_reply_org" class="col-sm-2 control-label">{{ trans('settings.organization_manager') }}</label>
-                    <div class="col-sm-2">
-                        {{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_reply_org" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_reply_org" value="1"{{ old('settings_notify_reply_org', config('settings.notify.reply.org')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="box-header">
-                <h3 class="box-title">{{ trans('settings.new_internal_activity_notification') }}</h3>
-            </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <label for="settings_notify_internal_status" class="col-sm-2 control-label">{{ trans('settings.status') }}</label>
-                    <div class="col-sm-10">
-                          <label class="radio-inline">
-                              <input type="radio" name="settings_notify_internal_status" value="1"{{ old('settings_notify_internal_status', config('settings.notify.internal.status')) == true ? ' checked' : null }}> {{ trans('settings.enabled') }}
-                            </label>
-                            <label class="radio-inline">
-                              <input type="radio" name="settings_notify_internal_status" value="0"{{ old('settings_notify_internal_status', config('settings.notify.internal.status')) == false ? ' checked' : null }}> {{ trans('settings.disabled') }}
-                            </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_internal_last" class="col-sm-2 control-label">{{ trans('settings.last_respondent') }}</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_internal_last" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_internal_last" value="1"{{ old('settings_notify_internal_last', config('settings.notify.internal.last')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_internal_assigned" class="col-sm-2 control-label">{{ trans('settings.assigned_user') }}</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_internal_assigned" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_internal_assigned" value="1"{{ old('settings_notify_internal_assigned', config('settings.notify.internal.assigned')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_internal_mgr" class="col-sm-2 control-label">{{ trans('settings.department_manager') }}</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_internal_mgr" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_internal_mgr" value="1"{{ old('settings_notify_internal_mgr', config('settings.notify.internal.mgr')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="box-header">
-                <h3 class="box-title">{{ trans('settings.ticket_assignment_notification') }}</h3>
-            </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <label for="settings_notify_assign_status" class="col-sm-2 control-label">{{ trans('settings.status') }}</label>
-                    <div class="col-sm-10">
-                          <label class="radio-inline">
-                              <input type="radio" name="settings_notify_assign_status" value="1"{{ old('settings_notify_assign_status', config('settings.notify.assign.status')) == true ? ' checked' : null }}> {{ trans('settings.enabled') }}
-                            </label>
-                            <label class="radio-inline">
-                              <input type="radio" name="settings_notify_assign_status" value="0"{{ old('settings_notify_assign_status', config('settings.notify.assign.status')) == false ? ' checked' : null }}> {{ trans('settings.disabled') }}
-                            </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_assign_assigned" class="col-sm-2 control-label">{{ trans('settings.assigned_user') }}</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_assign_assigned" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_assign_assigned" value="1"{{ old('settings_notify_assign_assigned', config('settings.notify.assign.assigned')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_assign_mgr" class="col-sm-2 control-label">{{ trans('settings.department_manager') }}</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_assign_mgr" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_assign_mgr" value="1"{{ old('settings_notify_assign_mgr', config('settings.notify.assign.mgr')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_assign_dept" class="col-sm-2 control-label">{{ trans('settings.department_members') }}</label>
-                    <div class="col-sm-2">
-                        {{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_assign_dept" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_assign_dept" value="1"{{ old('settings_notify_assign_dept', config('settings.notify.assign.dept')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="box-header">
-                <h3 class="box-title">{{ trans('settings.ticket_transfer_notification') }}</h3>
-            </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <label for="settings_notify_transfer_status" class="col-sm-2 control-label">{{ trans('settings.status') }}</label>
-                    <div class="col-sm-10">
-                          <label class="radio-inline">
-                              <input type="radio" name="settings_notify_transfer_status" value="1"{{ old('settings_notify_transfer_status', config('settings.notify.transfer.status')) == true ? ' checked' : null }}> {{ trans('settings.enabled') }}
-                            </label>
-                            <label class="radio-inline">
-                              <input type="radio" name="settings_notify_transfer_status" value="0"{{ old('settings_notify_transfer_status', config('settings.notify.transfer.status')) == false ? ' checked' : null }}> {{ trans('settings.disabled') }}
-                            </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_transfer_assigned" class="col-sm-2 control-label">{{ trans('settings.assigned_user') }}</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_transfer_assigned" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_transfer_assigned" value="1"{{ old('settings_notify_transfer_assigned', config('settings.notify.transfer.assigned')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_transfer_mgr" class="col-sm-2 control-label">{{ trans('settings.department_manager') }}</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_transfer_mgr" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_transfer_mgr" value="1"{{ old('settings_notify_transfer_mgr', config('settings.notify.transfer.mgr')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="settings_notify_transfer_dept" class="col-sm-2 control-label">{{ trans('settings.department_members') }}</label>
-                    <div class="col-sm-2">
-                        {{-- <input name="system.format.date" type="text" class="form-control input-sm" value="{{ old('system_format_date', config('system.format.date')) }}"> --}}
-                        <div class="checkbox show">
-                          <label>
-                            <input name="settings_notify_transfer_dept" type="hidden" value="0">
-                            <input type="checkbox" name="settings_notify_transfer_dept" value="1"{{ old('settings_notify_transfer_dept', config('settings.notify.transfer.dept')) ? ' checked' : null }}>
-                          </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="box-header">
-                <h3 class="box-title">{{ trans('settings.system_notifications') }}</h3>
-            </div>
-            <div class="box-body">
-				<div class="form-group">
-                    <label for="settings_notify_system_status" class="col-sm-2 control-label">{{ trans('settings.status') }}</label>
-                    <div class="col-sm-10">
-                          <label class="radio-inline">
-                              <input type="radio" name="settings_notify_system_status" value="1"{{ old('settings_notify_system_status', config('settings.notify.system.status')) == true ? ' checked' : null }}> {{ trans('settings.enabled') }}
-                            </label>
-                            <label class="radio-inline">
-                              <input type="radio" name="settings_notify_system_status" value="0"{{ old('settings_notify_system_status', config('settings.notify.system.status')) == false ? ' checked' : null }}> {{ trans('settings.disabled') }}
-                            </label>
-                    </div>
-                </div>
             <div class="box-footer">
     			<button class="btn btn-primary">{{ trans('common.update') }}</button>
     		</div>

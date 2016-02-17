@@ -4,12 +4,12 @@ use Bosnadev\Repositories\Criteria\Criteria;
 use Bosnadev\Repositories\Contracts\RepositoryInterface as Repository;
 
 /**
- * Class Tickets//WithAssigned
+ * Class WithAll
  *
  * @package App\Repositories\Criteria
  */
-class WithAssigned extends Criteria {
-
+class WithAll extends Criteria 
+{
     /**
      * @param            $model
      * @param Repository $repository
@@ -18,6 +18,18 @@ class WithAssigned extends Criteria {
      */
     public function apply($model, Repository $repository)
     {
-        return $model->with('assigned');
+        return $model->with(
+            [
+                'assigned', 
+                'dept.members', 
+                'org', 
+                'user', 
+                'actions' => function ($query) {
+
+                    $query->with('assigned', 'user', 'transfer');
+
+                }
+            ]
+        );
     }
 }
