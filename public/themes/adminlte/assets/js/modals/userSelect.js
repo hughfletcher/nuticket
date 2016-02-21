@@ -65,7 +65,9 @@ app.modals.userSelect = {
                 $( "input[name=email]", '.modal.add_user').val(row.email).prop("readonly", nolocal);
                 $( "input[name=_method]" ).val(row.id % 1 === 0 ? 'PUT' : 'POST');
                 $( "input[name=source]" ).val(!nolocal ? 'local' : row.source);
-                me.selectOrg.select2('val', row.org_id).select2("readonly", nolocal);
+                if(row.org_id) {
+                	me.selectOrg.select2('val', row.org_id).select2("readonly", nolocal);
+                }
                 $('button.btn-primary', me.container).html('Continue');
             }
         });
