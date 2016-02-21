@@ -67,7 +67,7 @@
 						<select name="dept_id" class="form-control select2-default input-sm" placeholder="Select a Department">
 							<option></option>
 							@foreach ($depts as $key => $dept)
-								<option value="{{ $key }}"{{ old('dept_id') == $key ? ' selected=selected' : !old('dept_id') && config('system.default.dept') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
+								<option value="{{ $key }}"{{ old('dept_id') == $key ? ' selected=selected' : !old('dept_id') && config('settings.default.dept') == $key ? ' selected=selected' : null }}>{{ $dept }}</option>
 							@endforeach
 						</select>
 						@if ($errors->has('dept_id'))
@@ -94,11 +94,9 @@
 					<div class="col-sm-5">
 						<select name="priority" class="form-control select2-default input-sm" placeholder="Select a Priority">
 							<option></option>
-							<option value="1"{{ old('priority') == '1' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '1' ? ' selected=selected' : null }}>1 - Business is stopped</option>
-							<option value="2"{{ old('priority') == '2' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '2' ? ' selected=selected' : null }}>2 - User is stopped</option>
-							<option value="3"{{ old('priority') == '3' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '3' ? ' selected=selected' : null }}>3 - Business is hendered</option>
-							<option value="4"{{ old('priority') == '4' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '4' ? ' selected=selected' : null }}>4 - User is hendered</option>
-							<option value="5"{{ old('priority') == '5' ? ' selected=selected' : !old('priority') && config('system.default.priority') == '5' ? ' selected=selected' : null }}>5 - Increase productivity/savings</option>
+							@foreach($priorities as $level => $priority)
+							<option value="1"{{ old('priority') == $level ? ' selected=selected' : !old('priority') && config('settings.default.priority') == $level ? ' selected=selected' : null }}>{{ $priority }}</option>
+							@endforeach
 						</select>
 						@if ($errors->has('priority'))
 						<span id="helpBlock" class="help-block"><strong>{{ $errors->first('priority') }}</strong></span>
