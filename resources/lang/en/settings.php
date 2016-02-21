@@ -50,6 +50,7 @@ return [
     'new_reply' => 'New Reply',
     'new_comment' => 'New Comment',
     'new_assignment' => 'New Assignment',
+    'new_assign' => 'New Assignment',
     'new_transfer' => 'New Transfer',
     'new_edit' => 'New Edit',
     'system_events' => 'System Events',
