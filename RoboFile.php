@@ -19,7 +19,7 @@ class RoboFile extends \Robo\Tasks
 	        'vendor/bower_components/select2/select2.css',
 	        'vendor/bower_components/select2-bootstrap-css/select2-bootstrap.css',
 	        'vendor/bower_components/bootstrap-daterangepicker/daterangepicker-bs3.css',
-	        $this->a('css/styles.css')
+	        'public/themes/adminlte/assets/css/styles.css'
     		])
         	->to($this->t('css/all.css'))
         	->run();
@@ -85,7 +85,7 @@ class RoboFile extends \Robo\Tasks
         $this->taskExec('browser-sync')
             ->arg('start')
             ->option('proxy', 'localhost')
-            ->option('files', 'public/themes/js/*.js, public/themes/adminlte/css/*.css, public/themes/adminlte/views/*.php')
+            ->option('files', 'public/themes/js/*.js, public/themes/adminlte/assets/css/*.css, public/themes/adminlte/views/*.php')
             ->option('port', 3000)
             ->background()->run();
             
