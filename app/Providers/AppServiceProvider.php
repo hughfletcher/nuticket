@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider {
 		// $this->registerNotify();
 		$this->registerPiper();
 		$this->registerReports();
+		$this->registeraLogLevel();
 	}
 
 	public function registerPiper()
@@ -37,18 +38,19 @@ class AppServiceProvider extends ServiceProvider {
         });
 	}
 
-	public function registerNotify()
-	{
-		$this->app['notifynder']->extend('sendMessage', function($notifications,$app) {
-            return new SendMessage($notifications);
-        });
-	}
-
 	public function registerReports()
     {
         $this->app->singleton('App\Services\Reports\Manager', function ($app) {
             return new ReportsManager($app);
         });
+    }
+
+    public function registeraLogLevel()
+    {
+    	$monolog = $this->app['log']->getMonolog();
+	    foreach($monolog->getHandlers() as $handler) {
+	      	$handler->setLevel($this->app['config']->get('settings.log.level'));
+	    }
     }
 
 }

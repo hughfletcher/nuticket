@@ -25,6 +25,10 @@ return [
 
 	'theme' => (string) 'adminlte',
 
+	'log' => [
+		'level' => (string) env('LOG_LEVEL', 'warning'),
+	],
+
 	//access
 	'registration' => [
 		'required' => (boolean) true,

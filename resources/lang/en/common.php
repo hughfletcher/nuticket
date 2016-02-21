@@ -1,4 +1,5 @@
 <?php
 return [
-    'update' => 'Update'
+    'update' => 'Update',
+    'back' => 'Back'
 ];

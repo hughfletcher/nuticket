@@ -23,5 +23,11 @@ return [
             'settings.emails' => ['route' => ['settings.edit', 'emails']],
             'settings.notifications' => ['route' => ['settings.edit', 'notifications']]
         ]
+    ],
+    'system.system' => [
+    	'permissions' => ['isAdmin'],
+    	'children' => [
+            'system.logs' => ['route' => ['system.logs.index']],
+        ]
     ]
 ];

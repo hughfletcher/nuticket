@@ -7,11 +7,11 @@
 table {
 	margin-bottom: 6px !important;
 }
-table thead th a {
+table thead th a, table tfoot th a {
 	display: block;
 	color: #333;
 }
-table thead th a:hover {
+table thead th a:hover, table tfoot th a:hover {
 	color: #333;
 }
 div.table_info {

@@ -52,6 +52,7 @@ class RouteServiceProvider extends ServiceProvider {
                     ->where('type', 'emails|system|notifications');
                 $router->put('settings/{type}', ['as' => 'settings.update', 'uses' => 'SettingsController@update'])
                     ->where('type', 'emails|system|notifications');
+                $router->resource('system/logs', 'LogsController', ['only' => ['index', 'show']]);
 
 				$router->group(['prefix' => 'me'], function($router) {
 					$router->resource('time', 'TimeController');

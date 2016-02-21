@@ -4,9 +4,59 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "54a1a35ea830f7138c0384f14212c518",
-    "content-hash": "1c144c65fe8403cab509eb220f6bda7a",
+    "hash": "4fb3ea9d9e372566ebbdce06d047f3e4",
+    "content-hash": "c1202a8eecda328e1072a9875335dccc",
     "packages": [
+        {
+            "name": "anahkiasen/underscore-php",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Anahkiasen/underscore-php.git",
+                "reference": "48f97b295c82d99c1fe10d8b0684c43f051b5580"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Anahkiasen/underscore-php/zipball/48f97b295c82d99c1fe10d8b0684c43f051b5580",
+                "reference": "48f97b295c82d99c1fe10d8b0684c43f051b5580",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/inflector": "^1.0",
+                "patchwork/utf8": "^1.2",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "2.0.*@dev",
+                "phpunit/phpunit": "^4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Underscore\\": [
+                        "src",
+                        "tests"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maxime Fabre",
+                    "email": "ehtnam6@gmail.com"
+                }
+            ],
+            "description": "A redacted port of Underscore.js for PHP",
+            "keywords": [
+                "internals",
+                "laravel",
+                "toolkit"
+            ],
+            "time": "2015-05-16 19:24:58"
+        },
         {
             "name": "bosnadev/repositories",
             "version": "dev-master",
@@ -373,6 +423,57 @@
             "time": "2015-11-06 14:35:42"
         },
         {
+            "name": "gabrielelana/byte-units",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gabrielelana/byte-units.git",
+                "reference": "ee1d99ae4374a76847e8366a8ea5464226ebcc01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gabrielelana/byte-units/zipball/ee1d99ae4374a76847e8366a8ea5464226ebcc01",
+                "reference": "ee1d99ae4374a76847e8366a8ea5464226ebcc01",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ByteUnits\\": "src/ByteUnits"
+                },
+                "files": [
+                    "src/ByteUnits/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriele Lana",
+                    "email": "gabriele.lana@gmail.com"
+                }
+            ],
+            "description": "Library to parse, format and convert byte units",
+            "homepage": "https://github.com/gabrielelana/byte-units",
+            "keywords": [
+                "byte",
+                "convert",
+                "format",
+                "parse",
+                "size",
+                "units"
+            ],
+            "time": "2015-03-11 15:46:37"
+        },
+        {
             "name": "itsgoingd/clockwork",
             "version": "v1.10.1",
             "source": {
@@ -564,16 +665,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.29",
+            "version": "v5.1.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7e7ba568ffbc8f3f00778f2e8f41fb92127944fd"
+                "reference": "f00b80d4d33cf67815d1b4aaae8d4b47af2f2a2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7e7ba568ffbc8f3f00778f2e8f41fb92127944fd",
-                "reference": "7e7ba568ffbc8f3f00778f2e8f41fb92127944fd",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f00b80d4d33cf67815d1b4aaae8d4b47af2f2a2a",
+                "reference": "f00b80d4d33cf67815d1b4aaae8d4b47af2f2a2a",
                 "shasum": ""
             },
             "require": {
@@ -688,7 +789,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-02-02 14:56:40"
+            "time": "2016-02-17 18:00:25"
         },
         {
             "name": "laravelcollective/html",
@@ -742,16 +843,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.16",
+            "version": "1.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "183e1a610664baf6dcd6fceda415baf43cbdc031"
+                "reference": "02f5b6c9a8b9278c8381e3361e7bd9d641c740ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/183e1a610664baf6dcd6fceda415baf43cbdc031",
-                "reference": "183e1a610664baf6dcd6fceda415baf43cbdc031",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/02f5b6c9a8b9278c8381e3361e7bd9d641c740ca",
+                "reference": "02f5b6c9a8b9278c8381e3361e7bd9d641c740ca",
                 "shasum": ""
             },
             "require": {
@@ -764,8 +865,7 @@
                 "ext-fileinfo": "*",
                 "mockery/mockery": "~0.9",
                 "phpspec/phpspec": "^2.2",
-                "phpspec/prophecy-phpunit": "~1.0",
-                "phpunit/phpunit": "~4.8"
+                "phpunit/phpunit": "~4.8 || ~5.0"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
@@ -822,7 +922,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2015-12-19 20:16:43"
+            "time": "2016-02-19 15:35:38"
         },
         {
             "name": "michelf/php-markdown",
@@ -1143,6 +1243,65 @@
             "time": "2016-02-06 03:52:05"
         },
         {
+            "name": "patchwork/utf8",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tchwork/utf8.git",
+                "reference": "3bd61bc162ed5c5f4a11e40a0106acc255b451d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tchwork/utf8/zipball/3bd61bc162ed5c5f4a11e40a0106acc255b451d9",
+                "reference": "3bd61bc162ed5c5f4a11e40a0106acc255b451d9",
+                "shasum": ""
+            },
+            "require": {
+                "lib-pcre": ">=7.3",
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-iconv": "Use iconv for best performance",
+                "ext-intl": "Use Intl for best performance",
+                "ext-mbstring": "Use Mbstring for best performance",
+                "ext-wfio": "Use WFIO for UTF-8 filesystem access on Windows"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Patchwork\\": "src/Patchwork/"
+                },
+                "classmap": [
+                    "src/Normalizer.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "(Apache-2.0 or GPL-2.0)"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                }
+            ],
+            "description": "Portable and performant UTF-8, Unicode and Grapheme Clusters for PHP",
+            "homepage": "https://github.com/tchwork/utf8",
+            "keywords": [
+                "grapheme",
+                "i18n",
+                "unicode",
+                "utf-8",
+                "utf8"
+            ],
+            "time": "2015-12-15 15:34:15"
+        },
+        {
             "name": "psr/log",
             "version": "1.0.0",
             "source": {
@@ -1251,6 +1410,169 @@
                 "shell"
             ],
             "time": "2015-11-12 16:18:56"
+        },
+        {
+            "name": "radic/blade-extensions",
+            "version": "6.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RobinRadic/blade-extensions.git",
+                "reference": "7444175691a448aeece33615a3cdc8991f311698"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RobinRadic/blade-extensions/zipball/7444175691a448aeece33615a3cdc8991f311698",
+                "reference": "7444175691a448aeece33615a3cdc8991f311698",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "sebwite/support": "1.0.*"
+            },
+            "require-dev": {
+                "erusev/parsedown": "~1.5",
+                "kzykhys/ciconia": "~1.0.0",
+                "matthiasmullie/minify": "~1.3",
+                "mockery/mockery": "0.9.*",
+                "sebwite/testbench": "~1.0.2"
+            },
+            "suggest": {
+                "erusev/parsedown": "Enables the use of @markdown directives (~1.5)",
+                "matthiasmullie/minify": "Enables the use of @minify directives (~1.3)",
+                "raveren/kint": "Improved @debug output (1.0.*)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Radic\\BladeExtensions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robin Radic",
+                    "email": "robin@radic.nl",
+                    "role": "Package Author/Developer"
+                }
+            ],
+            "description": "Laravel package providing additional Blade extensions: foreach (with $loop data like twig), break, continue, set,array (multiline), etc",
+            "homepage": "https://github.com/RobinRadic/blade-extensions",
+            "keywords": [
+                "blade",
+                "extensions",
+                "laravel",
+                "loop"
+            ],
+            "time": "2016-01-24 20:42:26"
+        },
+        {
+            "name": "sebwite/support",
+            "version": "1.0.29",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/sebwitepackages/sebwite-support.git",
+                "reference": "5c6b986fba48b704628379ba628431827b11ac17"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/sebwitepackages/sebwite-support/get/5c6b986fba48b704628379ba628431827b11ac17.zip",
+                "reference": "5c6b986fba48b704628379ba628431827b11ac17",
+                "shasum": ""
+            },
+            "require": {
+                "anahkiasen/underscore-php": "2.0.*",
+                "danielstjules/stringy": "~1.8|~2.0",
+                "gabrielelana/byte-units": "0.2.*",
+                "illuminate/config": "~5.1",
+                "illuminate/console": "~5.1",
+                "illuminate/filesystem": "~5.1",
+                "illuminate/support": "~5.1",
+                "laravelcollective/html": "~5.1",
+                "php": ">=5.5.9",
+                "radic/blade-extensions": "~6.1",
+                "symfony/filesystem": "~2.7|~3.0",
+                "symfony/options-resolver": "~2.0|~3.0"
+            },
+            "require-dev": {
+                "sebwite/testbench": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Sebwite\\Support\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebwite",
+                    "email": "info@sebwite.nl"
+                }
+            ],
+            "description": "Laravel 5 support package",
+            "keywords": [
+                "laravel",
+                "repositories",
+                "sebwite",
+                "structure",
+                "support"
+            ],
+            "time": "2016-02-18 16:07:52"
+        },
+        {
+            "name": "stevebauman/log-reader",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stevebauman/log-reader.git",
+                "reference": "ef5e900354576c9bb76ad405cfda994414a27d5b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stevebauman/log-reader/zipball/ef5e900354576c9bb76ad405cfda994414a27d5b",
+                "reference": "ef5e900354576c9bb76ad405cfda994414a27d5b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "orchestra/testbench": "~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stevebauman\\LogReader\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steve Bauman",
+                    "email": "steven_bauman@outlook.com"
+                }
+            ],
+            "description": "An easy log reader and management tool for Laravel 5",
+            "time": "2015-08-27 21:07:53"
         },
         {
             "name": "strebl/adldap",
@@ -1698,6 +2020,55 @@
             "time": "2016-01-13 10:28:07"
         },
         {
+            "name": "symfony/filesystem",
+            "version": "v2.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "637b64d0ee10f44ae98dbad651b1ecdf35a11e8c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/637b64d0ee10f44ae98dbad651b1ecdf35a11e8c",
+                "reference": "637b64d0ee10f44ae98dbad651b1ecdf35a11e8c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-01-13 10:28:07"
+        },
+        {
             "name": "symfony/finder",
             "version": "v2.7.9",
             "source": {
@@ -1882,6 +2253,60 @@
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
             "time": "2016-01-14 10:41:45"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/options-resolver.git",
+                "reference": "bc7ee3ef3905f7c21fbed4e921cb39d6518b1300"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/bc7ee3ef3905f7c21fbed4e921cb39d6518b1300",
+                "reference": "bc7ee3ef3905f7c21fbed4e921cb39d6518b1300",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony OptionsResolver Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "time": "2016-01-21 09:38:31"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -2380,6 +2805,55 @@
             "time": "2015-05-30 15:59:26"
         },
         {
+            "name": "watson/bootstrap-form",
+            "version": "1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dwightwatson/bootstrap-form.git",
+                "reference": "f3cff2d98654264b29c5086ccd026b99d5e4d031"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dwightwatson/bootstrap-form/zipball/f3cff2d98654264b29c5086ccd026b99d5e4d031",
+                "reference": "f3cff2d98654264b29c5086ccd026b99d5e4d031",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~5.0",
+                "illuminate/session": "~5.0",
+                "illuminate/support": "~5.0",
+                "laravelcollective/html": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Watson\\BootstrapForm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dwight Watson",
+                    "email": "dwightwatson@me.com"
+                }
+            ],
+            "description": "Laravel 5 form wrappers for Bootstrap 3.",
+            "keywords": [
+                "bootstrap",
+                "form",
+                "laravel"
+            ],
+            "time": "2016-01-14 22:47:21"
+        },
+        {
             "name": "wikimedia/composer-merge-plugin",
             "version": "v1.2.1",
             "source": {
@@ -2869,16 +3343,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb"
+                "reference": "2e89629ff057ebb49492ba08e6995d3a6a80021b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5d04bdd2881ac89abde1fb78cc234bce24327bb",
-                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/2e89629ff057ebb49492ba08e6995d3a6a80021b",
+                "reference": "2e89629ff057ebb49492ba08e6995d3a6a80021b",
                 "shasum": ""
             },
             "require": {
@@ -2923,7 +3397,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2016-01-23 01:23:02"
+            "time": "2016-02-18 21:54:00"
         },
         {
             "name": "henrikbjorn/lurker",
@@ -4192,55 +4666,6 @@
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
             "time": "2016-01-03 15:33:41"
-        },
-        {
-            "name": "symfony/filesystem",
-            "version": "v2.8.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/filesystem.git",
-                "reference": "637b64d0ee10f44ae98dbad651b1ecdf35a11e8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/637b64d0ee10f44ae98dbad651b1ecdf35a11e8c",
-                "reference": "637b64d0ee10f44ae98dbad651b1ecdf35a11e8c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Filesystem\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Filesystem Component",
-            "homepage": "https://symfony.com",
-            "time": "2016-01-13 10:28:07"
         }
     ],
     "aliases": [],
@@ -4248,7 +4673,9 @@
     "stability-flags": {
         "bosnadev/repositories": 20,
         "strebl/l5-ldap-auth": 0,
-        "symfony/yaml": 0
+        "symfony/yaml": 0,
+        "radic/blade-extensions": 0,
+        "watson/bootstrap-form": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,

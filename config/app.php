@@ -97,6 +97,8 @@ return [
 
 	'log' => 'daily',
 
+	'log_max_files' => 30,
+
 	/*
 	|--------------------------------------------------------------------------
 	| Autoloaded Service Providers
@@ -140,7 +142,7 @@ return [
 		'Bosnadev\Repositories\Providers\RepositoryProvider',
 		'Caffeinated\Menus\MenusServiceProvider',
 		'Caffeinated\Modules\ModulesServiceProvider',
-		// 'Fenos\Notifynder\NotifynderServiceProvider',
+		'Stevebauman\LogReader\LogReaderServiceProvider',
 
 		/*
 		 * Application Service Providers...

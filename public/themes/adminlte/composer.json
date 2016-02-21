@@ -1,0 +1,21 @@
+{
+    "name": "hughfletcher/nut-theme-adminlte",
+    "description": "Default theme for NuTicket",
+    "license": "GNU V2",
+    "authors": [
+        {
+            "name": "Hugh Fletcher",
+            "email": "hugh@nuticket.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "radic/blade-extensions": "~6.0",
+        "watson/bootstrap-form": "1.0.*"
+    },
+    "autoload": {
+        "files": [
+            "support/helpers.php"
+        ]
+    }
+}

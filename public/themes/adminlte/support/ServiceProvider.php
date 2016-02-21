@@ -12,8 +12,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot(Router $router)
     {
-        include(public_path() . '/themes/adminlte/support/helpers.php');
-
         $this->loadTranslationsFrom(public_path() . '/themes/adminlte/support/lang', 'adminlte');
         
         $this->app['view']->composers(array(
@@ -42,7 +40,11 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
+        $this->app->register('Radic\BladeExtensions\BladeExtensionsServiceProvider');
+        $this->app->register('Collective\Html\HtmlServiceProvider');
+        $this->app->register('Watson\BootstrapForm\BootstrapFormServiceProvider');
 
+        $this->app->alias('Boot', 'Watson\BootstrapForm\Facades\BootstrapForm');
     }
 
 }

@@ -8,7 +8,8 @@ if ( ! function_exists('menu_icon'))
 			'Tickets' => 'ticket',
 			'Reports' => 'book',
 			'Change Log' => 'flask',
-            'settings.settings' => 'gear'
+            'settings.settings' => 'gear',
+            'system.system' => 'rocket'
 		];
 
 		return $icons[$string];
