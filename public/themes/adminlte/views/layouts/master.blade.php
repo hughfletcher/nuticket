@@ -62,7 +62,7 @@
                                 <span>{{ user('display_name') }} <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                @if (config('app.time.edit'))
+                                @if (config('settings.time.enabled'))
                                 <li><a href="{{ route('me.time.index') }}">Time Log</a></li>
                                 <li class="divider"></li>
                                 @endif
