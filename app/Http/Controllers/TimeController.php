@@ -4,8 +4,8 @@ use App\Http\Requests\TimeCreateRequest;
 use App\Http\Requests\TimeUpdateRequest;
 use App\Http\Requests\TimeDestroyRequest;
 use App\Http\Controllers\Controller;
-use App\Repositories\TimeLogInterface;
-use Auth;
+use App\Contracts\Repositories\TimeLogInterface;
+use App\Repositories\Criteria\Time\WhereUserIdDescByTimeAt;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -24,7 +24,8 @@ class TimeController extends Controller {
 	 */
 	public function index()
 	{
-		$logs = $this->time->paginateByUser(Auth::user()->id, config('system.page_size'));
+		$logs = $this->time->pushCriteria(new WhereUserIdDescByTimeAt(auth()->user()->id))->paginate(config('settings.default.pagesize'));
+
 		return view('me.time.index', compact('logs'));
 	}
 
@@ -35,7 +36,6 @@ class TimeController extends Controller {
 	 */
 	public function store(TimeCreateRequest $request)
 	{
-
 		$request->merge(['time_at' => Carbon::createFromFormat('m/d/Y', $request->input('time_at'), auth()->user()->timezone)->startOfDay()->tz(config('app.timezone'))]);
 
 		$time = $this->time->create($request->all());

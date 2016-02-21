@@ -14,8 +14,6 @@
 		<li class="active">Dashboard</li>
 	</ol> --}}
 </section>
-
-<!-- Main content -->
 <section class="content">
 <div class="row">
 <div class="col-md-12">
@@ -29,7 +27,7 @@
             <form method="POST" action="{{ route('me.time.store') }}" accept-charset="UTF-8">
             <input name="_token" type="hidden" value="{{ csrf_token() }}">
             <input name="_redirect" type="hidden" value="{{ URL::full() }}">
-            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
             <div class="box-body">
             	<div class="row">
             		<div class="col-md-2">
@@ -51,14 +49,14 @@
 						</div>
 					</div>
 					<div class="col-md-1">
-						<div class="form-group">
+						<div class="form-group{!! $errors->has('hours') ? ' has-error' : null !!}">
 							<label for="hours" class="control-label">Hours</label>
 							<input class="form-control input-sm" name="hours" value="{{ old('hours') }}">
 						</div>
 					</div>
 					<div class="col-md-7">
-						<label>Note</label>
-						<div class="form-group">
+						<div class="form-group{!! $errors->has('message') ? ' has-error' : null !!}">
+                            <label>Note</label>
 							<input class="form-control input-sm" name="message" value="{{ old('message') }}">
 						</div><!-- /.input group -->
 					</div>
@@ -106,7 +104,7 @@
                     </tr>
                     @foreach ($logs as $entry)
                     <tr>
-                        <td>{{ $entry->time_at->tz(auth()->user()->timezone)->format(config('system.format.dateday')) }}</td>
+                        <td>{{ $entry->time_at->tz(auth()->user()->timezone)->format(config('settings.format.dateday')) }}</td>
                         <td>{{ $entry['hours'] }}</td>
                         <td><span class="label label-{{ in_array($entry['type'], ['holiday', 'vacation']) ? 'primary' : ( $entry['type'] == 'sick' ? 'info' : ( $entry['type'] == 'other' ? 'default' : ( !is_null($entry['action']['ticket']['id']) ? 'success' : null))) }}">
                         	{{ !is_null($entry['action']['ticket']['id']) ? '#' . $entry['action']['ticket']['id'] : ucfirst($entry['type']) }}
