@@ -20,6 +20,18 @@ return [
     'dateday_format' => 'Date Day Format',
     'datetime_format' => 'Date Time Format',
 
+    'debug' => 'Debug',
+    'info' => 'Info',
+    'notice' => 'Notice',
+    'warning' => 'Warning',
+    'error' => 'Error',
+    'critical' => 'Critical',
+    'alert' => 'Alert',
+    'emergency' => 'Emergency',
+    'number_days' => ':number Days',
+    'log_level' => 'Log Level',
+    'log_retention' => 'Log Retention',
+
     'emails' => 'Emails',
     'default_system_email' => 'Default System Email',
     'admin_email_address' => 'Admin\'s Email Address',

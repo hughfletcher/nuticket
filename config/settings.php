@@ -27,6 +27,7 @@ return [
 
 	'log' => [
 		'level' => (string) env('LOG_LEVEL', 'warning'),
+		'days' => (integer) env('LOG_RETENTION', 30),
 	],
 
 	//access

@@ -45,10 +45,6 @@
                                     <option value="{{ $key }}"{{ old('settings_theme', config('settings.theme')) == $key ? ' selected=selected' : null }}>{{ $theme['name'] }}</option>
                                 @endforeach
                             </select>
-                            
-                            @if ($errors->has('settings_theme'))
-                            <span class="help-block"><strong>{{ $errors->first('system_default_dept') }}</strong></span>
-                            @endif
                         </div>
                         @foreach($themes as $key => $theme)
                             @if(config('settings.theme') == $key && isset($theme['settings']))
@@ -56,17 +52,34 @@
                             @endif
                         @endforeach
                     </div>
+                     <div class="form-group">
+                        <label for="settings_log_level" class="col-sm-2 control-label">{{ trans('settings.log_level') }}</label>
+                        <div class="col-sm-2">
+                            <select name="settings_log_level" class="form-control select2-nosearch input-sm">
+                            @foreach(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'] as $level)
+                                <option value="{{ $level }}"{{ old('settings_log_level', config('settings.log.level')) == $level ? ' selected=selected' : null }}>{{ trans('settings.' . $level) }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings_log_days" class="col-sm-2 control-label">{{ trans('settings.log_retention') }}</label>
+                        <div class="col-sm-2">
+                            <select name="settings_log_days" class="form-control select2-nosearch input-sm">
+                                @for ($i = 1; $i <= 12; $i += 1)
+                                    <option value="{{ $i * 30 }}"{{ old('settings_log_days', config('settings.log.days')) == ($i * 30) ? ' selected=selected' : null }}>{{ trans('settings.number_days', ['number' => ($i * 30)]) }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group{{ $errors->has('settings_default_pagesize') ? ' has-error' : null }}">
                         <label for="settings_default_pagesize" class="col-sm-2 control-label">{{ trans('settings.default_page_size') }}</label>
-                        <div class="col-sm-1">
+                        <div class="col-sm-2">
                             <select name="settings_default_pagesize" class="form-control select2-nosearch input-sm">
                                 @for ($i = 5; $i <= 50; $i += 5)
                                     <option value="{{ $i }}"{{ old('settings_default_pagesize', config('settings.default.pagesize')) == $i ? ' selected=selected' : null }}>{{ $i }}</option>
                                 @endfor
                             </select>
-                            @if ($errors->has('settings_default_pagesize'))
-                            <span class="help-block"><strong>{{ $errors->first('settings_default_pagesize') }}</strong></span>
-                            @endif
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('settings_default_tz') ? ' has-error' : null }}">
