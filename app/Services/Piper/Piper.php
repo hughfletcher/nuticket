@@ -31,7 +31,7 @@ class Piper
                 $this->action->create($message);
             }
 
-            if (!$message->getTags()->only(['user', 'priority'])->isEmpty() && $message->getTicketId()) {
+            if (!$message->getTags()->only(['user', 'priority', 'org'])->isEmpty() && $message->getTicketId()) {
                 $this->ticket->update($message);
             }
 

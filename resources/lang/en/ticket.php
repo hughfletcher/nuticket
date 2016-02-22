@@ -5,10 +5,9 @@ return [
     'User' => 'User',
     'Summary' => 'Summary',
     'Body' => 'Body',
-    'Organization' => 'Organization'
+    'Organization' => 'Organization',
     'Priority_' => 'Priority',
     'User' => 'User',
     'Summary' => 'Summary',
-    'Body' => 'Body',
-    'Organization' => 'Organization'
+    'Body' => 'Body'
 ];

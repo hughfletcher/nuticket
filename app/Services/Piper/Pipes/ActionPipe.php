@@ -35,9 +35,7 @@ class ActionPipe
         foreach ($actionables as $type => $action) {
             $attrs = collect($attributes)->put('type', $type);
 
-            /*if ($tags->get($type) != '') {
-                $attrs->put('body', $tags->get($type));
-            } else*/if ($body) {
+            if ($body) {
                 $attrs->put('body', $body);
                 $body = null;
             } else {
@@ -52,7 +50,6 @@ class ActionPipe
             if (!$this->validate($attrs)) {
                 continue;
             }
-            // $actions->push($this->dispatchFrom('App\Jobs\ActionCreateJob', $attrs));
             $this->dispatchFrom('App\Jobs\ActionCreateJob', $attrs);
         }
 
