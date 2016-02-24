@@ -80,9 +80,6 @@
   - name: download composer and place in bin
     get_url: url=https://getcomposer.org/composer.phar dest=/usr/local/bin/composer mode=755 validate_certs=no
 
-  - name: download robo and place in bin
-    get_url: url=http://robo.li/robo.phar dest=/usr/local/bin/robo mode=755 validate_certs=no
-
   - name: Change mysql root password
     mysql_user: name=root password={{ mysql_root_password | default("root") }} login_user=root login_password=''
 
