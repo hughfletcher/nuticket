@@ -16,15 +16,15 @@ class TicketUpdateRequestTest extends TestCase
         $this->assertTrue($auth);
     }
 
-    public function testRules()
-    {
-        $request = new TicketUpdateRequest;
-        $rules = $request->rules();
-        $this->assertEquals(5, count($rules));
-        $this->assertArrayHasKey('user_id', $rules);
-        $this->assertArrayHasKey('priority', $rules);
-        $this->assertArrayHasKey('title', $rules);
-        $this->assertArrayHasKey('body', $rules);
-        $this->assertArrayHasKey('reason', $rules);
-    }
+    // public function testRules()
+    // {
+    //     $request = new TicketUpdateRequest;
+    //     $rules = $request->rules();
+    //     $this->assertEquals(5, count($rules));
+    //     $this->assertArrayHasKey('user_id', $rules);
+    //     $this->assertArrayHasKey('priority', $rules);
+    //     $this->assertArrayHasKey('title', $rules);
+    //     $this->assertArrayHasKey('body', $rules);
+    //     $this->assertArrayHasKey('reason', $rules);
+    // }
 }
