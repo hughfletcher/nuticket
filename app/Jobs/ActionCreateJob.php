@@ -92,7 +92,7 @@ class ActionCreateJob extends Job implements SelfHandling
         ]);
     }
 
-    public function updateTicket(TicketInterface $ticket)
+    private function updateTicket(TicketInterface $ticket)
     {
         $exist = $ticket->find($this->data->get('ticket_id'));
 
@@ -109,7 +109,7 @@ class ActionCreateJob extends Job implements SelfHandling
         $hours = $this->updateHours($exist->hours);
         $dept = $this->updateDept();
         $assigned = $this->updateAssigned();
-
+        // var_dump(array_merge($update, $hours, $dept, $status, $assigned));
         return $ticket->update(array_merge($update, $hours, $dept, $status, $assigned), $this->data->get('ticket_id'));
     }
 
@@ -121,7 +121,7 @@ class ActionCreateJob extends Job implements SelfHandling
     //     return $this->updateAssigned($ticket);
     // }
 
-    public function updateAssigned()
+    private function updateAssigned()
     {
         if ($this->data->get('type') != 'assign') {
             return [];
@@ -130,7 +130,7 @@ class ActionCreateJob extends Job implements SelfHandling
         return ['assigned_id' => $this->data->get('assigned_id')];
     }
 
-    public function updateDept()
+    private function updateDept()
     {
         if ($this->data->get('type') != 'transfer') {
             return [];
@@ -139,37 +139,19 @@ class ActionCreateJob extends Job implements SelfHandling
         return ['dept_id' => $this->data->get('transfer_id')];
     }
 
-    public function updateStatus()
+    private function updateStatus()
     {
-        //create
-        //reply
-        //comment
-        //assign
-        //closed
-        //edit
-        //transfer
-        //open
-        //resolved
-        //
         $type = $this->data->get('type');
         if ($type == 'open' || !in_array($type, ['closed', 'resolved'])) {
             return ['status' => 'open', 'closed_at' => null];
         }
 
-        // if (!in_array($this->data->get('type'), ['closed', 'resolved'])) {
-        //     return ['status' => 'open'];
-        // }
-        // $ticket->status = $this->data->has('status') ? $this->data->get('status') : $ticket->status;
-        // if (1$this->data->has('status') && in_array($this->data->get('status'), ['resolved', 'closed'])) {
-            // $ticket['status'] = $this->data->get('type');
-            // $ticket['closed_at'] = Carbon::now();
-        // }
         return ['status' => $type, 'closed_at' => Carbon::now()];
     }
 
-    public function updateHours($hours)
+    private function updateHours($hours)
     {
-        if (!in_array($this->data->get('type'), ['reply', 'closed', 'resolved', 'comment', 'open'])) {
+        if (!$this->data->has('hours') || !in_array($this->data->get('type'), ['reply', 'closed', 'resolved', 'comment', 'open'])) {
             return [];
         }
 

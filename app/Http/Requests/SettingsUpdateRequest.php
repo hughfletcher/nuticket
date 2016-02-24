@@ -29,29 +29,7 @@ class SettingsUpdateRequest extends Request
             'settings_mail_defaultmta' => ['required', 'integer', 'exists:emails,id']
         ],
         'notifications' => [
-            'settings_notify_newticket_status' => ['required', 'boolean'],
-            'settings_notify_newticket_admin' => ['required', 'boolean'],
-            'settings_notify_newticket_mgr' => ['required', 'boolean'],
-            'settings_notify_newticket_dept' => ['required', 'boolean'],
-            'settings_notify_newticket_org' => ['required', 'boolean'],
-            'settings_notify_reply_status' => ['required', 'boolean'],
-            'settings_notify_reply_last' => ['required', 'boolean'],
-            'settings_notify_reply_assigned' => ['required', 'boolean'],
-            'settings_notify_reply_mgr' => ['required', 'boolean'],
-            'settings_notify_reply_org' => ['required', 'boolean'],
-            'settings_notify_internal_status' => ['required', 'boolean'],
-            'settings_notify_internal_last' => ['required', 'boolean'],
-            'settings_notify_internal_assigned' => ['required', 'boolean'],
-            'settings_notify_internal_mgr' => ['required', 'boolean'],
-            'settings_notify_assign_status' => ['required', 'boolean'],
-            'settings_notify_assign_assigned' => ['required', 'boolean'],
-            'settings_notify_assign_mgr' => ['required', 'boolean'],
-            'settings_notify_assign_dept' => ['required', 'boolean'],
-            'settings_notify_transfer_status' => ['required', 'boolean'],
-            'settings_notify_transfer_assigned' => ['required', 'boolean'],
-            'settings_notify_transfer_mgr' => ['required', 'boolean'],
-            'settings_notify_transfer_dept' => ['required', 'boolean'],
-            'settings_notify_system_status' => ['required', 'boolean'],
+            'settings_autorespond_bymail' => ['required', 'boolean']
         ]
     ];
 
@@ -76,6 +54,21 @@ class SettingsUpdateRequest extends Request
      */
     public function rules()
     {
+        if (method_exists($this, $this->segment(2) . 'Rules')) {
+            return array_merge($this->rules[$this->segment(2)], $this->{$this->segment(2) . 'Rules'}());
+        }
         return $this->rules[$this->segment(2)];
+    }
+
+    protected function notificationsRules() 
+    {
+        $rules = [];
+        foreach (config('settings.notify') as $key => $array) {
+            foreach ($array as $item => $value) {
+                $rules['settings.notify.' . $key . '.' . $item] = ['required', 'boolean'];
+            }
+            
+        }
+        return $rules;
     }
 }

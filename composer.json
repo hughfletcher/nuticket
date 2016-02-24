@@ -23,7 +23,8 @@
     	"codegyre/robo": "*",
         "patchwork/jsqueeze": "~1.0",
         "natxet/CssMin": "~3.0",
-    	"fzaninotto/faker": "1.5.0"
+    	"fzaninotto/faker": "1.5.0",
+		"mockery/mockery": "^0.9.4"
 	},
 	"autoload": {
 		"classmap": [

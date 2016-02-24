@@ -6,7 +6,7 @@ use App\Http\Requests\UserQueryRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Events\UsersGetAllEvent;
-use App\Repositories\Criteria\RequestSearchUsers;
+use App\Repositories\Criteria\Users\WhereNameLike;
 
 class UsersController extends Controller {
 
@@ -21,16 +21,16 @@ class UsersController extends Controller {
 	 */
 	public function index(UserQueryRequest $request)
 	{
-		$local = $this->user->pushCriteria(new RequestSearchUsers($request->all()))
+		$local = $this->user->pushCriteria(new WhereNameLike($request->get('q')))
 			->all(explode(',', $request->get('fields')), $request->all());
 		if ($request->get('noevent')) {
-			return response()->json($results);
+			return response()->json($local);
 		}
 
 		$event_data = event(new UsersGetAllEvent($local, $request->all()));
 
 		if (empty($event_data)) {
-			return $local;
+			return response()->json($local);
 		}
 
 		$results = [];
