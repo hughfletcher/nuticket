@@ -77,9 +77,9 @@
 											<td>{{ $ticket->created_at->tz(auth()->user()->timezone)->format(config('settings.format.date')) }}</td>
 											<td>{{ is_null($ticket['last_action_at']) ? 'None' : $ticket->last_action_at->tz(auth()->user()->timezone)->format(config('settings.format.date')) }}</td>
 											<td><a href="{{ route('tickets.show', [$ticket['id']]) }}">{{ $ticket->title }}</a></td>
-											<td>{{ $ticket['user'] }}</td>
+											<td>{{ $ticket->user->display_name }}</td>
 											<td>{{ $ticket['priority'] }}</td>
-											<td>{{ $ticket->assigned or trans('nobody') }}</td>
+											<td>{{ $ticket->assigned->display_name or trans('nobody') }}</td>
 										</tr>
 										@endforeach
 									</tbody>

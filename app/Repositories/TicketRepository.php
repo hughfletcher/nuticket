@@ -3,6 +3,7 @@
 use App\Contracts\Repositories\TicketInterface;
 use Bosnadev\Repositories\Contracts\RepositoryInterface;
 use Bosnadev\Repositories\Eloquent\Repository;
+use App\Http\Requests\TicketIndexRequest;
 use App\TicketAction;
 use Carbon\Carbon;
 
@@ -42,58 +43,19 @@ class TicketRepository extends Repository implements TicketInterface {
         return parent::create($array);
     }
 
-    public function paginateByRequest($perPage = 1, $columns = ['*'])
+    public function paginateByRequest(TicketIndexRequest $request)
     {
-    	$this->model = $this->model->select(
-    			'tickets.*',
-    			'ticket_actions.title as title',
-    			'users.display_name as user',
-    			'su.display_name as assigned'
-    		)
-			->join('users', 'users.id', '=', 'tickets.user_id')
-			->leftJoin('users as su', 'su.id', '=', 'tickets.assigned_id')
-			->join('ticket_actions','ticket_actions.ticket_id', '=', 'tickets.id')
-			->where('ticket_actions.type', 'create');
+    	$this->model = $this->model->with('user', 'assigned');
 
-    	$this->pushCriteria(new Criteria\RequestSort)
-    		->pushCriteria(new Criteria\RequestCreatedAtRange)
-    		->pushCriteria(new Criteria\RequestSearchTickets)
-    		->pushCriteria(new Criteria\Request('status'))
-    		->pushCriteria(new Criteria\Request('priority'))
-    		->pushCriteria(new Criteria\Request('dept_id'))
-    		->pushCriteria(new Criteria\Request('org_id'))
-    		->pushCriteria(new Criteria\Request('assigned_id'));
+    	$this->pushCriteria(new Criteria\Request\RequestOrderBy($request))
+            ->pushCriteria(new Criteria\Request\RequestWhereCreatedAtBetween($request))
+            ->pushCriteria(new Criteria\Tickets\RequestWhereInStatus($request))
+            ->pushCriteria(new Criteria\Tickets\RequestWhereInPriority($request))
+            ->pushCriteria(new Criteria\Request\RequestWhereInDeptId($request))
+            ->pushCriteria(new Criteria\Request\RequestWhereInOrgId($request))
+            ->pushCriteria(new Criteria\Tickets\RequestWhereInAssignedId($request))
+            ->pushCriteria(new Criteria\Tickets\RequestSearch($request));
 
-    	return parent::paginate($perPage);
+    	return parent::paginate($request->get('per_page', config('system.page_size')));
     }
-
-    protected function createTicketAction(array $data)
-    {
-    	return new TicketAction($data);
-    }
-
-
-
-	// public function buildUpdateByReply()
-	// {
-	// 	return [
-
-	// 	];
-	// }
-
-	/**
-	 * Update ticket by a comment ticket action.
-	 *
-	 * @param  array $action App\TicketAction::toArray()
-	 * @return App\Ticket
-	 */
-	// public function updateByComment(TicketAction $action)
-	// {
-	// 	$ticket = parent::update([
-	// 			'last_action_at' => $action->created_at,
-	// 			'hours' => 'hours + ' . $action->hours
-	// 		], $action->ticket_id);
-
-	// 	return $ticket;
-	// }
 }

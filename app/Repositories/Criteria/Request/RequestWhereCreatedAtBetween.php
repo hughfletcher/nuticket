@@ -1,11 +1,9 @@
-<?php namespace App\Repositories\Criteria;
+<?php namespace App\Repositories\Criteria\Request;
 
-use Bosnadev\Repositories\Criteria\Criteria;
 use Bosnadev\Repositories\Contracts\RepositoryInterface as Repository;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class RequestCreatedAtRange extends Criteria {
+class RequestWhereCreatedAtBetween extends RequestCriteria {
 
     /**
      * @param $model
@@ -14,7 +12,7 @@ class RequestCreatedAtRange extends Criteria {
      */
     public function apply($model, Repository $repository)
     {
-    	$dates = app('request')->has('created_at') ? explode('-', app('request')->get('created_at')) : [null, null];
+    	$dates = $this->request->has('created_at') ? explode('-', $this->request->get('created_at')) : [null, null];
 
 		if (!$dates[0] || !$dates[1]) {
 			return $model;

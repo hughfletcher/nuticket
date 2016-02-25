@@ -1,10 +1,10 @@
-<?php namespace App\Repositories\Criteria;
+<?php namespace App\Repositories\Criteria\Tickets;
 
 use Bosnadev\Repositories\Criteria\Criteria;
 use Bosnadev\Repositories\Contracts\RepositoryInterface as Repository;
-use Illuminate\Http\Request;
+use App\Repositories\Criteria\Request\RequestCriteria;
 
-class RequestSort extends Criteria {
+class RequestWhereInPriority extends RequestCriteria {
 
     /**
      * @param $model
@@ -13,6 +13,6 @@ class RequestSort extends Criteria {
      */
     public function apply($model, Repository $repository)
     {
-        return $model->orderBy(app('request')->get('sort', 'id'), app('request')->get('order', 'desc'));
+        return $this->whereIn('priority', $model);
     }
 }

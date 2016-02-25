@@ -35,7 +35,7 @@ class TicketsController extends BaseController
     */
     public function index(TicketIndexRequest $request)
     {
-        $tickets = $this->tickets->paginateByRequest($request->get('per_page', config('system.page_size')));
+        $tickets = $this->tickets->paginateByRequest($request);
 
         return view('tickets.index', compact('tickets'));
     }

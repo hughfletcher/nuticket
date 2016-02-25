@@ -1,10 +1,9 @@
-<?php namespace App\Repositories\Criteria;
+<?php namespace App\Repositories\Criteria\Tickets;
 
-use Bosnadev\Repositories\Criteria\Criteria;
+use App\Repositories\Criteria\Request\RequestCriteria;
 use Bosnadev\Repositories\Contracts\RepositoryInterface as Repository;
-use Illuminate\Http\Request;
 
-class RequestSearchTickets extends Criteria {
+class RequestSearch extends RequestCriteria {
 
     /**
      * @param $model
@@ -13,7 +12,7 @@ class RequestSearchTickets extends Criteria {
      */
     public function apply($model, Repository $repository)
     {
-    	$query = app('request')->has('q') ? explode('-', str_slug(app('request')->get('q'))) : [];
+    	$query = $this->request->has('q') ? explode('-', str_slug($this->request->get('q'))) : [];
 
         return $model->WhereIn('tickets.id', function($q) use ($query) {
 		    $q = $q->select('ta.ticket_id')
