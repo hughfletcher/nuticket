@@ -23,6 +23,7 @@ $factory->define(App\Ticket::class, function (Faker\Generator $faker) {
         'user_id' => $faker->unique()->randomNumber(4),
         'assigned_id' => $faker->unique()->randomNumber(4),
         'dept_id' => $faker->unique()->randomNumber(4),
+        'org_id' => $faker->unique()->randomNumber(4),
         'status' => $faker->randomElement(['open', 'closed', 'new', 'resolved']),
         'priority' => $faker->numberBetween(1, 5),
         'hours' => $faker->randomFloat(2, 0, 10),

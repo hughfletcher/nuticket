@@ -95,7 +95,7 @@
 						<select name="priority" class="form-control select2-default input-sm" placeholder="Select a Priority">
 							<option></option>
 							@foreach($priorities as $level => $priority)
-							<option value="1"{{ old('priority') == $level ? ' selected=selected' : !old('priority') && config('settings.default.priority') == $level ? ' selected=selected' : null }}>{{ $priority }}</option>
+							<option value="{{ $level }}"{{ old('priority') == $level ? ' selected=selected' : !old('priority') && config('settings.default.priority') == $level ? ' selected=selected' : null }}>{{ $priority }}</option>
 							@endforeach
 						</select>
 						@if ($errors->has('priority'))
