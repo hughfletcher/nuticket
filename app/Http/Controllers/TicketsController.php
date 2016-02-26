@@ -8,10 +8,14 @@ use App\Http\Requests\TicketStoreRequest;
 use App\Http\Requests\TicketCreateRequest;
 use App\Http\Requests\TicketUpdateRequest;
 use App\Events\TicketCreatedEvent;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Carbon\Carbon;
 use Auth;
 
 class TicketsController extends BaseController
 {
+    use DispatchesJobs;
+
     /**
      * Create a instance.
      * @param TicketInterface       $ticket App\Contracts\Repositories\TicketInterface
@@ -20,10 +24,9 @@ class TicketsController extends BaseController
      *
      * @return null
     */
-    public function __construct(TicketInterface $ticket, TicketActionInterface $action, UserInterface $user)
+    public function __construct(TicketInterface $ticket, UserInterface $user)
     {
         $this->tickets = $ticket;
-        $this->action = $action;
         $this->user = $user;
     }
 
@@ -76,33 +79,42 @@ class TicketsController extends BaseController
             $request->merge(['user_id' => $user->id]);
         }
 
-        $ticket = $this->tickets->create(array_add($request->except(['hours', 'display_name', 'email']), 'auth_id', Auth::user()->id));
+        $request->merge(['auth_id' => auth()->user()->id]);
 
-        $hours = $request->get('hours');
+        $ticket = $this->dispatchFrom('App\Jobs\TicketCreateJob', $request);
+
+        $action = collect([
+            'ticket_id' => $ticket->id,
+            'user_id' => auth()->user()->id,
+            'hours' => $request->get('hours'),
+            'time_at' => $request->has('time_at') ? Carbon::createFromFormat('m/d/Y', $request->get('time_at'), auth()->user()->tz)->timezone('utc') : null,
+            'status' => $request->has('status') ? $request->get('status') : 'open',
+            'defer_event' => true
+        ]);
 
         if ($request->has('reply_body')) {
-            $this->action->create([
-                'ticket_id' => $ticket->id,
-                'user_id' => Auth::user()->id,
-                'type' => in_array($request->get('status'), ['closed', 'resolved']) ? $request->get('status') : 'reply',
-                'body' => $request->get('reply_body'),
-                'hours' => $hours,
-                'time_at' => $request->get('time_at'),
-                'status' => $request->has('status') ? $request->get('status') : 'open'
-            ]);
-            $hours = 0;
+            $this->dispatchFrom(
+                'App\Jobs\ActionCreateJob', 
+                $action,
+                [
+                    'type' => in_array($request->get('status'), ['closed', 'resolved']) ? $request->get('status') : 'reply',
+                    'body' => $request->get('reply_body')
+                ]
+            );
+
+            $action->put('hours', 0);
         }
 
         if ($request->has('comment_body')) {
-            $this->action->create([
-                'ticket_id' => $ticket->id,
-                'user_id' => Auth::user()->id,
-                'type' => 'comment',
-                'body' => $request->get('comment_body'),
-                'hours' => $hours,
-                'time_at' => $request->get('time_at'),
-                'status' => $request->has('status') ? $request->get('status') : 'open'
-            ]);
+
+            $this->dispatchFrom(
+                'App\Jobs\ActionCreateJob', 
+                $action,
+                [
+                    'type' => 'comment',
+                    'body' => $request->get('comment_body')
+                ]
+            );
         }
 
         event(new TicketCreatedEvent($ticket));

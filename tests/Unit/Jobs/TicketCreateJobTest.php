@@ -20,78 +20,61 @@ class TicketCreateJobTest extends TestCase
 
     public function testHandle()
     {
-        $this->assertTrue(true);
-        // $this->expectsEvents(App\Events\TicketCreatedEvent::class);
-        // $attrs = [123, 456, $this->faker->sentence, $this->faker->paragraph, 'mail', 'new', 7, 89, 2];
-        // $ticket = factory(App\Ticket::class)->make();
-        // $job = m::mock('App\Jobs\TicketCreateJob[createTicket,createAction]', $attrs);
-        // $job->shouldReceive('createTicket')
-        //     ->with(m::type('Illuminate\Support\Collection'), $this->ticket)
-        //     ->once()
-        //     ->andReturn($ticket);
-        // $job->shouldReceive('createAction')
-        //     ->with(m::type('Illuminate\Support\Collection'), $this->action)
-        //     ->once();
-        // $this->assertEquals($ticket, $job->handle($this->ticket, $this->action));
+        $this->expectsEvents(App\Events\TicketCreatedEvent::class);
+        $ticket = factory(App\Ticket::class)->make(['id' => 8765]); 
+        $attrs = ['auth_id' => 123, 
+            'user_id' => $ticket->user_id, 
+            'title' => $this->faker->sentence, 
+            'body' => $this->faker->paragraph, 
+            'source' => 'mail', 
+            'status' => $ticket->status, 
+            'dept_id' => $ticket->dept_id, 
+            'org_id' => $ticket->org_id, 
+            'assigned_id' => $ticket->assigned_id,
+        ];
+        
+        $this->ticket->shouldReceive('job_create')->once()->with(m::on(function($param) use($attrs) {
+            return empty(array_diff($param, array_only($attrs, ['user_id', 'assigned_id', 'priority', 'dept_id', 'org_id', 'status'])));
+        }))->andReturn($ticket);
+        $this->action->shouldReceive('create')->once()->with(m::on(function($param) use ($attrs, $ticket) {
+            $attrs = array_merge($attrs, ['type' => 'create', 'user_id' => $attrs['auth_id'], 'ticket_id' => $ticket->id]);
+            return empty(array_diff($param, array_only($attrs, ['ticket_id', 'type', 'title', 'body', 'source', 'user_id'])));
+        }));
+
+        $class = new ReflectionClass('App\Jobs\TicketCreateJob');
+        $job = $class->newInstanceArgs($attrs);
+
+        $this->assertEquals($ticket, $job->handle($this->ticket, $this->action));
     }
 
-    // public function testHandleDeferEvent()
-    // {
-    //     $attrs = [123, 456, $this->faker->sentence, $this->faker->paragraph, 'mail', 'new', null, 89, 2, true];
-    //     $ticket = factory(App\Ticket::class)->make();
-    //     $job = m::mock('App\Jobs\TicketCreateJob[createTicket,createAction]', $attrs);
-    //     $job->shouldReceive('createTicket')
-    //         ->with(m::type('Illuminate\Support\Collection'), $this->ticket)
-    //         ->once()
-    //         ->andReturn($ticket);
-    //     $job->shouldReceive('createAction')
-    //         ->with(m::type('Illuminate\Support\Collection'), $this->action)
-    //         ->once();
-    //     $this->assertEquals($ticket, $job->handle($this->ticket, $this->action));
-    // }
+    public function testHandleDeferEvent()
+    {
+        $this->doesntExpectEvents(App\Events\TicketCreatedEvent::class);
+        $ticket = factory(App\Ticket::class)->make(['id' => 8765]); 
+        $attrs = ['auth_id' => 123, 
+            'user_id' => $ticket->user_id, 
+            'title' => $this->faker->sentence, 
+            'body' => $this->faker->paragraph, 
+            'source' => 'mail', 
+            'status' => $ticket->status, 
+            'dept_id' => $ticket->dept_id, 
+            'org_id' => $ticket->org_id, 
+            'assigned_id' => $ticket->assigned_id,
+            'defer_event' => true
+        ];
+        
+        $this->ticket->shouldReceive('job_create')->once()->with(m::on(function($param) use($attrs) {
+            return empty(array_diff($param, array_only($attrs, ['user_id', 'assigned_id', 'priority', 'dept_id', 'org_id', 'status'])));
+        }))->andReturn($ticket);
+        $this->action->shouldReceive('create')->once()->with(m::on(function($param) use ($attrs, $ticket) {
+            $attrs = array_merge($attrs, ['type' => 'create', 'user_id' => $attrs['auth_id'], 'ticket_id' => $ticket->id]);
+            return empty(array_diff($param, array_only($attrs, ['ticket_id', 'type', 'title', 'body', 'source', 'user_id'])));
+        }));
 
-    // public function testCreateTicket()
-    // {
-    //     $ticket = factory(App\Ticket::class)->make();
-    //     $this->app['config']->set('system.defaultdept', 789);
-    //     $job = new TicketCreateJob(123, 456, $this->faker->sentence, $this->faker->sentence);
-    //     // $data = collect($ticket->only(['user_id', 'dept_id']));
+        $class = new ReflectionClass('App\Jobs\TicketCreateJob');
+        $job = $class->newInstanceArgs($attrs);
 
-    //     // $data = $ticket->only([])
-    //     $this->ticket->shouldReceive('job_create')
-    //         ->with(collect($ticket->toArray())->only(['user_id', 'dept_id'])->toArray())
-    //         ->once()
-    //         ->andReturn($ticket);
-
-    //     $return = $job->createTicket(collect($ticket)->only(['user_id', 'dept_id']), $this->ticket);
-    //     $this->assertEquals($ticket, $return);
-    // }
-
-    // public function testCreateAction()
-    // {
-    //     $action = factory(App\TicketAction::class)->make([
-    //         'auth_id' => 123
-    //     ]);
-    //     $this->app['config']->set('system.defaultdept', 789);
-    //     $job = new TicketCreateJob(123, 456, $this->faker->sentence, $this->faker->sentence);
-    //     // $data = collect($ticket->only(['user_id', 'dept_id']));
-
-    //     // $data = $ticket->only([])
-    //     $this->action->shouldReceive('create')
-    //         ->with([
-    //             'user_id' => $action->auth_id,
-    //             'ticket_id' => $action->ticket_id,
-    //             'type' => 'create',
-    //             'title' => $action->title,
-    //             'body' => $action->body,
-    //             'source' => $action->source
-    //         ])
-    //         ->once()
-    //         ->andReturn(1);
-
-    //     $return = $job->createAction(collect($action), $this->action);
-    //     // $this->assertEquals($ticket, $return);
-
-    // }
+        $this->assertEquals($ticket, $job->handle($this->ticket, $this->action));
+    }
 
 }

@@ -31,7 +31,7 @@ class TicketCreateJob extends Job implements SelfHandling
         $dept_id = null,
         $org_id = null,
         $assigned_id = 0,
-        $priority = 3,
+        $priority = null,
         $defer_event = false
     )
     {
@@ -70,15 +70,15 @@ class TicketCreateJob extends Job implements SelfHandling
 
     }
 
-    public function createTicket(Collection $data, TicketInterface $ticket)
+    private function createTicket(Collection $data, TicketInterface $ticket)
     {
 
-        $ticket = $ticket->job_create($data->only(['user_id', 'assigned_id', 'priority', 'dept_id', 'org_id', 'hours', 'last_action_at', 'status'])->toArray());
+        $ticket = $ticket->job_create($data->only(['user_id', 'assigned_id', 'priority', 'dept_id', 'org_id', 'status'])->toArray());
 
         return $ticket;
     }
 
-    public function createAction(Collection $data, TicketActionInterface $action)
+    private function createAction(Collection $data, TicketActionInterface $action)
     {
         $data = $data->merge(['user_id' => $data->get('auth_id'), 'type' => 'create']);
         return $action->create($data->only(['ticket_id', 'user_id', 'type', 'title', 'body', 'source'])->toArray());
