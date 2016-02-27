@@ -65,7 +65,7 @@ class SettingsUpdateRequest extends Request
         $rules = [];
         foreach (config('settings.notify') as $key => $array) {
             foreach ($array as $item => $value) {
-                $rules['settings.notify.' . $key . '.' . $item] = ['required', 'boolean'];
+                $rules['settings_notify_' . $key . '_' . $item] = ['required', 'boolean'];
             }
             
         }
