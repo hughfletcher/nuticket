@@ -103,6 +103,7 @@ class RoboFile extends \Robo\Tasks
         $this->taskWatch()->monitor('tests', function ($event) {
             $this->taskPHPUnit()
                 ->files([$event->getResource()])
+                ->option('coverage-text')
                 ->run();
         })->run();
 
