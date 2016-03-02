@@ -149,7 +149,6 @@ return [
 		 */
 		'App\Providers\AppServiceProvider',
 		'App\Providers\AuthServiceProvider',
-		'App\Providers\BusServiceProvider',
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RepositoryServiceProvider',
