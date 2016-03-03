@@ -1,6 +1,6 @@
 <?php
 
-namespace Themes\AdminLte\Support;
+namespace Themes\Adminlte\Support;
 
 use App\Http\Controllers\Controller as LaravelController;
 use App\Jobs\UpdateConfigJob;

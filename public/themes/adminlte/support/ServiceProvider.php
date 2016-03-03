@@ -28,8 +28,8 @@ class ServiceProvider extends LaravelServiceProvider
         ));
 
         $router->group(array('middleware' => 'auth'), function($router) {
-            $router->get('settings/theme/adminlte', ['as' => 'theme.adminlte.edit', 'uses' => 'Themes\AdminLte\Support\Controller@edit']);
-            $router->put('settings/theme/adminlte', ['as' => 'theme.adminlte.update', 'uses' => 'Themes\AdminLte\Support\Controller@update']);
+            $router->get('settings/theme/adminlte', ['as' => 'theme.adminlte.edit', 'uses' => 'Themes\Adminlte\Support\Controller@edit']);
+            $router->put('settings/theme/adminlte', ['as' => 'theme.adminlte.update', 'uses' => 'Themes\Adminlte\Support\Controller@update']);
         });
     }
 
