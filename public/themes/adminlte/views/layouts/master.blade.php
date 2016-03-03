@@ -98,7 +98,7 @@
         <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-        <b>Version</b> 1.0.0-alpha 2
+        <b>Version</b> {{ version() }}
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2015 <a href="https://github.com/hughfletcher/nuticket">NuTicket</a>.</strong> All rights reserved.

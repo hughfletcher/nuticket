@@ -10,4 +10,10 @@ function lg($level = null, $msg = null, $context = [])
 }
 
 function debug($msg, $context = []) { app('log')->debug($msg, $context);}
-// function info($msg, $context = []) { app('log')->info($msg, $context);}
+
+function version() {
+	if (is_file(base_path() . '/.git/shallow')) {
+		return '1.0.0-alpha ' . substr(trim(file_get_contents(base_path() . '/.git/shallow')), 0, 7);
+	}
+	return '1.0.0-dev';
+}
