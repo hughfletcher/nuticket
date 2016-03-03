@@ -52,37 +52,37 @@ class WhereNotify extends Criteria {
 
     }
 
-    public function notifyAdmin(Builder $query, $type)
+    private function notifyAdmin(Builder $query, $type)
     {
         return $query->orWhere('is_admin', true);
     }
 
-    public function notifyMgr(Builder $query, $type)
+    private function notifyMgr(Builder $query, $type)
     {
         return $query->orWhere('id', $this->ticket->dept->mgr_id);
     }
 
-    public function notifyDept(Builder $query, $type)
+    private function notifyDept(Builder $query, $type)
     {
         return $query->orWhereIn('id', $this->ticket->dept->members->lists('id'));
     }
 
-    public function notifyOwner(Builder $query, $type)
+    private function notifyOwner(Builder $query, $type)
     {
         return $query->orWhere('id', $this->ticket->user_id);
     }
 
-    public function notifyAssigned(Builder $query, $type)
+    private function notifyAssigned(Builder $query, $type)
     {
         return $query->orWhere('id', $this->ticket->assigned_id);
     }
 
-    public function notifyOrg(Builder $query, $type)
+    private function notifyOrg(Builder $query, $type)
     {
-        //
+        return $query;
     }
 
-    public function checkQuery(Builder $query)
+    private function checkQuery(Builder $query)
     {
         //nobody gets anything
         if (count($query->getQuery()->wheres) < 1) {
@@ -90,13 +90,13 @@ class WhereNotify extends Criteria {
         }
     }
 
-    public function notifyLast(Builder $query, $type)
+    private function notifyLast(Builder $query, $type)
     {
 
         $current = $this->ticket->events->first()->id;
 
         foreach ($this->ticket->actions as $action) {
-            if ($action->id == $this->ticket->events->first()->id) {
+            if ($action->id == $current) {
                 break;
             }
             $last = $action;

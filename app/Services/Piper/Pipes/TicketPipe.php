@@ -49,7 +49,7 @@ class TicketPipe
     {
         return array_merge([
             'assigned_id' => $message->getAssignedId(),
-            'dept_id' => config('system.default.dept'),
+            'dept_id' => config('settings.default.dept'),
             'org_id' => $message->getOrgId() ? $message->getOrgId() : $message->getUser()->org_id,
             'title' => $message->getSubject(),
             'body' => $message->getSkinny(),
