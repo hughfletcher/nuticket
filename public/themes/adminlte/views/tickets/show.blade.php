@@ -73,7 +73,7 @@
 					<div class="timeline-item">
 						<ul class="list-inline time">
 							@if (!is_null($action['time']))
-							<li><span  data-toggle="tooltip" title="{{ $action['time']['hours'] }} hour(s) on {{ $action->time->time_at->tz(auth()->user()->timezone)->format(config('system.format.date')) }}"><i class="fa fa-wrench"></i> {{ $action['time']['hours'] }}</span></li>
+							<li><span  data-toggle="tooltip" title="{{ $action['time']['hours'] }} hour(s) on {{ $action->time->time_at->tz(auth()->user()->timezone)->format(config('settings.format.date')) }}"><i class="fa fa-wrench"></i> {{ $action['time']['hours'] }}</span></li>
 							@endif
 							<li><i class="fa fa-clock-o"></i> {{ $action->created_at->tz(auth()->user()->timezone)->format('g:i a') }}</li>
 						</ul>
@@ -125,7 +125,7 @@
 					<!-- <li class="active"><a href="#quick" data-toggle="tab">Quick</a></li> -->
 					<li{!! Session::get('type') == null || Session::get('type') == 'reply' ? ' class="active"' : '' !!}><a href="#reply" data-toggle="tab">Reply {{ Session::get('type') }}</a></li>
 					<li{!! Session::get('type') == 'comment' ? ' class="active"' : '' !!}><a href="#comment" data-toggle="tab">Comment</a></li>
-					<li{!! Session::get('type') == 'transfer' ? ' class="active"' : '' !!}><a href="#transfer" data-toggle="tab">Dept Transfer</a></li>
+					@if($depts->count() > 1) <li{!! Session::get('type') == 'transfer' ? ' class="active"' : '' !!}><a href="#transfer" data-toggle="tab">Dept Transfer</a></li>@endif
 					<li{!! Session::get('type') == 'assign' ? ' class="active"' : '' !!}><a href="#assign" data-toggle="tab">Assign</a></li>
 				</ul>
 				<div class="tab-content">
@@ -133,6 +133,7 @@
 						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
+						<input name="user_id" type="hidden" value="{{ auth()->user()->id }}">
 						<input name="type" type="hidden" value="reply">
 						<div class="form-group{{ Input::old('type') == 'reply' && $errors->has('body') ? ' has-error' : null }}">
 							<div class="col-md-12">
@@ -188,6 +189,7 @@
 						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
+						<input name="user_id" type="hidden" value="{{ auth()->user()->id }}">
 						<input name="type" type="hidden" value="comment">
 						<div class="form-group{!! Input::old('type') == 'comment' && $errors->has('body') ? ' has-error' : null !!}">
 							<div class="col-md-12">
@@ -230,10 +232,12 @@
 						</div>
 						</form>
 					</div>
+					@if($depts->count() > 1)
 					<div class="tab-pane{!! Session::get('type') == 'transfer' ? ' active' : '' !!}" id="transfer">
 					<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
+						<input name="user_id" type="hidden" value="{{ auth()->user()->id }}">
 						<input name="type" type="hidden" value="transfer">
 						<div class="form-group{!! Input::old('type') == 'transfer' && $errors->has('transfer_id') ? ' has-error' : null !!}">
 							<div class="col-md-6">
@@ -265,10 +269,12 @@
 						</div>
 						</form>
 					</div>
+					@endif
 					<div class="tab-pane{!! Session::get('type') == 'assign' ? ' active' : '' !!}" id="assign">
 						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
 						<input name="ticket_id" type="hidden" value="{{ $ticket['id'] }}">
+						<input name="user_id" type="hidden" value="{{ auth()->user()->id }}">
 						<input name="type" type="hidden" value="assign">
 						<div class="form-group{!! Input::old('type') == 'assign' && $errors->has('transfer_id') ? ' has-error' : null !!}">
 							<div class="col-md-6">

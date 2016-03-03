@@ -24,7 +24,7 @@ class TicketActionPolicy
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'ticket_id' => ['required', 'numeric', 'exists:tickets,id'],
             'body' => ['required', 'min:3'],
-            'status' => ['in:closed,open,resolved'],
+            'type' => ['in:create,reply,comment,assign,closed,edit,transfer,open,resolved'],
             'hours' => ['numeric'],
             'transfer_id' => ['required_if:type,transfer', 'numeric', 'exists:depts,id'],
             'assigned_id' => ['required_if:type,assign', 'numeric'],

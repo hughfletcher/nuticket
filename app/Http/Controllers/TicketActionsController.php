@@ -1,10 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\TicketActionInterface;
-use App\Http\Requests\FormActionCreateRequest;
-use Illuminate\Foundation\Application;
-use App\Events\ActionCreatedEvent;
-use Auth;
+use App\Http\Requests\ActionCreateRequest;
+use Carbon\Carbon;
 
 class TicketActionsController extends BaseController {
 
@@ -13,12 +11,17 @@ class TicketActionsController extends BaseController {
 		$this->action = $action;
 	}
 
-	public function store(FormActionCreateRequest $request)
+	public function store(ActionCreateRequest $request)
 	{
+		if ($request->get('type') == 'reply') {
+			$request->merge(['time_at' => Carbon::createFromFormat(config('settings.format.date'), $request->get('time_at'))]);
 
-		$action = $this->action->create(array_add($request->all(), 'user_id', Auth::user()->id));
+			if (in_array($request->get('status'), ['closed', 'resolved', 'open'])) {
+				$request->merge(['type' => $request->get('status')]);
+			}
+		}
 
-        event(new ActionCreatedEvent($action));
+		$action = $this->dispatchFrom('App\Jobs\ActionCreateJob', $request);
 
 		return redirect()->route('tickets.show', [$action->ticket_id, '#action-' . $action->id]);
 	}
