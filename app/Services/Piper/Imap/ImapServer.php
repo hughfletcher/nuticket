@@ -13,12 +13,12 @@ class ImapServer
         $this->app = $app;
     }
 
-    protected function newServer($serverPath, $port = 143, $service = 'imap')
+    public function newServer($serverPath, $port = 143, $service = 'imap')
     {
         return new Server($serverPath, $port, $service);
     }
 
-    public function server()
+    private function server()
     {
         $server = $this->newServer($this->email->mail_host, $this->email->mail_port, $this->email->mail_protocol);
         $server->setAuthentication($this->email->userid, $this->email->userpass);
@@ -31,7 +31,7 @@ class ImapServer
         return $server;
     }
 
-    public function create(Message $fetch)
+    private function create(Message $fetch)
     {
         $message = $this->app->make('App\Services\Piper\Imap\ImapMessage');
         $message->set($fetch);
@@ -41,7 +41,15 @@ class ImapServer
     public function messages()
     {
         $messages = collect();
-        foreach ($this->server()->getMessages() as $message) {
+
+        try {
+            $fetch = $this->server()->getMessages();
+        } catch (ErrorException $e) {
+            lg('notice', $e->getMessage(), [$this->email->except('userpass')->toArray()]);
+            return $messages;
+        }
+
+        foreach ($fetch as $message) {
             $messages->push($this->create($message));
         }
 

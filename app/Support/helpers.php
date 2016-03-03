@@ -6,7 +6,8 @@ function lg($level = null, $msg = null, $context = [])
 		return app('log');
 	}
 	
-	app('log')->{$level}($msg, $context);
+	app('log')->{$level}($msg, array_merge($context, ['file' => __FILE__, 'line' => __LINE__]));
 }
 
-function log_info($msg, $context = []) { app('log')->info($msg, $context);}
+function debug($msg, $context = []) { app('log')->debug($msg, $context);}
+// function info($msg, $context = []) { app('log')->info($msg, $context);}

@@ -20,7 +20,8 @@ class WithAll extends Criteria
     {
         return $model->with(
             [
-                'assigned', 
+                'assigned',
+                'dept',
                 'dept.members', 
                 'org', 
                 'user', 

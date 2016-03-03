@@ -15,9 +15,10 @@ class ConfigServiceProviderTest extends TestCase {
 		$this->app->instance('db', $db);
 
 		$result = $this->mockEloquentResults('App\Config', [
-			['key' => 'system.eyes', 'value' => 'blue', 'id' => 1],
-			['key' => 'system.hair', 'value' => 'brunette',  'id' => 2],
-			['key' => 'system.hottie', 'value' => 0, 'id' => 3]
+			['key' => 'system.eyes', 'value' => 'a:1:{i:0;s:4:"blue";}', 'id' => 1],
+			['key' => 'system.hair', 'value' => 'a:1:{i:0;s:8:"brunette";}',  'id' => 2],
+			['key' => 'system.hottie', 'value' => 'a:1:{i:0;b:0;}', 'id' => 3],
+			['key' => 'system.legs', 'value' => 'long', 'id' => 3]
 		]);
 
 
@@ -34,38 +35,40 @@ class ConfigServiceProviderTest extends TestCase {
 	 */
 	public function testBootDbOverwitesConfig()
 	{
-		$this->assertTrue(true);
-		// $this->app['config']->set('system.hottie', true);
+		// $this->assertTrue(true);
+		$this->app['config']->set('system.hottie', true);
+		$this->app['config']->set('system.legs', 'short');
 
-		// $csp = new ConfigServiceProvider($this->app);
-		// $csp->boot();
+		$csp = new ConfigServiceProvider($this->app);
+		$csp->boot();
 
-		// $this->assertEquals(false, $this->app['config']->get('system.hottie'));
+		$this->assertEquals(false, $this->app['config']->get('system.hottie'));
+		$this->assertEquals('short', $this->app['config']->get('system.legs'));
 	}
 
-	// public function testBootDeletesDbConfig()
-	// {
+	public function testBootDeletesDbConfig()
+	{
 
-	// 	$this->app['config']->set('system.hottie', false);
+		$this->app['config']->set('system.hottie', false);
 
-	// 	$this->config->shouldReceive('delete')->with(3)->once();
-	// 	$this->app->instance('App\Repositories\ConfigInterface', $this->config);
+		$this->config->shouldReceive('delete')->with(3)->once();
+		$this->app->instance('App\Repositories\ConfigInterface', $this->config);
 
-	// 	$csp = new ConfigServiceProvider($this->app);
-	// 	$csp->boot();
+		$csp = new ConfigServiceProvider($this->app);
+		$csp->boot();
 
-	// 	$this->assertFalse($this->app['config']->get('system.hottie'));
-	// }
+		$this->assertFalse($this->app['config']->get('system.hottie'));
+	}
 
-	// public function testBootNoConfigTable()
-	// {
-	// 	$db = m::mock();
-	// 	$db->shouldReceive('connection->getSchemaBuilder->hasTable')->andReturn(false);
-	// 	$this->app->instance('db', $db);
+	public function testBootNoConfigTable()
+	{
+		$db = m::mock();
+		$db->shouldReceive('connection->getSchemaBuilder->hasTable')->andReturn(false);
+		$this->app->instance('db', $db);
 
-	// 	$csp = new ConfigServiceProvider($this->app);
+		$csp = new ConfigServiceProvider($this->app);
 
-	// 	$this->assertNull($csp->boot());
-	// }
+		$this->assertNull($csp->boot());
+	}
 
 }

@@ -5,11 +5,8 @@ namespace App\Jobs;
 use App\Jobs\Job;
 use Illuminate\Contracts\Bus\SelfHandling;
 use ReflectionClass;
-// use App\Contracts\Repositories\UserInterface;
 use App\Contracts\Repositories\TicketInterface;
 use App\Contracts\Repositories\TicketActionInterface;
-// use App\Contracts\Repositories\TimeLogInterface;
-// use Carbon\Carbon;
 use App\Events\TicketCreatedEvent;
 use Illuminate\Support\Collection;
 
@@ -30,7 +27,7 @@ class TicketCreateJob extends Job implements SelfHandling
         $status = 'new',
         $dept_id = null,
         $org_id = null,
-        $assigned_id = 0,
+        $assigned_id = null,
         $priority = null,
         $defer_event = false
     )
@@ -55,7 +52,7 @@ class TicketCreateJob extends Job implements SelfHandling
     public function handle(TicketInterface $ticket, TicketActionInterface $action)
     {
 
-        $ticket = $this->createTicket($this->data, $ticket);
+        $ticket = $this->createTicket($ticket);
 
         $this->data->put('ticket_id', $ticket->id);
 
@@ -65,15 +62,13 @@ class TicketCreateJob extends Job implements SelfHandling
             event(new TicketCreatedEvent($ticket));
         }
 
-
         return $ticket;
 
     }
 
-    private function createTicket(Collection $data, TicketInterface $ticket)
+    private function createTicket(TicketInterface $ticket)
     {
-
-        $ticket = $ticket->job_create($data->only(['user_id', 'assigned_id', 'priority', 'dept_id', 'org_id', 'status'])->toArray());
+        $ticket = $ticket->job_create($this->data->only(['user_id', 'assigned_id', 'priority', 'dept_id', 'org_id', 'status'])->toArray());
 
         return $ticket;
     }
@@ -83,5 +78,7 @@ class TicketCreateJob extends Job implements SelfHandling
         $data = $data->merge(['user_id' => $data->get('auth_id'), 'type' => 'create']);
         return $action->create($data->only(['ticket_id', 'user_id', 'type', 'title', 'body', 'source'])->toArray());
     }
+
+
 
 }

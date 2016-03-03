@@ -35,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 
-    public function definePolicies(GateContract $gate)
+    private function definePolicies(GateContract $gate)
     {
         $gate->define('use-tags', function ($user) {
             return $user->is_staff;
