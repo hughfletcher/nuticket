@@ -25,7 +25,9 @@ class EventServiceProvider extends ServiceProvider {
 	{
 		parent::boot($events);
 
-		//
+		$events->listen('mailer.sending', function ($message) {
+        	debug('Email sent "' . $message->getSubject() . '" to "' . array_keys($message->getTo())[0] . '".', ['message' => $message->toString()]);
+    	});
 	}
 
 }
