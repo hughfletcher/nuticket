@@ -15,7 +15,8 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-
+		// $this->bootConfig();//config must be done before log level
+		// $this->bootLogLevel();
 	}
 
 	/**
@@ -25,10 +26,9 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		// $this->registerNotify();
 		$this->registerPiper();
 		$this->registerReports();
-		$this->registeraLogLevel();
+		
 	}
 
 	public function registerPiper()
@@ -43,14 +43,6 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->singleton('App\Services\Reports\Manager', function ($app) {
             return new ReportsManager($app);
         });
-    }
-
-    public function registeraLogLevel()
-    {
-    	$monolog = $this->app['log']->getMonolog();
-	    foreach($monolog->getHandlers() as $handler) {
-	      	$handler->setLevel($this->app['config']->get('settings.log.level'));
-	    }
     }
 
 }

@@ -148,9 +148,10 @@ return [
 		 * Application Service Providers...
 		 */
 		'App\Providers\AppServiceProvider',
-		'App\Providers\AuthServiceProvider',
+		'App\Providers\AuthServiceProvider',		
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
+		'App\Providers\LogServiceProvider',
 		'App\Providers\RepositoryServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
