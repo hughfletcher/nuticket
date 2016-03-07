@@ -22,7 +22,6 @@ class TicketControllerTest extends TestCase
 
     public function testStoreWithReplyAndStatusClosed()
     {
-        $this->expectsEvents(App\Events\TicketCreatedEvent::class);
         $this->ticket_model = factory(App\Ticket::class)->make(['id' => $this->faker->randomNumber]);
 
         $request = new TicketStoreRequest([
