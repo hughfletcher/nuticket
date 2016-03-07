@@ -34,8 +34,8 @@
 						</button>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#comment" class="go-show-tab">Comment</a></li>
-							<li><a href="#transfer" class="go-show-tab">Transfer</a></li>
-							<li><a href="#assign" class="go-show-tab">Assign</a></li>
+							@if($depts->count() > 1 && !in_array($ticket->status, ['resolved', 'closed'])) <li><a href="#transfer" class="go-show-tab">Transfer</a></li> @endif
+							@if(!in_array($ticket->status, ['resolved', 'closed']))<li><a href="#assign" class="go-show-tab">Assign</a></li> @endif
 							<li class="divider"></li>
 							<li><a href="{{ route('tickets.edit', $ticket['id']) }}">Edit</a></li>
 						</ul>
@@ -125,8 +125,8 @@
 					<!-- <li class="active"><a href="#quick" data-toggle="tab">Quick</a></li> -->
 					<li{!! Session::get('type') == null || Session::get('type') == 'reply' ? ' class="active"' : '' !!}><a href="#reply" data-toggle="tab">Reply {{ Session::get('type') }}</a></li>
 					<li{!! Session::get('type') == 'comment' ? ' class="active"' : '' !!}><a href="#comment" data-toggle="tab">Comment</a></li>
-					@if($depts->count() > 1) <li{!! Session::get('type') == 'transfer' ? ' class="active"' : '' !!}><a href="#transfer" data-toggle="tab">Dept Transfer</a></li>@endif
-					<li{!! Session::get('type') == 'assign' ? ' class="active"' : '' !!}><a href="#assign" data-toggle="tab">Assign</a></li>
+					@if($depts->count() > 1 && !in_array($ticket->status, ['resolved', 'closed'])) <li{!! Session::get('type') == 'transfer' ? ' class="active"' : '' !!}><a href="#transfer" data-toggle="tab">Dept Transfer</a></li>@endif
+					@if(!in_array($ticket->status, ['resolved', 'closed']))<li{!! Session::get('type') == 'assign' ? ' class="active"' : '' !!}><a href="#assign" data-toggle="tab">Assign</a></li>@endif
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane{!! Session::get('type') == null || Session::get('type') == 'reply' ? ' active' : '' !!}" id="reply">
@@ -153,10 +153,15 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="textinput">Status</label>
 									<div class="col-md-8">
-										<select name="status" class="form-control select2-default input-sm{!! Input::old('type') == 'reply' && $errors->has('status') ? ' has-error' : null !!}">
+										<select name="status" class="form-control select2-default input-sm{!! Input::old('type') == 'reply' && $errors->has('status') ? ' has-error' : null !!}" data-placeholder="Change Status">
+											@if(in_array($ticket->status, ['resolved', 'closed']))
+												<option></option>
+											@endif
 											<option value="open"{!! Input::old('status') == 'open' ? ' selected=selected' : null !!}>Open</option>
+											@if(!in_array($ticket->status, ['resolved', 'closed']))
 											<option value="closed"{!! Input::old('status') == 'closed' ? ' selected=selected' : null !!}>Closed</option>
 											<option value="resolved"{!! Input::old('status') == 'resolved' ? ' selected=selected' : null !!}>Resolved</option>
+											@endif
 										</select>
 									</div>
 								</div>
@@ -232,7 +237,7 @@
 						</div>
 						</form>
 					</div>
-					@if($depts->count() > 1)
+					@if($depts->count() > 1 && !in_array($ticket->status, ['resolved', 'closed']))
 					<div class="tab-pane{!! Session::get('type') == 'transfer' ? ' active' : '' !!}" id="transfer">
 					<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
@@ -270,6 +275,7 @@
 						</form>
 					</div>
 					@endif
+					@if(!in_array($ticket->status, ['resolved', 'closed']))
 					<div class="tab-pane{!! Session::get('type') == 'assign' ? ' active' : '' !!}" id="assign">
 						<form method="POST" action="{{ route('actions.store') }}" accept-charset="UTF-8" class="form-horizontal">
 						<input name="_token" type="hidden" value="{{ csrf_token() }}">
@@ -306,6 +312,7 @@
 						</div>
 						</form>
 					</div>
+					@endif
 				</div><!-- /.tab-content -->
 				</div></div>
 			</div>
