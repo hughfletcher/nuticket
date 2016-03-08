@@ -42,10 +42,7 @@ class ActionCreateJobTest extends TestCase
         $this->ticket->shouldReceive('update')
             ->once()
             ->with(m::on(function($array) use ($attrs) {
-                return count($array) === 3
-                     && get_class($array['last_action_at']) == 'Carbon\Carbon'
-                     && $array['status'] === 'open'
-                     && is_null($array['closed_at']);
+                return count($array) === 1 && get_class($array['last_action_at']) == 'Carbon\Carbon';
             }), $attrs['ticket_id']);
 
         $this->action->shouldReceive('create')->with($attrs)->andReturn(factory(App\TicketAction::class)->make());
@@ -69,11 +66,9 @@ class ActionCreateJobTest extends TestCase
         $this->ticket->shouldReceive('update')
             ->once()
             ->with(m::on(function($array) use ($attrs) {
-                return count($array) === 4
+                return count($array) === 2
                      && get_class($array['last_action_at']) == 'Carbon\Carbon'
-                     && $array['dept_id'] === $attrs['transfer_id']
-                     && $array['status'] === 'open'
-                     && is_null($array['closed_at']);
+                     && $array['dept_id'] === $attrs['transfer_id'];
             }), $attrs['ticket_id']);
 
         $this->action->shouldReceive('create')->with($attrs)->andReturn(factory(App\TicketAction::class)->make());
