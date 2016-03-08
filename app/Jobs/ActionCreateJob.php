@@ -58,6 +58,12 @@ class ActionCreateJob extends Job implements SelfHandling
      */
     public function handle(TicketActionInterface $action, TimeLogInterface $time, TicketInterface $ticket)
     {
+        $exist = $ticket->find($this->data->get('ticket_id'));
+
+        if ($exist->status == $this->data->get('type')) {
+            throw Exception('Action can not be ' . $this->data->get('type') . ' on an existing ' . $exist->status . ' ticket.');
+        }
+
         $action = $action->create($this->data->except(['hours', 'time_at', 'defer_event'])->toArray());
 
         //update timelog
@@ -66,13 +72,8 @@ class ActionCreateJob extends Job implements SelfHandling
         }
 
         // update ticket
-        $this->updateTicket($ticket);
+        $ticket->update($this->getTicketAttrs($exist), $exist->id);
 
-        // if ($ticket->old_status && $ticket->old_status != $ticket->status) {
-        //     $action->type = $ticket->status;
-        // }
-
-        // $action->save();
         //throw event
         if (!$this->data->get('defer_event')) {
             event(new ActionCreatedEvent($action));
@@ -92,70 +93,56 @@ class ActionCreateJob extends Job implements SelfHandling
         ]);
     }
 
-    private function updateTicket(TicketInterface $ticket)
+    private function getTicketAttrs(Ticket $ticket)
     {
-        $exist = $ticket->find($this->data->get('ticket_id'));
-
-        // $ticket->old_status = $ticket->status != 'new' ? $ticket->status : null;
-        // $ticket->last_action_at = Carbon::now();
-
-        // $ticket = $this->updateAttrs($ticket);
-
-        // $ticket->save();
-
-        $update = ['last_action_at' => Carbon::now()];
-
-        $status = $this->updateStatus();
-        $hours = $this->updateHours($exist->hours);
-        $dept = $this->updateDept();
-        $assigned = $this->updateAssigned();
-        // var_dump(array_merge($update, $hours, $dept, $status, $assigned));
-        return $ticket->update(array_merge($update, $hours, $dept, $status, $assigned), $this->data->get('ticket_id'));
+        return array_merge(
+            ['last_action_at' => Carbon::now()],
+            $this->getStatus(),
+            $this->getHours($ticket->hours),
+            $this->getDept(),
+            $this->getAssigned()
+        );
     }
 
-    // public function updateAttrs(Ticket $ticket)
-    // {
-    //     $ticket = $this->updateHours($ticket);
-    //     $ticket = $this->updateStatus($ticket);
-    //     $ticket = $this->updateDept($ticket);
-    //     return $this->updateAssigned($ticket);
-    // }
-
-    private function updateAssigned()
+    private function getAssigned()
     {
         if ($this->data->get('type') != 'assign') {
             return [];
         }
-        // $ticket->assigned_id = $this->data->get('assigned_id');
+
         return ['assigned_id' => $this->data->get('assigned_id')];
     }
 
-    private function updateDept()
+    private function getDept()
     {
         if ($this->data->get('type') != 'transfer') {
             return [];
         }
-        // $ticket->dept_id = $this->data->get('transfer_id');
+
         return ['dept_id' => $this->data->get('transfer_id')];
     }
 
-    private function updateStatus()
+    private function getStatus()
     {
         $type = $this->data->get('type');
-        if ($type == 'open' || !in_array($type, ['closed', 'resolved'])) {
+
+        if (!in_array($type, ['open', 'closed', 'resolved'])) {
+            return [];
+        }
+
+        if ($type == 'open') {
             return ['status' => 'open', 'closed_at' => null];
         }
 
         return ['status' => $type, 'closed_at' => Carbon::now()];
     }
 
-    private function updateHours($hours)
+    private function getHours($hours)
     {
         if (!$this->data->has('hours') || !in_array($this->data->get('type'), ['reply', 'closed', 'resolved', 'comment', 'open'])) {
             return [];
         }
 
-        // $ticket->hours + $this->data->get('hours');
         return ['hours' => $hours + $this->data->get('hours')];
     }
 }
