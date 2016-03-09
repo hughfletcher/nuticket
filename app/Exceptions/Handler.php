@@ -2,6 +2,7 @@
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 
 class Handler extends ExceptionHandler {
 
@@ -36,6 +37,10 @@ class Handler extends ExceptionHandler {
 	 */
 	public function render($request, Exception $e)
 	{
+		if ($e instanceof TokenMismatchException){
+
+            return back()->with('message',['type' => 'warning', 'body' => trans('common.csrf_error')])->withInput();
+        }
 		return parent::render($request, $e);
 	}
 

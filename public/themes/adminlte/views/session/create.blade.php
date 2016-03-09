@@ -16,23 +16,16 @@
 
 <!-- Main content -->
 <section class="content session-create">
-    @if(session('message'))
-    <div class="form-group">
-        <div class="callout callout-danger">
-            <p>{{ session('message') }}</p>
-        </div>
-    </div>
-    @endif
+    @include('common.message')
     <div class="row">
         <div class="col-md-6">
             <div class="box box-primary">
-                <form action="{{ route('session.store') }}" method="post" accept-charset="UTF-8" class="form-horizontal">
+                <form action="{{ route('session.store') }}" method="POST" accept-charset="UTF-8" class="form-horizontal">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="box-header">
                         <h3 class="box-title">{{ trans('session.signin') }}</h3>
                     </div>
                         <div class="box-body">
-                            <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <div class="form-group">
                                 <label for="username" class="col-sm-2 control-label">{{ trans('session.username') }}</label>
                                 <div class="col-sm-6">
@@ -48,7 +41,7 @@
 
                         </div><!-- /.box-body -->
                         <div class="box-footer">
-                            <button class="btn btn-primary">{{ trans('session.signmein') }}</button>
+                            <button class="btn btn-primary" type="submit">{{ trans('session.signmein') }}</button>
                         </div>
                 </form>
             </div>
@@ -56,13 +49,12 @@
         @if(config('settings.registration.method') == 'public')
         <div class="col-md-6">
             <div class="box box-success">
-                <form action="{{ route('session.store') }}" method="post" accept-charset="UTF-8" class="form-horizontal">
+                <form action="{{ route('session.store') }}" method="POST" accept-charset="UTF-8" class="form-horizontal">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
             		<div class="box-header">
             			<h3 class="box-title">{{ trans('session.register') }}</h3>
             		</div>
                 		<div class="box-body">
-                			<input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <div class="form-group">
                                 <label for="username" class="col-sm-2 control-label">{{ trans('session.email') }}</label>
                                 <div class="col-sm-6">
@@ -90,7 +82,7 @@
 
                 		</div><!-- /.box-body -->
                         <div class="box-footer">
-                			<button class="btn btn-primary">{{ trans('session.signmein') }}</button>
+                			<button class="btn btn-primary" type="submit">{{ trans('session.signmein') }}</button>
                 		</div>
                 </form>
         	</div>

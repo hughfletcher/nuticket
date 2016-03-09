@@ -16,9 +16,7 @@
 
 <!-- Main content -->
 <section class="content ticket-create">
-    @if (session('message'))
     @include('common.message')
-	@endif
     <div class="box box-primary">
         <form method="POST" action="{{ route('settings.update', ['system']) }}" accept-charset="UTF-8" class="form-horizontal" id="create-form">
             <input name="_method" type="hidden" value="PUT">
@@ -27,11 +25,10 @@
     			<h3 class="box-title">{{ trans('settings.general_settings') }}</h3>
     		</div>
         		<div class="box-body">
-        			<input name="_token" type="hidden" value="{{ csrf_token() }}">
     				<div class="form-group{{ $errors->has('settings_title') ? ' has-error' : null }}">
     					<label for="title" class="col-sm-2 control-label">{{ trans('settings.help_desk_title') }}</label>
     					<div class="col-sm-5">
-    						<input name="settings_title" type="text" class="form-control input-sm" value="{{ old('title', config('settings.title')) }}">
+    						<input name="settings_title" type="text" class="form-control input-sm" value="{{ old('settings_title', config('settings.title')) }}">
     						@if ($errors->has('settings_title'))
     						<span class="help-block"><strong>{{ $errors->first('settings_title') }}</strong></span>
     						@endif

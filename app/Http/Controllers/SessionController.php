@@ -1,31 +1,28 @@
 <?php namespace App\Http\Controllers;
 
-use \Auth, \Input, \Redirect;
-
-use Gigabill\Repositories\Interfaces;
-use \View;
+use Illuminate\Http\Request;
 
 class SessionController extends BaseController {
 
     public function create() {
-        return View::make('session.create');
+        return view('session.create');
     }
 
-    public function store() {
+    public function store(Request $request) {
        
-        if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')), Input::get('remember'))) {
-            return Redirect::intended('/');
+        if (auth()->attempt(array('username' => $request->get('username'), 'password' => $request->get('password')), $request->get('remember'))) {
+            return redirect()->intended('/');
         } else {
-            return Redirect::route('session.create')
-                ->with('message', 'Your username/password combination was incorrect')
+            return redirect()->route('session.create')
+                ->with('message', ['type' => 'danger', 'body' => 'Your username/password combination was incorrect'])
                 ->withInput();
         }
     }
 
     // end session
     public function index() {
-        Auth::logout();
-        return Redirect::route('session.create');
+        auth()->logout();
+        return redirect()->route('session.create');
     }
 
 }
