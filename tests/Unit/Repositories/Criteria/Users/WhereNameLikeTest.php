@@ -22,7 +22,7 @@ class WhereNameLikeTest extends TestCase
 		$wnl = new WhereNameLike('boo');
 		$return = $wnl->apply($this->model, $this->repo);
 
-		$this->assertEquals($return->toSql(), 'select * from "users" where "users"."deleted_at" is null and ("display_name" LIKE ? or "username" LIKE ?)');
+		$this->assertEquals('select * from `users` where `users`.`deleted_at` is null and (`display_name` LIKE ? or `username` LIKE ?)', $return->toSql());
 		$this->assertEquals($return->getQuery()->getBindings(), ["%boo%", "%boo%"]);
 
 	}
