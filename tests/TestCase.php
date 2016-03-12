@@ -23,6 +23,12 @@ abstract class TestCase extends LaravelTestCase
         return $app;
 	}
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->app['mailer']->pretend(true);
+    }
+
     public function tearDown()
     {
         if ($container = Mockery::getContainer()) {
