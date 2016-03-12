@@ -1,6 +1,7 @@
 <?php
 
 use App\Providers\LogServiceProvider;
+use Tests\TestCase;
 
 class LogServiceProviderTest extends TestCase {
 
@@ -15,6 +16,6 @@ class LogServiceProviderTest extends TestCase {
         foreach($monolog->getHandlers() as $handler) {
             $this->assertEquals(600, $handler->getLevel());
         }
-    }
+    }	
 
 }
