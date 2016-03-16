@@ -3,6 +3,7 @@
 use EmailReplyParser\Parser\EmailParser;
 use App\Services\Piper\Pipes\UserPipe;
 use App\Contracts\Repositories\OrgInterface;
+use App\Ticket;
 
 abstract class Message
 {
@@ -24,11 +25,13 @@ abstract class Message
         $this->data = collect();
     }
 
-    abstract protected function getMessageBody();
+    abstract public function getMessageBody();
 
     abstract protected function getFromName();
 
     abstract protected function getFromEmail();
+
+    abstract public function getSubject();
 
     public function set($message)
     {
@@ -71,7 +74,7 @@ abstract class Message
 
     public function getTags()
     {
-        if ($this->getAuthor()->cannot('use-tags')) {
+        if (!$this->getAuthor() || $this->getAuthor()->cannot('use-tags')) {
             return collect();
         }
 
@@ -110,12 +113,12 @@ abstract class Message
 
     public function getAuthorId()
     {
-        return $this->getAuthor()->id;
+        return $this->getAuthor() ? $this->getAuthor()->id : null;
     }
 
     public function getUserId()
     {
-        return $this->getUser()->id;
+        return $this->getUser() ? $this->getUser()->id : null;
     }
 
     public function getUser()
@@ -139,8 +142,8 @@ abstract class Message
         }
 
         $tags = $this->getTags();
-        if ($tags->has('assign')) {
-            return $this->data->put('assigned', $this->user->findByUserName($tags->get('assign')))->get('assigned')->id;
+        if ($tags->has('assign') && $assign = $this->user->findByUserName($tags->get('assign'))) {
+            return $this->data->put('assigned', $assign)->get('assigned')->id;
         }
 
         if ($tags->has('claim')) {

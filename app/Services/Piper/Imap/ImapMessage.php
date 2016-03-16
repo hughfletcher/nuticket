@@ -5,7 +5,7 @@ use App\Services\Piper\Message;
 
 class ImapMessage extends Message implements MessageInterface
 {
-    protected function getMessageBody()
+    public function getMessageBody()
     {
         return $this->message->getMessageBody();
     }
